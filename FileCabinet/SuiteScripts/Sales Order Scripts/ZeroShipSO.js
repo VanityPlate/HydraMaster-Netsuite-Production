@@ -156,7 +156,7 @@ function(currentRecord, record, log, search) {
             else{return true;}
         }
         catch(error){
-            log.error({title: 'Critical error in validateLine', error});
+            log.error({title: 'Critical error in validateLine', details: error});
         }
     }
 
