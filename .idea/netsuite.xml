@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AccountsInformationState">
+    <option name="accountsInformation">
+      <Toplevel>
+        <option name="molecules">
+          <Molecules>
+            <option name="molecule">
+              <array>
+                <Molecule>
+                  <option name="UUID" value="8d2ee8f5-3f4b-4217-9091-b5a98e3e8bb0" />
+                  <option name="description" value="Production" />
+                  <option name="url" value="system.netsuite.com" />
+                </Molecule>
+              </array>
+            </option>
+          </Molecules>
+        </option>
+        <option name="sdkSettings">
+          <SdkSettings>
+            <option name="moleculeSettings">
+              <MoleculeSettings>
+                <option name="moleculeSetting">
+                  <array>
+                    <MoleculeSetting>
+                      <option name="accounts">
+                        <Accounts>
+                          <option name="account">
+                            <array>
+                              <Account>
+                                <option name="companies">
+                                  <Companies>
+                                    <option name="company">
+                                      <array>
+                                        <Company>
+                                          <option name="UUID" value="76586574-dc69-421e-9d87-503fdd2c11e4" />
+                                          <option name="accountType" value="PRODUCTION" />
+                                          <option name="id" value="5429364" />
+                                          <option name="name" value="HydraMaster, LLC" />
+                                          <option name="restDomain" value="5429364.restlets.api.netsuite.com" />
+                                          <option name="roles">
+                                            <Roles>
+                                              <option name="role">
+                                                <array>
+                                                  <Role>
+                                                    <option name="name" value="Administrator" />
+                                                    <option name="nkey" value="3" />
+                                                    <option name="tokenId" value="e3aae063eb8ed6ffca12244296e89ec3af1e2f6844bfb97a0d3fa93f0c46453abc0865b8d3d2e93592ce31b855c24dc5854f229ba69bb759d3ebbe735326ba05f0816c42c502d45662a025055f16a2ab" />
+                                                    <option name="tokenSecret" value="6613663b576357d5a794651f5272bbba33ebec71fa16174721a80041a8f0358ffd259a555fff04e657a38e2dd446f1305a81eff9c591abe189f3e644cc3e49ddf0816c42c502d45662a025055f16a2ab" />
+                                                  </Role>
+                                                  <Role>
+                                                    <option name="name" value="Hydramaster System Administrator" />
+                                                    <option name="nkey" value="1046" />
+                                                  </Role>
+                                                </array>
+                                              </option>
+                                            </Roles>
+                                          </option>
+                                          <option name="systemDomain" value="5429364.app.netsuite.com" />
+                                          <option name="webservicesDomain" value="5429364.suitetalk.api.netsuite.com" />
+                                        </Company>
+                                        <Company>
+                                          <option name="UUID" value="bb2fc273-2539-4a07-acbe-58f137e10e08" />
+                                          <option name="accountType" value="SANDBOX" />
+                                          <option name="id" value="5429364_SB1" />
+                                          <option name="name" value="HydraMaster, LLC" />
+                                          <option name="restDomain" value="5429364-sb1.restlets.api.netsuite.com" />
+                                          <option name="roles">
+                                            <Roles>
+                                              <option name="role">
+                                                <array>
+                                                  <Role>
+                                                    <option name="name" value="Administrator" />
+                                                    <option name="nkey" value="3" />
+                                                  </Role>
+                                                  <Role>
+                                                    <option name="name" value="Developer" />
+                                                    <option name="nkey" value="55" />
+                                                  </Role>
+                                                  <Role>
+                                                    <option name="name" value="HITC Uploader" />
+                                                    <option name="nkey" value="1090" />
+                                                  </Role>
+                                                </array>
+                                              </option>
+                                            </Roles>
+                                          </option>
+                                          <option name="systemDomain" value="5429364-sb1.app.netsuite.com" />
+                                          <option name="webservicesDomain" value="5429364-sb1.suitetalk.api.netsuite.com" />
+                                        </Company>
+                                      </array>
+                                    </option>
+                                  </Companies>
+                                </option>
+                                <option name="email" value="alex.ducken@hydramaster.com" />
+                                <option name="password" value="49ff34e34b72b500e8be33ba26f32987" />
+                              </Account>
+                            </array>
+                          </option>
+                        </Accounts>
+                      </option>
+                      <option name="molecule">
+                        <Molecule>
+                          <option name="UUID" value="8d2ee8f5-3f4b-4217-9091-b5a98e3e8bb0" />
+                        </Molecule>
+                      </option>
+                    </MoleculeSetting>
+                  </array>
+                </option>
+              </MoleculeSettings>
+            </option>
+          </SdkSettings>
+        </option>
+      </Toplevel>
+    </option>
+    <option name="projectSettings">
+      <ProjectSettings>
+        <option name="accountRoleId" value="3" />
+        <option name="accountSpecificValuesSeverity" value="ERROR" />
+        <option name="accountUUID" value="76586574-dc69-421e-9d87-503fdd2c11e4" />
+        <option name="applyContentProtection" value="false" />
+      </ProjectSettings>
+    </option>
+  </component>
+</project>
