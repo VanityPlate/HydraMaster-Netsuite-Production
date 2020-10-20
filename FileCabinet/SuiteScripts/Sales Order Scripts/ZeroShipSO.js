@@ -1,4 +1,6 @@
 /**
+ * @copyright Alex S. Ducken 2020 HydraMaster LLC
+ *
  * @NApiVersion 2.x
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
@@ -20,16 +22,7 @@ function(currentRecord, record, log, search) {
      * @since 2015.2
      */
     function pageInit(scriptContext) {
-        if(scriptContext.currentRecord.getValue({fieldId: 'entity'}) && !scriptContext.currentRecord.getValue({fieldId: 'custbody_pcg_contact_phone'})){
-            var phone = search.lookupFields({
-                type: search.Type.CUSTOMER,
-                id: scriptContext.currentRecord.getValue({fieldId: 'entity'}),
-                columns: ['phone']
-            }).phone;
-            if(phone){
-                scriptContext.currentRecord.setValue({fieldId: 'custbody_pcg_contact_phone', value: phone});
-            }
-        }
+
     }
 
     /**
@@ -140,7 +133,31 @@ function(currentRecord, record, log, search) {
      * @since 2015.2
      */
     function validateLine(scriptContext) {
-
+        try{
+            if(scriptContext.sublistId === 'item'){
+                var itemType = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'itemtype'});
+                if(itemType != 'InvtPart' && itemType != 'Assembly'){
+                        scriptContext.currentRecord.setCurrentSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'custcol_pcg_list_price_stored',
+                            value: null,
+                            ignoreFieldChange: true
+                        });
+                    scriptContext.currentRecord.setCurrentSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'custcol_pcg_list_price',
+                        value: null,
+                        ignoreFieldChange: true
+                    });
+                        return true;
+                   }
+                else{return true;}
+            }
+            else{return true;}
+        }
+        catch(error){
+            log.error({title: 'Critical error in validateLine', error});
+        }
     }
 
     /**
@@ -187,13 +204,13 @@ function(currentRecord, record, log, search) {
     }
 
     return {
-        pageInit: pageInit,
+        //pageInit: pageInit,
         //fieldChanged: fieldChanged,
         postSourcing: postSourcing,
         //sublistChanged: sublistChanged,
         //lineInit: lineInit,
         //validateField: validateField,
-        //validateLine: validateLine,
+        validateLine: validateLine,
         //validateInsert: validateInsert,
         //validateDelete: validateDelete,
         //saveRecord: saveRecord
