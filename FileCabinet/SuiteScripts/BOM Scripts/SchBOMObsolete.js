@@ -132,7 +132,7 @@ function(email, file, runtime, search) {
                 ]
         });
         var results = itemSearchObj.run().getRange({start: 0, end: 1000});
-        if(results.length != item.listReference.length)
+        if(results.length = 1 || results.length != item.listReference.length)
             return false;
         else
             return true;
