@@ -29,7 +29,7 @@ function(email, url) {
                 var sender = recordObj.getValue({fieldId: 'assigned'});
                 var recipient = recordObj.getValue({fieldId: 'owner'});
                 var recordURL = url.resolveRecord({recordId: scriptContext.newRecord.id, isEditMode: false, recordType: 'task'});
-                var body = recordObj.getText({fieldId: 'assigned'}) + ' has completed a task you assigned them. See ' + recordURL;
+                var body = recordObj.getText({fieldId: 'assigned'}) + ' has completed a task you assigned them. See https://5429364.app.netsuite.com' + recordURL;
                 var subject = 'Task Completed';
                 email.send({
                    author: sender,
