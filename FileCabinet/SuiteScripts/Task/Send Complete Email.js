@@ -8,9 +8,9 @@
  * @NScriptType UserEventScript
  * @NModuleScope SameAccount
  */
-define(['N/email'],
+define(['N/email', 'N/url'],
 
-function(email) {
+function(email, url) {
 
 
     /**
@@ -28,15 +28,14 @@ function(email) {
                 var recordObj = scriptContext.newRecord;
                 var sender = recordObj.getValue({fieldId: 'assigned'});
                 var recipient = recordObj.getValue({fieldId: 'owner'});
-                var body = recordObj.getText({fieldId: 'assigned'}) + ' has completed a task you assigned them. See Attached';
-                var attachRecord = {activityId: recordObj.id};
+                var recordURL = url.resolveRecord({recordId: scriptContext.newRecord.id, isEditMode: false, recordType: 'task'});
+                var body = recordObj.getText({fieldId: 'assigned'}) + ' has completed a task you assigned them. See ' + recordURL;
                 var subject = 'Task Completed';
                 email.send({
                    author: sender,
                    recipients: recipient,
                    subject: subject,
-                   body: body,
-                   relatedRecords: attachRecord
+                   body: body
                 });
 
             }
