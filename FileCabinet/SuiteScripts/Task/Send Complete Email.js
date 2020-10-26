@@ -26,7 +26,19 @@ function(email) {
         try{
             if(scriptContext.newRecord.getValue({fieldId: 'status'}) === 'COMPLETE'){
                 var recordObj = scriptContext.newRecord;
-                var sender = recordObj.getValue({fieldId: 'owner'});
+                var sender = recordObj.getValue({fieldId: 'assigned'});
+                var recipient = recordObj.getValue({fieldId: 'owner'});
+                var body = recordObj.getText({fieldId: 'assigned'}) + ' has completed a task you assigned them. See Attached';
+                var attachRecord = {activityId: recordObj.id};
+                var subject = 'Task Completed';
+                email.send({
+                   author: sender,
+                   recipients: recipient,
+                   subject: subject,
+                   body: body,
+                   relatedRecords: attachRecord
+                });
+
             }
         }
         catch(error){
