@@ -10,6 +10,7 @@ define(['N/search', 'N/ui/message', './Count KPI Fields.js'],
 /**
  * @param{search} search
  * @param{message} message
+ * @param{countFields} field library for Count KPI
  */
 function(search, message, countFields) {
     
