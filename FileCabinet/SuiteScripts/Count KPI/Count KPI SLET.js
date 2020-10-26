@@ -19,7 +19,7 @@ function(serverWidget, countFields) {
     function renderForm(){
         try{
             var form = serverWidget.createForm({
-               title: 'Cycle Count KPI-6 Months'
+               title: 'Cycle Count KPI - 3 Weeks'
             });
 
             form.clientScriptModulePath = './Count KPI CS.js';
