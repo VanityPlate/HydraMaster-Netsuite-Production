@@ -22,7 +22,7 @@ function(serverWidget, countFields) {
                title: 'Cycle Count KPI-6 Months'
             });
 
-            form.clientScriptModulePath = './Count SKP CS.js';
+            form.clientScriptModulePath = './Count KPI CS.js';
 
             form.addButton({
                 id: 'custpage_fire_script',
