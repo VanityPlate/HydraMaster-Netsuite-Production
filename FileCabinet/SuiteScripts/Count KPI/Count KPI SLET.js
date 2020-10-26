@@ -36,7 +36,7 @@ function(serverWidget, countFields) {
             var itemList = form.addSublist({id: 'custpage_results', type: serverWidget.SublistType.INLINEEDITOR, label: 'Critical Counts'});
             var url = itemList.addField({id: countFields.fields.url, type: serverWidget.FieldType.URL, label: 'View Item'});
             url.linkText = 'view';
-            url.updateDisplayType({displayType: serverWidget.FieldDisplayType.DISABLED});
+            url.isDisabled = true;
             itemList.addField({id: countFields.fields.item, type: serverWidget.FieldType.TEXT, label: 'Item'});
             itemList.addField({id: countFields.fields.units, type: serverWidget.FieldType.TEXT, label: 'Units'});
             itemList.addField({id: countFields.fields.snapQuantity, type: serverWidget.FieldType.INTEGER, label: 'Snapshot Quantity'});
