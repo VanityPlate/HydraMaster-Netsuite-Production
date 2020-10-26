@@ -3,9 +3,9 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/ui/message', 'N/currentRecord', 'N/search', 'N/https', 'N/url', "N/currentRecord"],
+define(['N/ui/message', 'N/currentRecord', 'N/search', 'N/https', 'N/url'],
 
-function(message, currentRecord, search, https, url, currentRecord) {
+function(message, currentRecord, search, https, url) {
 
     function pageInit(context){
     }
