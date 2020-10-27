@@ -31,6 +31,7 @@ function(search, message, countFields, https, schedulerLib) {
      */
     function executeScript(){
         try{
+            debugger;
             //Creating promise
             var promiseWork = new Promise((resolve, reject) => {
                 //Creating scheduled script and submitting
