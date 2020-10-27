@@ -6,13 +6,13 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/search', 'N/ui/message', './Count KPI Fields.js', 'N/url', 'N/https', 'SuiteScripts/Help_Scripts/schedulerLib.js'],
+define(['N/search', 'N/ui/message', './Count KPI Fields.js', 'N/url', 'N/https', 'SuiteScripts/Help_Scripts/schedulerLib.js', 'N/runtime'],
 /**
  * @param{search} search
  * @param{message} message
  * @param{countFields} field library for Count KPI
  */
-function(search, message, countFields, https, schedulerLib) {
+function(search, message, countFields, url,  https, schedulerLib, runtime) {
 
     /**
      *Helper Function to Display Message to User that an Unknown Error Has Occurred
@@ -24,6 +24,19 @@ function(search, message, countFields, https, schedulerLib) {
             title: 'Critical Error',
             message: 'There has been an unexpected error. Contact your administrator.'
         }).show();
+    }
+
+    /**
+     * Display Results to Suitlet
+     */
+    function displayResults(){
+        try{
+
+        }
+        catch(error) {
+            errorMessage();
+            log.error({title: 'Critical error in displayResults', details: error});
+        }
     }
 
     /**
@@ -51,7 +64,10 @@ function(search, message, countFields, https, schedulerLib) {
 
             //Executing Promise Chain
             promiseWork.then((output) => {
-                schedulerLib.checkStatus(output, 0);
+                var check = schedulerLib.checkStatus(output, 0);
+                if(check){
+                    displayResults();
+                }
             }).catch(function (reason) {
                 errorMessage();
                 log.error({title: 'Critical error', details: reason});

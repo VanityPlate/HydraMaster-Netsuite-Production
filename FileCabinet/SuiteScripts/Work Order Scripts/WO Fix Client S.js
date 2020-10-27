@@ -91,7 +91,10 @@ function(message, currentRecord, search, https, url, schedulerLib) {
 
         //Executing Promise Chain
         promiseWork.then((output) => {
-            schedulerLib.checkStatus(output, 0);
+            var check = schedulerLib.checkStatus(output, 0);
+            if(check){
+                displayResults();
+            }
         }).catch(function (reason) {
             var myMsg = message.create({
                 title: 'Critical error!',

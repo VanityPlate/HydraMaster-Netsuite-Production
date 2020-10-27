@@ -17,7 +17,7 @@ function(https, url) {
         var status = response.body;
 
         if (status == 'COMPLETE') {
-            displayResults();
+            return true;
         } else if (status == 'FAILED' || attempts > 17) {
             throw 'Scheduled Script Failed.';
         } else {
