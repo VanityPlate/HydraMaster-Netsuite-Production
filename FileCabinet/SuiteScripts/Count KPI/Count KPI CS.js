@@ -15,7 +15,7 @@ define(['N/search', 'N/ui/message', './Count KPI Fields.js', 'N/url', 'N/https',
 function(search, message, countFields, https, schedulerLib) {
 
     /**
-     *Helper Function to Display Message to User that an Unknown Error Has Occured
+     *Helper Function to Display Message to User that an Unknown Error Has Occurred
      */
     function errorMessage(){
         message.create({
@@ -37,7 +37,7 @@ function(search, message, countFields, https, schedulerLib) {
                 var output = url.resolveScript({
                     scriptId: 'customscript_wo_fix_scheduler',
                     deploymentId: 'customdeploy_wo_fix_scheduler',
-                    params: {'custscript_wo_schedule_id' :'TRUE'}
+                    params: {'countKPI' :'TRUE'}
                 });
                 var response = https.get({
                     url: output
@@ -99,7 +99,8 @@ function(search, message, countFields, https, schedulerLib) {
     }
 
     return {
-        pageInit: pageInit
+        pageInit: pageInit,
+        fireKPI: fireKPI
     };
     
 });
