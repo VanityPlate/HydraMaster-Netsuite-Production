@@ -12,7 +12,7 @@ function(task, file) {
      *
      * @var FILELIB a libary of file results
      */
-    const FILELIB = {workOrderFix: 'Process_Files/Script Files/workOrderFix.txt'};
+    const FILELIB = {workOrderFix: 'Process_Files/Script Files/workOrderFix.txt', countKPI: 'Process_Files/Script Files/countKPI.txt'};
 
     /**
      * Definition of the Suitelet script trigger point.
@@ -63,7 +63,11 @@ function(task, file) {
                 else if(countKPI){
                     //Scheduling Script
                     var countKPI = task.create({taskType: task.TaskType.SCHEDULED_SCRIPT});
+                    countKPI.scriptId = 'customscript_count_kpi_ss';
+                    countKPI.deploymentId = 'customdeploy_count_kpi_ss';
+                    var scriptid = countKPI.submit();
 
+                    context.response.write({output: scriptid});
                 }
                 else{
                     throw 'Invalid parameters, WO Fix Scheduler.js, onRequest()';

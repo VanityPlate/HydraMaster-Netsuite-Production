@@ -3,9 +3,9 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/ui/message', 'N/currentRecord', 'N/search', 'N/https', 'N/url'],
+define(['N/ui/message', 'N/currentRecord', 'N/search', 'N/https', 'N/url', 'SuiteScripts/Help_Scripts/schedulerLib.js'],
 
-function(message, currentRecord, search, https, url) {
+function(message, currentRecord, search, https, url, schedulerLib) {
 
     function pageInit(context){
     }
@@ -57,31 +57,6 @@ function(message, currentRecord, search, https, url) {
     }
 
     /**
-     * Definition - Async function for checking on the status of the scheduled script.
-     */
-    function checkStatus(scriptID, attempts){
-            var output = url.resolveScript({
-                scriptId: 'customscript_wo_fix_scheduler',
-                deploymentId: 'customdeploy_wo_fix_scheduler',
-                params: {'requestStatus': scriptID}
-            });
-            var response = https.get({
-                url: output
-            });
-            var status = response.body;
-
-            if (status == 'COMPLETE') {
-                displayResults();
-            } else if (status == 'FAILED' || attempts > 17) {
-                throw 'Scheduled Script Failed.';
-            } else {
-                setTimeout(function () {
-                    checkStatus(scriptID, ++attempts);
-                }, 5000);
-            }
-    }
-
-    /**
      * Definition - Function for displaying Error Message
      */
     function showError(){
@@ -116,7 +91,7 @@ function(message, currentRecord, search, https, url) {
 
         //Executing Promise Chain
         promiseWork.then((output) => {
-            checkStatus(output, 0);
+            schedulerLib.checkStatus(output, 0);
         }).catch(function (reason) {
             var myMsg = message.create({
                 title: 'Critical error!',
