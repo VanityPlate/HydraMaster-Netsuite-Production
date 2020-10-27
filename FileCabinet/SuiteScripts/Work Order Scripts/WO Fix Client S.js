@@ -17,7 +17,7 @@ function(message, currentRecord, search, https, url) {
         var output = url.resolveScript({
             scriptId: 'customscript_wo_fix_scheduler',
             deploymentId: 'customdeploy_wo_fix_scheduler',
-            params: {'results': 'TRUE'}
+            params: {'results': 'workOrderFix'}
         });
         var response = https.get({
             url: output

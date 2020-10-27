@@ -23,7 +23,13 @@ function(record, search, countFields) {
      * @Since 2015.2
      */
     function execute(scriptContext) {
-
+        try{
+            //Refactor Testing
+            log.audit({title: 'script fired', details: 'nothing'});
+        }
+        catch(error){
+            log.error({title: 'Critical Error in onRequest', details: error});
+        }
     }
 
     return {

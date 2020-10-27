@@ -7,6 +7,12 @@ define(['N/task', 'N/file'],
 
 function(task, file) {
 
+    /**
+     * Constants
+     *
+     * @var FILELIB a libary of file results
+     */
+    const FILELIB = {workOrderFix: 'Process_Files/Script Files/workOrderFix.txt'};
 
     /**
      * Definition of the Suitelet script trigger point.
@@ -23,10 +29,11 @@ function(task, file) {
                 var workid = context.request.parameters['custscript_wo_schedule_id'];
                 var requestStatus = context.request.parameters['requestStatus'];
                 var results = context.request.parameters['results'];
+                var countKPI = context.request.parameters['countKPI'];
 
                 if(results){
                     var content = file.load({
-                        id: 'Process_Files/Script Files/workOrderFix.txt'
+                        id: FILELIB[results]
                     });
                     var iterator = content.lines.iterator();
                     var output = '';
@@ -52,6 +59,11 @@ function(task, file) {
                     var scriptid = workTask.submit();
 
                     context.response.write({output: scriptid});
+                }
+                else if(countKPI){
+                    //Scheduling Script
+                    var countKPI = task.create({taskType: task.TaskType.SCHEDULED_SCRIPT});
+
                 }
                 else{
                     throw 'Invalid parameters, WO Fix Scheduler.js, onRequest()';
