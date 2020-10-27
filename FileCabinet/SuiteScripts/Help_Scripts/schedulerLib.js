@@ -1,6 +1,6 @@
-define([],
+define(['N/https', 'N/url'],
 
-function() {
+function(https, url) {
 
     /**
      * Definition - Async function for checking on the status of the scheduled script.
