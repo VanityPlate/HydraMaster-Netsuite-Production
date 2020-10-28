@@ -37,7 +37,7 @@ function(record, search, countFields) {
                     [
                         search.createColumn({name: "item", label: "Item"}),
                         search.createColumn({name: "unit", label: "Units"}),
-                        search.createColumn({name: 'snapshotquantity', label: 'Snapshot Quantity'}),
+                        //search.createColumn({name: 'snapshotquantity', label: 'Snapshot Quantity'}),
                         search.createColumn({name: 'viewsnapshot', label: 'Snapshot Detail'}),
                         search.createColumn({name: 'countquantity', label: 'Count Quantity'}),
                         search.createColumn({name: 'countdetail', label: 'Count Detail'}),
