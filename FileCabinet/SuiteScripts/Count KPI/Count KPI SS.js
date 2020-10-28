@@ -59,6 +59,8 @@ function(record, search, file) {
                         '^^^' + searchObj[x].getValue({name: 'quantity'}) +
                         '^^^' + searchObj[x + 1].getValue({name: 'quantity'}) +
                         '^^^' + searchObj[x + 2].getValue({name: 'quantity'});
+                    //Refactor Testing
+                    log.audit({title: 'Testing Line Output', details: nextLine});
                     fileObj.appendLine({value: nextLine});
                 }
             }
