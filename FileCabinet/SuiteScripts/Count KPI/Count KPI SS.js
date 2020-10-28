@@ -31,19 +31,15 @@ function(record, search, countFields) {
                     [
                         ["type","anyof","InvCount"],
                         "AND",
-                        ["datecreated","onorafter","thirtydaysago"]
+                        ["datecreated","onorafter","thirtydaysago"],
+                        "AND",
+                        ['mainline', 'is', 'F']
                     ],
                 columns:
                     [
                         search.createColumn({name: "item", label: "Item"}),
                         search.createColumn({name: "unit", label: "Units"}),
-                        //search.createColumn({name: 'snapshotquantity', label: 'Snapshot Quantity'}),
-                        search.createColumn({name: 'viewsnapshot', label: 'Snapshot Detail'}),
-                        search.createColumn({name: 'countquantity', label: 'Count Quantity'}),
-                        search.createColumn({name: 'countdetail', label: 'Count Detail'}),
-                        search.createColumn({name: 'adjustedquantity', label: 'Adjusted Quantity'}),
-                        search.createColumn({name: 'viewadjustment', label: 'Variance Detail'}),
-                        search.createColumn({name: 'rate', label: 'Rate(STD Cost)'})
+                        search.createColumn({name: "quantity", label: "Quantity"})
                     ]
             }).run().getRange({start: 0, end: 100});
             //Refactor Testing
