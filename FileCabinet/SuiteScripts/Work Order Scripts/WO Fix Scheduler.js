@@ -3,16 +3,9 @@
  * @NScriptType Suitelet
  * @NModuleScope SameAccount
  */
-define(['N/task', 'N/file'],
+define(['N/task', 'N/file', 'SuiteScripts/Help_Scripts/schedulerLib.js'],
 
-function(task, file) {
-
-    /**
-     * Constants
-     *
-     * @var FILELIB a libary of file results
-     */
-    const FILELIB = {workOrderFix: 'Process_Files/Script Files/workOrderFix.txt', countKPI: 'Process_Files/Script Files/countKPI.txt'};
+function(task, file, schedulerLib) {
 
     /**
      * Definition of the Suitelet script trigger point.
@@ -33,7 +26,7 @@ function(task, file) {
 
                 if(results){
                     var content = file.load({
-                        id: FILELIB[results]
+                        id: schedulerLib.fileLib[results]
                     });
                     var iterator = content.lines.iterator();
                     var output = '';

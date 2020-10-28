@@ -3,6 +3,13 @@ define(['N/https', 'N/url'],
 function(https, url) {
 
     /**
+     * Constants
+     *
+     * @var FILELIB a libary of file results
+     */
+    const FILELIB = {workOrderFix: 'Process_Files/Script Files/workOrderFix.txt', countKPI: 'Process_Files/Script Files/countKPI.txt'};
+
+    /**
      * Definition - Async function for checking on the status of the scheduled script.
      */
     function checkStatus(scriptID, attempts){
@@ -28,7 +35,8 @@ function(https, url) {
     }
 
     return {
-        checkStatus: checkStatus
+        checkStatus: checkStatus,
+        fileLib: FILELIB
     };
     
 });
