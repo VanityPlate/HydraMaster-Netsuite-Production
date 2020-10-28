@@ -57,7 +57,7 @@ function(record, search, file) {
                 var results = pageData.data.length;
                 if (results >= 0) {
                     for (var x = 0; x <= results; x += 3) {
-                        var nextLine = pageData.data[x].getText({name: 'item'}) + '^^^' + searchObj[x].getValue({name: 'custitem_stnd_cost_muk'}) +
+                        var nextLine = pageData.data[x].getText({name: 'item'}) + '^^^' + pageData.data[x].getValue({name: 'custitem_stnd_cost_muk'}) +
                             '^^^' + pageData.data[x].getValue({name: 'quantity'}) +
                             '^^^' + pageData.data[x + 1].getValue({name: 'quantity'}) +
                             '^^^' + pageData.data[x + 2].getValue({name: 'quantity'});
