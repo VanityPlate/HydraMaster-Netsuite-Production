@@ -41,7 +41,7 @@ function(record, search, file) {
                         search.createColumn({name: "quantity", label: "Quantity"}),
                         search.createColumn({name: 'custitem_stnd_cost_muk', join: 'item', label: 'Standard Cost Mukilteo'})
                     ]
-            }).run().getRange({start: 0, end: 100});
+            }).runPaged({pageSize: 300});
 
             //Opening File
             var fileObj = file.create({
@@ -52,18 +52,21 @@ function(record, search, file) {
             });
 
             //Building File
-            var results = searchObj.length;
-            if(results >= 0) {
-                for (var x = 0; x <= results; x += 3) {
-                    var nextLine = searchObj[x].getText({name: 'item'}) + '^^^' + searchObj[x].getValue({name: 'custitem_stnd_cost_muk'}) +
-                        '^^^' + searchObj[x].getValue({name: 'quantity'}) +
-                        '^^^' + searchObj[x + 1].getValue({name: 'quantity'}) +
-                        '^^^' + searchObj[x + 2].getValue({name: 'quantity'});
-                    //Refactor Testing
-                    log.audit({title: 'Testing Line Output', details: nextLine});
-                    fileObj.appendLine({value: nextLine});
+            searchObj.pageRanges.forEach(function(pageObj) {
+                var pageData = searchObj.fetch({index: pageObj.index});
+                var results = pageData.data.length;
+                if (results >= 0) {
+                    for (var x = 0; x <= results; x += 3) {
+                        var nextLine = searchObj[x].getText({name: 'item'}) + '^^^' + searchObj[x].getValue({name: 'custitem_stnd_cost_muk'}) +
+                            '^^^' + pageData.data[x].getValue({name: 'quantity'}) +
+                            '^^^' + pageData.data[x + 1].getValue({name: 'quantity'}) +
+                            '^^^' + pageData.data[x + 2].getValue({name: 'quantity'});
+                        //Refactor Testing
+                        log.audit({title: 'Testing Line Output', details: nextLine});
+                        fileObj.appendLine({value: nextLine});
+                    }
                 }
-            }
+            });
 
             //Saving File
             fileObj.save();
