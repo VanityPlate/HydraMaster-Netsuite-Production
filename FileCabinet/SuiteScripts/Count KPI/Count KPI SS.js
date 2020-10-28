@@ -6,12 +6,12 @@
  * @NScriptType ScheduledScript
  * @NModuleScope SameAccount
  */
-define(['N/record', 'N/search', './Count KPI Fields.js', 'N/file'],
+define(['N/record', 'N/search', 'N/file'],
 /**
  * @param{record} record
  * @param{search} search
  */
-function(record, search, countFields) {
+function(record, search, file) {
 
 
 
@@ -24,7 +24,7 @@ function(record, search, countFields) {
      */
     function execute(scriptContext) {
         try{
-            //Preforming Search
+            //Preforming Search(worth noting that if the search provides line items in a different order someday this program will break)
             var searchObj = search.create({
                 type: "inventorycount",
                 filters:
@@ -38,12 +38,33 @@ function(record, search, countFields) {
                 columns:
                     [
                         search.createColumn({name: "item", label: "Item"}),
-                        search.createColumn({name: "unit", label: "Units"}),
-                        search.createColumn({name: "quantity", label: "Quantity"})
+                        search.createColumn({name: "quantity", label: "Quantity"}),
+                        search.createColumn({name: 'custitem_stnd_cost_muk', join: 'item', label: 'Standard Cost Mukilteo'})
                     ]
             }).run().getRange({start: 0, end: 100});
-            //Refactor Testing
-            log.audit({title: 'Testing Search Results', details: searchObj[0].toString()});
+
+            //Opening File
+            var fileObj = file.create({
+                name: 'countKPI.txt',
+                fileType: file.Type.PLAINTEXT,
+                folder: 264120,
+                isOnline: true
+            });
+
+            //Building File
+            var results = searchObj.length;
+            if(results >= 0) {
+                for (var x = 0; x < results; x += 3) {
+                    var nextLine = searchObj[x].getValue({name: 'item'}) + '^^^' + searchObj[x].getValue({name: 'custitem_stnd_cost_muk'}) +
+                        '^^^' + searchObj[x].getValue({name: 'quantity'}) +
+                        '^^^' + searchObj[x + 1].getValue({name: 'quantity'}) +
+                        '^^^' + searchObj[x + 2].getValue({name: 'quantity'});
+                    fileObj.appendLine({value: nextLine});
+                }
+            }
+
+            //Saving File
+            fileObj.save();
 
         }
         catch(error){

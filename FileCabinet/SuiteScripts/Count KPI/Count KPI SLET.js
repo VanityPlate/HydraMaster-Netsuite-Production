@@ -38,13 +38,9 @@ function(serverWidget, countFields) {
             url.linkText = 'view';
             url.isDisabled = true;
             itemList.addField({id: countFields.fields.item, type: serverWidget.FieldType.TEXT, label: 'Item'});
-            itemList.addField({id: countFields.fields.units, type: serverWidget.FieldType.TEXT, label: 'Units'});
             itemList.addField({id: countFields.fields.snapQuantity, type: serverWidget.FieldType.INTEGER, label: 'Snapshot Quantity'});
-            itemList.addField({id: countFields.fields.snapDetail, type: serverWidget.FieldType.TEXT, label: 'Snapshot Detail'});
             itemList.addField({id: countFields.fields.countQuantity, type: serverWidget.FieldType.INTEGER, label: 'Count Quantity'});
-            itemList.addField({id: countFields.fields.countDetail, type: serverWidget.FieldType.TEXT, label: 'Count Detail'});
             itemList.addField({id: countFields.fields.adjustedQuantity, type: serverWidget.FieldType.INTEGER, label: 'Adjusted Quantity'});
-            itemList.addField({id: countFields.fields.varianceDetail, type: serverWidget.FieldType.TEXT, label: 'Variance Detail'});
             itemList.addField({id: countFields.fields.rateSTDCost, type: serverWidget.FieldType.FLOAT, label: 'Rate(Std Cost)'});
             itemList.addField({id: countFields.fields.percentDiff, type: serverWidget.FieldType.TEXT, label: 'Percent Difference'});
             itemList.addField({id: countFields.fields.investigateCount, type: serverWidget.FieldType.TEXT, label: 'Investigate(Cycle Count)'});
