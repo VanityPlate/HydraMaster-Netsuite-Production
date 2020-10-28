@@ -55,7 +55,7 @@ function(record, search, file) {
             var results = searchObj.length;
             if(results >= 0) {
                 for (var x = 0; x <= results; x += 3) {
-                    var nextLine = searchObj[x].getValue({name: 'item'}) + '^^^' + searchObj[x].getValue({name: 'custitem_stnd_cost_muk'}) +
+                    var nextLine = searchObj[x].getText({name: 'item'}) + '^^^' + searchObj[x].getValue({name: 'custitem_stnd_cost_muk'}) +
                         '^^^' + searchObj[x].getValue({name: 'quantity'}) +
                         '^^^' + searchObj[x + 1].getValue({name: 'quantity'}) +
                         '^^^' + searchObj[x + 2].getValue({name: 'quantity'});
