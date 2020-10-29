@@ -30,7 +30,7 @@ function(https, url) {
         } else {
             setTimeout(function () {
                 checkStatus(scriptID, ++attempts);
-            }, 5000);
+            }, 1000);
         }
     }
 
