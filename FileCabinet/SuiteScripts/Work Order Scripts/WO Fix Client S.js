@@ -57,6 +57,31 @@ function(message, currentRecord, search, https, url, schedulerLib) {
     }
 
     /**
+     * Definition - Async function for checking on the status of the scheduled script.
+     */
+    function checkStatus(scriptID, attempts){
+        var output = url.resolveScript({
+            scriptId: 'customscript_wo_fix_scheduler',
+            deploymentId: 'customdeploy_wo_fix_scheduler',
+            params: {'requestStatus': scriptID}
+        });
+        var response = https.get({
+            url: output
+        });
+        var status = response.body;
+
+        if (status == 'COMPLETE') {
+            displayResults();
+        } else if (status == 'FAILED' || attempts > 17) {
+            throw 'Scheduled Script Failed.';
+        } else {
+            setTimeout(function () {
+                checkStatus(scriptID, ++attempts);
+            }, 1000);
+        }
+    }
+
+    /**
      * Definition - Function for displaying Error Message
      */
     function showError(){
@@ -91,10 +116,7 @@ function(message, currentRecord, search, https, url, schedulerLib) {
 
         //Executing Promise Chain
         promiseWork.then((output) => {
-            var check = schedulerLib.checkStatus(output, 0);
-            if(check){
-                displayResults();
-            }
+            checkStatus(output, 0);
         }).catch(function (reason) {
             var myMsg = message.create({
                 title: 'Critical error!',
