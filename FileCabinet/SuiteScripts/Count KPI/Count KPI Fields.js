@@ -9,7 +9,7 @@ define([],
 function() {
 
     const tolerance = {
-        countTolerance: 5,
+        countTolerance: .05,
         valueTolerance: 100
     };
 

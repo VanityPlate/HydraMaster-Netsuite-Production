@@ -6,13 +6,13 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/search', 'N/ui/message', './Count KPI Fields.js', 'N/url', 'N/https', 'SuiteScripts/Help_Scripts/schedulerLib.js', 'N/runtime'],
+define(['N/search', 'N/ui/message', './Count KPI Fields.js', 'N/url', 'N/https', 'SuiteScripts/Help_Scripts/schedulerLib.js', 'N/currentRecord'],
 /**
  * @param{search} search
  * @param{message} message
  * @param{countFields} field library for Count KPI
  */
-function(search, message, countFields, url,  https, schedulerLib, runtime) {
+function(search, message, countFields, url,  https, schedulerLib, currentRecord) {
 
     /**
      *Helper Function to Display Message to User that an Unknown Error Has Occurred
@@ -31,7 +31,52 @@ function(search, message, countFields, url,  https, schedulerLib, runtime) {
      */
     function displayResults(){
         try{
+            //getting record and results file
+            var recordObj = currentRecord.get();
+            var fileObj = file.load({id: schedulerLib.fileLib.countKPI});
 
+            //Variables for Results
+            var financialImpact = 0;
+            var adjustedQuantity = 0;
+            var totalAdjustments = 0;
+            var lineSnap, lineCount, lineAdjust, lineRate, lineSplit, item, invCount, invValue, percentDiff, lineAdjustValue;
+
+            //creating iterator and using iterator
+            var iterator = fileObj.lines.iterator();
+            iterator.each(function (line) {
+                //Determining Line Values
+                lineSplit = line.split('^^^');
+                item = lineSplit[0];
+                lineRate = parseFloat(lineSplit[1]);
+                lineCount = parseFloat(lineSplit[2]);
+                lineSnap = parseFloat(lineSplit[3]);
+                lineAdjust = parseFloat(lineSplit[4]);
+                totalAdjustments++;
+                lineAdjustValue = lineRate * lineAdjust;
+                financialImpact += lineAdjustValue;
+                if(lineAdjust != 0){adjustedQuantity++};
+                if(lineSnap > 0){percentDiff = (Math.abs(lineCount - lineSnap)/lineCount);}
+                else{percentDiff = 'Negative Snapshot!';}
+                if(percentDiff == 'Negative Snapshot!' || percentDiff >= countFields.tolerance.countTolerance){invCount = 'YES';}
+                else{invCount = 'NO';}
+                if(Math.abs(lineAdjustValue) >= countFields.tolerance.valueTolerance){invValue = 'YES';}
+                else{invValue = 'NO';}
+
+                //Adding Line Values
+                recordObj.setValue({fieldId: countFields.fields.item, value: item});
+                recordObj.setValue({fieldId: countFields.fields.snapQuantity, value: lineSnap});
+                recordObj.setValue({fieldId: countFields.fields.countQuantity, value: lineCount});
+                recordObj.setValue({fieldId: countFields.fields.adjustedQuantity, value: lineAdjust});
+                recordObj.setValue({fieldId: countFields.fields.rateSTDCost, value: lineRate});
+                recordObj.setValue({fieldId: countFields.fields.percentDiff, value: percentDiff});
+                recordObj.setValue({fieldId: countFields.fields.investigateCount, value: invCount});
+                recordObj.setValue({fieldId: countFields.fields.adjustedValue, value: lineAdjustValue});
+                recordObj.setValue({fieldId: countFields.fields.investigateValue, value: invValue});
+            });
+
+            //Displaying Totals
+            recordObj.setValue({fieldId: countFields.fields.financialImpact, value: financialImpact});
+            recordObj.setValue({fieldId: countFields.fields.invRecordAccuracy, value: (1 - (adjustedQuantity / totalAdjustments))});
         }
         catch(error) {
             errorMessage();
