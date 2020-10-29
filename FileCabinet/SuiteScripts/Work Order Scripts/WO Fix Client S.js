@@ -3,9 +3,9 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/ui/message', 'N/currentRecord', 'N/search', 'N/https', 'N/url', "N/currentRecord"],
+define(['N/ui/message', 'N/currentRecord', 'N/search', 'N/https', 'N/url', 'SuiteScripts/Help_Scripts/schedulerLib.js'],
 
-function(message, currentRecord, search, https, url, currentRecord) {
+function(message, currentRecord, search, https, url, schedulerLib) {
 
     function pageInit(context){
     }
@@ -17,7 +17,7 @@ function(message, currentRecord, search, https, url, currentRecord) {
         var output = url.resolveScript({
             scriptId: 'customscript_wo_fix_scheduler',
             deploymentId: 'customdeploy_wo_fix_scheduler',
-            params: {'results': 'TRUE'}
+            params: {'results': 'workOrderFix'}
         });
         var response = https.get({
             url: output
@@ -60,25 +60,25 @@ function(message, currentRecord, search, https, url, currentRecord) {
      * Definition - Async function for checking on the status of the scheduled script.
      */
     function checkStatus(scriptID, attempts){
-            var output = url.resolveScript({
-                scriptId: 'customscript_wo_fix_scheduler',
-                deploymentId: 'customdeploy_wo_fix_scheduler',
-                params: {'requestStatus': scriptID}
-            });
-            var response = https.get({
-                url: output
-            });
-            var status = response.body;
+        var output = url.resolveScript({
+            scriptId: 'customscript_wo_fix_scheduler',
+            deploymentId: 'customdeploy_wo_fix_scheduler',
+            params: {'requestStatus': scriptID}
+        });
+        var response = https.get({
+            url: output
+        });
+        var status = response.body;
 
-            if (status == 'COMPLETE') {
-                displayResults();
-            } else if (status == 'FAILED' || attempts > 17) {
-                throw 'Scheduled Script Failed.';
-            } else {
-                setTimeout(function () {
-                    checkStatus(scriptID, ++attempts);
-                }, 5000);
-            }
+        if (status == 'COMPLETE') {
+            displayResults();
+        } else if (status == 'FAILED' || attempts > 17) {
+            throw 'Scheduled Script Failed.';
+        } else {
+            setTimeout(function () {
+                checkStatus(scriptID, ++attempts);
+            }, 1000);
+        }
     }
 
     /**

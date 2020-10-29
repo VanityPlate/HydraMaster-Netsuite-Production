@@ -3,10 +3,9 @@
  * @NScriptType Suitelet
  * @NModuleScope SameAccount
  */
-define(['N/task', 'N/file'],
+define(['N/task', 'N/file', 'SuiteScripts/Help_Scripts/schedulerLib.js'],
 
-function(task, file) {
-
+function(task, file, schedulerLib) {
 
     /**
      * Definition of the Suitelet script trigger point.
@@ -23,10 +22,11 @@ function(task, file) {
                 var workid = context.request.parameters['custscript_wo_schedule_id'];
                 var requestStatus = context.request.parameters['requestStatus'];
                 var results = context.request.parameters['results'];
+                var countKPI = context.request.parameters['countKPI'];
 
                 if(results){
                     var content = file.load({
-                        id: 'Process_Files/Script Files/workOrderFix.txt'
+                        id: schedulerLib.fileLib[results]
                     });
                     var iterator = content.lines.iterator();
                     var output = '';
@@ -50,6 +50,15 @@ function(task, file) {
                     workTask.deploymentId = 'customdeploy_process_wo_fix';
                     workTask.params = {'custscript_wo_id': workid};
                     var scriptid = workTask.submit();
+
+                    context.response.write({output: scriptid});
+                }
+                else if(countKPI){
+                    //Scheduling Script
+                    var countKPI = task.create({taskType: task.TaskType.SCHEDULED_SCRIPT});
+                    countKPI.scriptId = 'customscript_count_kpi_ss';
+                    countKPI.deploymentId = 'customdeploy_count_kpi_ss';
+                    var scriptid = countKPI.submit();
 
                     context.response.write({output: scriptid});
                 }
