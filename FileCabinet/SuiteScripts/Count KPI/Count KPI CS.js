@@ -89,7 +89,7 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
                        recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.countQuantity, value: lineCount});
                        recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.adjustedQuantity, value: lineAdjust});
                        recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.rateSTDCost, value: lineRate});
-                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.percentDiff, value: percentDiff == 'Negative Snapshot!' ? percentDiff : Math.trunc(percentDiff*100)});
+                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.percentDiff, value: percentDiff == 'Negative Snapshot!' ? percentDiff : '      ' + Math.trunc(percentDiff*100)});
                        recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.investigateCount, value: invCount});
                        recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.adjustedValue, value: lineAdjustValue});
                        recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.investigateValue, value: invValue});
