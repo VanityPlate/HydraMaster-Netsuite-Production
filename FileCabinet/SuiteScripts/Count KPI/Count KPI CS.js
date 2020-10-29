@@ -31,6 +31,7 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
      */
     function displayResults(){
         try{
+            debugger;
             //getting record and results file
             var recordObj = currentRecord.get();
             var fileObj = file.load({id: schedulerLib.fileLib.countKPI});
