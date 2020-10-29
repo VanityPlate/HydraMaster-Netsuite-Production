@@ -31,7 +31,6 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
      */
     function displayResults(){
         try{
-            debugger;
             //getting record and results file
             var recordObj = currentRecord.get();
             var output = url.resolveScript({
@@ -83,15 +82,19 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
                    }
 
                    //Adding Line Values
-                   recordObj.setValue({fieldId: countFields.fields.item, value: item});
-                   recordObj.setValue({fieldId: countFields.fields.snapQuantity, value: lineSnap});
-                   recordObj.setValue({fieldId: countFields.fields.countQuantity, value: lineCount});
-                   recordObj.setValue({fieldId: countFields.fields.adjustedQuantity, value: lineAdjust});
-                   recordObj.setValue({fieldId: countFields.fields.rateSTDCost, value: lineRate});
-                   recordObj.setValue({fieldId: countFields.fields.percentDiff, value: percentDiff});
-                   recordObj.setValue({fieldId: countFields.fields.investigateCount, value: invCount});
-                   recordObj.setValue({fieldId: countFields.fields.adjustedValue, value: lineAdjustValue});
-                   recordObj.setValue({fieldId: countFields.fields.investigateValue, value: invValue});
+                   if(invValue == 'YES' || invCount == 'YES') {
+                       recordObj.selectNewLine({sublistId: 'custpage_results'});
+                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.item, value: item});
+                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.snapQuantity, value: lineSnap});
+                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.countQuantity, value: lineCount});
+                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.adjustedQuantity, value: lineAdjust});
+                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.rateSTDCost, value: lineRate});
+                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.percentDiff, value: percentDiff});
+                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.investigateCount, value: invCount});
+                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.adjustedValue, value: lineAdjustValue});
+                       recordObj.setCurrentSublistValue({sublistId: 'custpage_results', fieldId: countFields.fields.investigateValue, value: invValue});
+                       recordObj.commitLine({sublistId: 'custpage_results'});
+                   }
                }
             }
 
