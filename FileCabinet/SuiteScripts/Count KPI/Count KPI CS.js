@@ -34,7 +34,14 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
             debugger;
             //getting record and results file
             var recordObj = currentRecord.get();
-            var fileObj = file.load({id: schedulerLib.fileLib.countKPI});
+            var output = url.resolveScript({
+                scriptId:  'customscript_wo_fix_scheduler',
+                deploymentId: 'customdeploy_wo_fix_scheduler',
+                params: {'results': 'countKPI'}
+            });
+            var response = https.get({url: output});
+            var content = response.body.split('^^^');
+            var lines = Number(content[0]);
 
             //Variables for Results
             var financialImpact = 0;
@@ -42,38 +49,51 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
             var totalAdjustments = 0;
             var lineSnap, lineCount, lineAdjust, lineRate, lineSplit, item, invCount, invValue, percentDiff, lineAdjustValue;
 
-            //creating iterator and using iterator
-            var iterator = fileObj.lines.iterator();
-            iterator.each(function (line) {
-                //Determining Line Values
-                lineSplit = line.split('^^^');
-                item = lineSplit[0];
-                lineRate = parseFloat(lineSplit[1]);
-                lineCount = parseFloat(lineSplit[2]);
-                lineSnap = parseFloat(lineSplit[3]);
-                lineAdjust = parseFloat(lineSplit[4]);
-                totalAdjustments++;
-                lineAdjustValue = lineRate * lineAdjust;
-                financialImpact += lineAdjustValue;
-                if(lineAdjust != 0){adjustedQuantity++};
-                if(lineSnap > 0){percentDiff = (Math.abs(lineCount - lineSnap)/lineCount);}
-                else{percentDiff = 'Negative Snapshot!';}
-                if(percentDiff == 'Negative Snapshot!' || percentDiff >= countFields.tolerance.countTolerance){invCount = 'YES';}
-                else{invCount = 'NO';}
-                if(Math.abs(lineAdjustValue) >= countFields.tolerance.valueTolerance){invValue = 'YES';}
-                else{invValue = 'NO';}
 
-                //Adding Line Values
-                recordObj.setValue({fieldId: countFields.fields.item, value: item});
-                recordObj.setValue({fieldId: countFields.fields.snapQuantity, value: lineSnap});
-                recordObj.setValue({fieldId: countFields.fields.countQuantity, value: lineCount});
-                recordObj.setValue({fieldId: countFields.fields.adjustedQuantity, value: lineAdjust});
-                recordObj.setValue({fieldId: countFields.fields.rateSTDCost, value: lineRate});
-                recordObj.setValue({fieldId: countFields.fields.percentDiff, value: percentDiff});
-                recordObj.setValue({fieldId: countFields.fields.investigateCount, value: invCount});
-                recordObj.setValue({fieldId: countFields.fields.adjustedValue, value: lineAdjustValue});
-                recordObj.setValue({fieldId: countFields.fields.investigateValue, value: invValue});
-            });
+           if(lines != 0) {
+               for(var x = 0; x < lines; x++) {
+                   //line value
+                   var y = (x * 5) + 1;
+                   //Determining Line Values
+                   item = lineSplit[y];
+                   lineRate = parseFloat(lineSplit[y + 1]);
+                   lineCount = parseFloat(lineSplit[y + 2]);
+                   lineSnap = parseFloat(lineSplit[y + 3]);
+                   lineAdjust = parseFloat(lineSplit[y + 4]);
+                   totalAdjustments++;
+                   lineAdjustValue = lineRate * lineAdjust;
+                   financialImpact += lineAdjustValue;
+                   if (lineAdjust != 0) {
+                       adjustedQuantity++;
+                   }
+                   if (lineSnap > 0) {
+                       percentDiff = (Math.abs(lineCount - lineSnap) / lineCount);
+                   } else {
+                       percentDiff = 'Negative Snapshot!';
+                   }
+                   if (percentDiff == 'Negative Snapshot!' || percentDiff >= countFields.tolerance.countTolerance) {
+                       invCount = 'YES';
+                   } else {
+                       invCount = 'NO';
+                   }
+                   if (Math.abs(lineAdjustValue) >= countFields.tolerance.valueTolerance) {
+                       invValue = 'YES';
+                   } else {
+                       invValue = 'NO';
+                   }
+
+                   //Adding Line Values
+                   recordObj.setValue({fieldId: countFields.fields.item, value: item});
+                   recordObj.setValue({fieldId: countFields.fields.snapQuantity, value: lineSnap});
+                   recordObj.setValue({fieldId: countFields.fields.countQuantity, value: lineCount});
+                   recordObj.setValue({fieldId: countFields.fields.adjustedQuantity, value: lineAdjust});
+                   recordObj.setValue({fieldId: countFields.fields.rateSTDCost, value: lineRate});
+                   recordObj.setValue({fieldId: countFields.fields.percentDiff, value: percentDiff});
+                   recordObj.setValue({fieldId: countFields.fields.investigateCount, value: invCount});
+                   recordObj.setValue({fieldId: countFields.fields.adjustedValue, value: lineAdjustValue});
+                   recordObj.setValue({fieldId: countFields.fields.investigateValue, value: invValue});
+               }
+            }
 
             //Displaying Totals
             recordObj.setValue({fieldId: countFields.fields.financialImpact, value: financialImpact});
@@ -90,7 +110,6 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
      */
     function executeScript(){
         try{
-            debugger;
             //Creating promise
             var promiseWork = new Promise((resolve, reject) => {
                 //Creating scheduled script and submitting
