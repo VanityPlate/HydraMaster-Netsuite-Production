@@ -109,6 +109,31 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
     }
 
     /**
+     * Definition - Async function for checking on the status of the scheduled script.
+     */
+    function checkStatus(scriptID, attempts){
+        var output = url.resolveScript({
+            scriptId: 'customscript_wo_fix_scheduler',
+            deploymentId: 'customdeploy_wo_fix_scheduler',
+            params: {'requestStatus': scriptID}
+        });
+        var response = https.get({
+            url: output
+        });
+        var status = response.body;
+
+        if (status == 'COMPLETE') {
+            displayResults();
+        } else if (status == 'FAILED' || attempts > 17) {
+            throw 'Scheduled Script Failed.';
+        } else {
+            setTimeout(function () {
+                checkStatus(scriptID, ++attempts);
+            }, 1000);
+        }
+    }
+
+    /**
      *Function for Calling Scheduler Suitelet Through Promise
      */
     function executeScript(){
@@ -132,10 +157,7 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
 
             //Executing Promise Chain
             promiseWork.then((output) => {
-                var check = schedulerLib.checkStatus(output, 0);
-                if(check){
-                    displayResults();
-                }
+                checkStatus(output, 0);
             }).catch(function (reason) {
                 errorMessage();
                 log.error({title: 'Critical error', details: reason});
