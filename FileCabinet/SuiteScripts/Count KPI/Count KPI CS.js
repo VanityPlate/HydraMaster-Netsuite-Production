@@ -47,7 +47,7 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
             var financialImpact = 0;
             var adjustedQuantity = 0;
             var totalAdjustments = 0;
-            var lineSnap, lineCount, lineAdjust, lineRate, lineSplit, item, invCount, invValue, percentDiff, lineAdjustValue;
+            var lineSnap, lineCount, lineAdjust, lineRate, item, invCount, invValue, percentDiff, lineAdjustValue;
 
 
            if(lines != 0) {
@@ -55,11 +55,11 @@ function(search, message, countFields, url,  https, schedulerLib, currentRecord)
                    //line value
                    var y = (x * 5) + 1;
                    //Determining Line Values
-                   item = lineSplit[y];
-                   lineRate = parseFloat(lineSplit[y + 1]);
-                   lineCount = parseFloat(lineSplit[y + 2]);
-                   lineSnap = parseFloat(lineSplit[y + 3]);
-                   lineAdjust = parseFloat(lineSplit[y + 4]);
+                   item = content[y];
+                   lineRate = parseFloat(content[y + 1]);
+                   lineCount = parseFloat(content[y + 2]);
+                   lineSnap = parseFloat(content[y + 3]);
+                   lineAdjust = parseFloat(content[y + 4]);
                    totalAdjustments++;
                    lineAdjustValue = lineRate * lineAdjust;
                    financialImpact += lineAdjustValue;
