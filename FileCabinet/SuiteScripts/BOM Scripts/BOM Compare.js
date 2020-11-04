@@ -97,8 +97,10 @@ function(runtime, serverWidget, file, search, record, email) {
         var subLength = bom1.getLineCount({sublistId: 'member'});
 
         for(var x = 0; x < subLength; x++){
-                //Assigning values for compare
-                bom1.selectLine({sublistId: 'member', line: x});
+            //Assigning values for compare
+            bom1.selectLine({sublistId: 'member', line: x});
+            //Checking if obsolete, if so do not include
+            if(!bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'obsoletedate'})) {
                 var member = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'item'});
                 var bom1Amount = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'quantity'});
                 var memberDes = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'memberdescr'});
@@ -127,13 +129,16 @@ function(runtime, serverWidget, file, search, record, email) {
                     add(member, bom1Amount, bom1UniComp, memberName, memberDes);
                     add("", "", bom2UniComp, "", "");
                 }
+            }
         }
 
         //Iterating through bom2
         subLength = bom2.getLineCount({sublistId: 'member'});
         for(var x = 0; x < subLength; x++){
-                //Gathering values
-                bom2.selectLine({sublistId: 'member', line: x});
+            //Gathering values
+            bom2.selectLine({sublistId: 'member', line: x});
+            //Checking if item obsolete if so do not include
+            if(!bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'obsoletedate'})) {
                 var member = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'item'});
 
                 //Checking if this member has been accounted for
@@ -145,6 +150,7 @@ function(runtime, serverWidget, file, search, record, email) {
                     add(member, bom2Amount, bom2UniComp, memberName, memberDes);
                     add("", "", bom1UniComp, "", "");
                 }
+            }
         }
 
         var bom1Desc = bom1.getValue({fieldId: 'description'});
