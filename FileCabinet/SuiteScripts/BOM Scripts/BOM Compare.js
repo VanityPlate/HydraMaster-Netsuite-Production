@@ -97,53 +97,59 @@ function(runtime, serverWidget, file, search, record, email) {
         var subLength = bom1.getLineCount({sublistId: 'member'});
 
         for(var x = 0; x < subLength; x++){
-            //Assigning values for compare
-            bom1.selectLine({sublistId: 'member', line: x});
-            var member = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'item'});
-            var bom1Amount = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'quantity'});
-            var memberDes = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'memberdescr'});
-            var memberName = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'item_display'});
+            //Checking if obsolete, if so ignore item
+            if(!bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'obsoletedate'})) {
+                //Assigning values for compare
+                bom1.selectLine({sublistId: 'member', line: x});
+                var member = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'item'});
+                var bom1Amount = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'quantity'});
+                var memberDes = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'memberdescr'});
+                var memberName = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'item_display'});
 
-            //Adding id list of already searched objects
-            alreadyCompared.push(parseInt(member));
+                //Adding id list of already searched objects
+                alreadyCompared.push(parseInt(member));
 
-            //Determine if second bom has the same member
-            var secondMember = bom2.findSublistLineWithValue({
-               sublistId: 'member',
-               fieldId: 'item',
-               value: member
-            });
+                //Determine if second bom has the same member
+                var secondMember = bom2.findSublistLineWithValue({
+                    sublistId: 'member',
+                    fieldId: 'item',
+                    value: member
+                });
 
-            //if second bom has second member call split and let it handle array allocation
-            if(secondMember != - 1){
-                bom2.selectLine({sublistId: 'member', line: secondMember});
-                var bom2Amount = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'quantity'});
-                add(member, bom1Amount, bom1UniComp, memberName, memberDes);
-                add(member, bom2Amount, bom2UniComp, memberName, memberDes);
-            }
+                //if second bom has second member call split and let it handle array allocation
+                if (secondMember != -1) {
+                    bom2.selectLine({sublistId: 'member', line: secondMember});
+                    var bom2Amount = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'quantity'});
+                    add(member, bom1Amount, bom1UniComp, memberName, memberDes);
+                    add(member, bom2Amount, bom2UniComp, memberName, memberDes);
+                }
 
-            //if second bom does not have contain same member simply add to bom1UniComp
-            else{
-                add(member, bom1Amount, bom1UniComp, memberName, memberDes);
-                add("", "", bom2UniComp, "", "");
+                //if second bom does not have contain same member simply add to bom1UniComp
+                else {
+                    add(member, bom1Amount, bom1UniComp, memberName, memberDes);
+                    add("", "", bom2UniComp, "", "");
+                }
             }
         }
 
         //Iterating through bom2
         subLength = bom2.getLineCount({sublistId: 'member'});
         for(var x = 0; x < subLength; x++){
-            //Gathering values
-            bom2.selectLine({sublistId: 'member', line: x});
-            var member = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'item'});
+            //Checking if obsolete, if so ignore item
+            if(!bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'obsoletedate'})) {
+                //Gathering values
+                bom2.selectLine({sublistId: 'member', line: x});
+                var member = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'item'});
 
-            //Checking if this member has been accounted for
-            //If not accounted for add the member to correct array
-            if(!includes(alreadyCompared, parseInt(member))){
-                var bom2Amount = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'quantity'});
-                var memberDes = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'memberdescr'});
-                var memberName = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'item_display'});
-                add(member, bom2Amount, bom2UniComp, memberName, memberDes);
-                add("", "", bom1UniComp, "", "");
+                //Checking if this member has been accounted for
+                //If not accounted for add the member to correct array
+                if (!includes(alreadyCompared, parseInt(member))) {
+                    var bom2Amount = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'quantity'});
+                    var memberDes = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'memberdescr'});
+                    var memberName = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'item_display'});
+                    add(member, bom2Amount, bom2UniComp, memberName, memberDes);
+                    add("", "", bom1UniComp, "", "");
+                }
             }
         }
 
