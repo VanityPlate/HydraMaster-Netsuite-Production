@@ -97,8 +97,6 @@ function(runtime, serverWidget, file, search, record, email) {
         var subLength = bom1.getLineCount({sublistId: 'member'});
 
         for(var x = 0; x < subLength; x++){
-            //Checking if obsolete, if so ignore item
-            if(!bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'obsoletedate'})) {
                 //Assigning values for compare
                 bom1.selectLine({sublistId: 'member', line: x});
                 var member = bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'item'});
@@ -129,14 +127,11 @@ function(runtime, serverWidget, file, search, record, email) {
                     add(member, bom1Amount, bom1UniComp, memberName, memberDes);
                     add("", "", bom2UniComp, "", "");
                 }
-            }
         }
 
         //Iterating through bom2
         subLength = bom2.getLineCount({sublistId: 'member'});
         for(var x = 0; x < subLength; x++){
-            //Checking if obsolete, if so ignore item
-            if(!bom1.getCurrentSublistValue({sublistId: 'member', fieldId: 'obsoletedate'})) {
                 //Gathering values
                 bom2.selectLine({sublistId: 'member', line: x});
                 var member = bom2.getCurrentSublistValue({sublistId: 'member', fieldId: 'item'});
@@ -150,7 +145,6 @@ function(runtime, serverWidget, file, search, record, email) {
                     add(member, bom2Amount, bom2UniComp, memberName, memberDes);
                     add("", "", bom1UniComp, "", "");
                 }
-            }
         }
 
         var bom1Desc = bom1.getValue({fieldId: 'description'});
