@@ -48,6 +48,7 @@ function(search, message, runtime) {
      */
     function saveRecord(scriptContext) {
         try{
+            var output = true;
             //Generate search to check items on record against started cycle counts
             var searchResults = search.create({
                 type: "inventorycount",
@@ -76,7 +77,6 @@ function(search, message, runtime) {
             }).run().getRange({start: 0, end: 1000});
             //Checking if there are items to compare against
             if(searchResults.length > 0){
-                var output = true;
                 var listId = SUBLISTID[scriptContext.currentRecord.type.toString()];
                 searchResults.forEach(function (result){
                     if(-1 != scriptContext.currentRecord.findSublistLineWithValue({sublistId: listId, fieldId: 'item', value: result.getValue({name: 'internalid', summary: 'GROUP', join: 'item'})})){
