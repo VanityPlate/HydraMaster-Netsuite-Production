@@ -68,7 +68,7 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                 //if duplicates has more than the initial variable alert the user and return false to stop the save
                 //otherwise return true to allow the saveing of the Assembly Build
                 if(duplicates.length > 1){
-                    dialog.alert({title: "SAVE FAILED!", message: "The following Serial#s are duplicates" + duplicates});
+                    dialog.alert({title: "SAVE FAILED!", message: "The following Serial#s are duplicates" + duplicates}).then(success).catch(failure);
                     return false;
                 }
 
