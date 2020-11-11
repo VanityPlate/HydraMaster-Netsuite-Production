@@ -51,14 +51,16 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                         {sublistId: 'inventoryassignment', fieldId: 'issueinventorynumber'});
 
                     //creating and running a search to see if the current serial number is already in use
-                    var filters = [["type","anyof","ItemShip"],"AND",["item.isserialitem","is","T"],"AND",["mainline","is","T"],"AND",["serialnumber","is", serialNumber]];
+                    var filters = [["type","anyof","ItemShip"],"AND",["item.isserialitem","is","T"],"AND",["mainline","is","T"],"AND",["item.serialnumber","is", serialNumber]];
                     var inUse = search.create({
                         type: search.Type.TRANSACTION,
                         filters: filters
-                    });
+                    }).run().getRange({start: 0, end: 5});
 
                     //If there are any results add the duplicate serial number to alert user
-                    inUse.run().each(function(x){duplicates.push(serialNumber);});
+                    if(inUse.length>1){
+                        duplicates.push(serialNumber);
+                    }
 
                     //Test Log
                     log.audit({title: x, details: serialNumber});
