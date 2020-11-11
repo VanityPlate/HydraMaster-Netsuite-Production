@@ -48,7 +48,7 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                     //retrieving the current serial number
                     invDetails.selectLine({sublistId: 'inventoryassignment', line: x});
                     var serialNumber = invDetails.getCurrentSublistValue(
-                        {sublistId: 'inventoryassignment', fieldId: 'receiptinventorynumber'});
+                        {sublistId: 'inventoryassignment', fieldId: 'issueinventorynumber'});
 
                     //creating and running a search to see if the current serial number is already in use
                     var filters = [["type","anyof","ItemShip"],"AND",["item.isserialitem","is","T"],"AND",["mainline","is","T"],"AND",["serialnumber","is", serialNumber]];
