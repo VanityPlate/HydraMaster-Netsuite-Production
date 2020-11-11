@@ -34,7 +34,6 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
 
                 //No serial numbers to test against allowing save.
                 if (!invDetails){
-                    scriptContext.currentRecord.setValue({fieldId: 'custbody_serial_verified', value: true});
                     return true;
                 }
 
