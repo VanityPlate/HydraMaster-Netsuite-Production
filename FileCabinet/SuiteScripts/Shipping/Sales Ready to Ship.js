@@ -110,7 +110,7 @@ function(currentRecord, log) {
     }
 
     return {
-        validateInsert: validateInsert,
+        //validateInsert: validateInsert,
         saveRecord: saveRecord
     };
     
