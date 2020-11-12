@@ -49,6 +49,9 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                     var serialNumber = invDetails.getCurrentSublistValue(
                         {sublistId: 'inventoryassignment', fieldId: 'issueinventorynumber'});
 
+                    //Refactor Testing
+                    log.audit({title: 'Serial Number Test', details: serialNumber});
+
                     //creating and running a search to see if the current serial number is already in use
                     var filters = [["type","anyof","ItemShip"],"AND",["item.isserialitem","is","T"],"AND",["mainline","is","T"],"AND",["item.serialnumber","is", serialNumber]];
                     var inUse = search.create({
