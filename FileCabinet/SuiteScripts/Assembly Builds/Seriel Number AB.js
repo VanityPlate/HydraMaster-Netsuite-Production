@@ -28,7 +28,6 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                     return true;
                 }
 
-
                 //Retrieving the subrecord to check it's serial numbers
                 var invDetails = scriptContext.currentRecord.getSubrecord({fieldId: 'inventorydetail'});
 
@@ -49,9 +48,6 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                     var serialNumber = invDetails.getCurrentSublistValue(
                         {sublistId: 'inventoryassignment', fieldId: 'receiptinventorynumber'});
 
-                    //Refactor Testing
-                    log.audit({title: 'Serial Number Test', details: serialNumber});
-
                     //creating and running a search to see if the current serial number is already in use
                     var filters = [["type","anyof","ItemShip"],"AND",["item.isserialitem","is","T"],"AND",["mainline","is","T"],"AND",["item.serialnumber","is", serialNumber]];
                     var inUse = search.create({
@@ -63,9 +59,6 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                     if(inUse.length>1){
                         duplicates.push(serialNumber);
                     }
-
-                    //Test Log
-                    log.audit({title: x, details: serialNumber});
                 }
                 //if duplicates has more than the initial variable alert the user and return false to stop the save
                 //otherwise return true to allow the saveing of the Assembly Build
@@ -73,7 +66,6 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                     dialog.alert({title: "SAVE FAILED!", message: "The following Serial#s are duplicates" + duplicates}).then(success).catch(failure);
                     return false;
                 }
-
                 else{
                     scriptContext.currentRecord.setValue({fieldId: 'custbody_serial_verified', value: true});
                     return true;
@@ -84,9 +76,7 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                 return false;
             }
         }
-
         return {
             saveRecord: saveRecord
         };
-
     });
