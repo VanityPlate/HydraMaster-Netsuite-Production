@@ -47,7 +47,7 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                     //retrieving the current serial number
                     invDetails.selectLine({sublistId: 'inventoryassignment', line: x});
                     var serialNumber = invDetails.getCurrentSublistValue(
-                        {sublistId: 'inventoryassignment', fieldId: 'issueinventorynumber'});
+                        {sublistId: 'inventoryassignment', fieldId: 'receiptinventorynumber'});
 
                     //Refactor Testing
                     log.audit({title: 'Serial Number Test', details: serialNumber});
