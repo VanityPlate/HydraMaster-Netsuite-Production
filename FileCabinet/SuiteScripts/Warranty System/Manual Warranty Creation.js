@@ -1,4 +1,7 @@
 /**
+ *
+ * @copyright Alex S. Ducken 2020 HydraMaster LLC
+ *
  * @NApiVersion 2.x
  * @NScriptType Suitelet
  * @NModuleScope SameAccount
@@ -143,9 +146,8 @@ function(serverWidget, redirect, search, task, fieldLib) {
             columns:
                 [
                     search.createColumn({
-                        name: "companyname",
-                        join: "customerMain",
-                        label: "Company Name"
+                        name: "entity",
+                        label: "Distributor"
                     }),
                     search.createColumn({
                         name: "city",
@@ -179,8 +181,7 @@ function(serverWidget, redirect, search, task, fieldLib) {
         var fields = addFields(assistant, fieldLib.installerInfo, 'fieldgroup_installerinfo');
         fields[0].defaultValue = salesorderSearchObj[0].getValue({name: 'city', join: 'shippingAddress'});
         fields[0].updateDisplayType({displayType: serverWidget.FieldDisplayType.DISABLED});
-        fields[1].defaultValue = salesorderSearchObj[0].getValue({name: 'companyname', join: 'customerMain'});
-        fields[1].updateDisplayType({displayType: serverWidget.FieldDisplayType.DISABLED});
+        fields[1].defaultValue = salesorderSearchObj[0].getValue({name: 'entity'});
         fields[2].updateBreakType({breakType: serverWidget.FieldBreakType.STARTCOL});
 
         //Fields for installerFieldCheckList

@@ -62,9 +62,9 @@ define([], function(){
 
     //Installer Form Fields
     const INSTALLERFIELDS =   {
-        distributor     :   {id: 'custpage_distributor', label: 'Installing Distributor Name', type: FIELDTYPES.TEXT},
+        distributor     :   {id: 'custpage_distributor', label: 'Installing Distributor Name', type: FIELDTYPES.SELECT, source: 'customer'},
         distributorAdd  :   {id: 'custpage_distributorlocation', label: 'Distributor Location', type: FIELDTYPES.TEXT},
-        installerName   :   {id: 'custpage_installername', label: 'Installer\'s Name', type: FIELDTYPES.TEXT},
+        installerName   :   {id: 'custpage_name', label: 'Installer\'s Name', type: FIELDTYPES.TEXT},
         installDate     :   {id: 'custpage_install_date', label: 'Installation Date', type: FIELDTYPES.DATE},
         testDate        :   {id: 'custpage_test_date', label: 'Test Date', type: FIELDTYPES.DATE},
         engineOil       :   {id: 'custpage_oil_engine', label: 'Engine Oil Level', type: FIELDTYPES.SELECT, source: 'customlist_oil_levels'},
@@ -87,7 +87,7 @@ define([], function(){
         tempContin      :   {id: 'custpage_temp_contin', label: 'Temperature 100 Hose Continuous', type: FIELDTYPES.FLOAT},
         make            :   {id: 'custpage_make', label: 'Make', type: FIELDTYPES.TEXT},
         model           :   {id: 'custpage_model', label: 'Model', type: FIELDTYPES.TEXT},
-        engineYear      :   {id: 'custpage_engine_yaer', label: 'Year', type: FIELDTYPES.TEXT},
+        engineYear      :   {id: 'custpage_engine_year', label: 'Year', type: FIELDTYPES.TEXT},
         engine          :   {id: 'custpage_engine', label: 'Engine', type: FIELDTYPES.TEXT},
         fuelSystem      :   {id: 'custpage_fuel_system', label: 'Fuel System', type: FIELDTYPES.SELECT, source: 'customlist_gas_diesel'},
         roofVents       :   {id: 'custpage_roof_vents', label: 'Roof Vents', type: FIELDTYPES.CHECKBOX},

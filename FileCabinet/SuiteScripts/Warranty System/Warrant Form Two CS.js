@@ -1,11 +1,14 @@
 /**
+ *
+ * @copyright Alex S. Ducken 2020 HydraMaster LLC
+ *
  * @NApiVersion 2.x
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define([],
+define(['N/search', './Warranty Field Lib.js'],
 
-function() {
+function(search, fieldLib) {
     
     /**
      * Function to be executed after page is initialized.
@@ -38,7 +41,16 @@ function() {
      * @since 2015.2
      */
     function fieldChanged(scriptContext) {
+        try{
+            if(scriptContext.fieldId == fieldLib.installerFields.distributor.id){
+                var searchObj = search.create({
 
+                }).run().getRange({start: 0, end: 1});
+            }
+        }
+        catch(error){
+            log.error({title: 'Critical error in validateField', details: error});
+        }
     }
 
     /**
