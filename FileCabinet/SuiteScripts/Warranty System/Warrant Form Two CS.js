@@ -42,6 +42,7 @@ function(search, fieldLib) {
      */
     function fieldChanged(scriptContext) {
         try{
+            debugger;
             if(scriptContext.fieldId == fieldLib.installerFields.distributor.id){
                 var searchObj = search.create({
                     type: "customer",
