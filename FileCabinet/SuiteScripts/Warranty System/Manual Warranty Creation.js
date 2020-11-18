@@ -195,6 +195,9 @@ function(serverWidget, redirect, search, task, fieldLib) {
         //Equipment Installation Certificate
         fields = addFields(assistant, fieldLib.certificates, 'fieldgroup_install_equip');
         fields[5].updateBreakType({breakType: serverWidget.FieldBreakType.STARTCOL});
+
+        //adding client script
+        assistant.clientScriptModulePath = 'SuiteScripts/Warranty System/Warrant Form Two CS.js';
     }
 
     /**
