@@ -44,8 +44,17 @@ function(search, fieldLib) {
         try{
             if(scriptContext.fieldId == fieldLib.installerFields.distributor.id){
                 var searchObj = search.create({
-
+                    type: "customer",
+                    filters:
+                        [
+                            ["internalid","anyof",scriptContext.currentRecord.getValue({fieldId: fieldLib.installerFields.distributor.id})]
+                        ],
+                    columns:
+                        [
+                            search.createColumn({name: "city", label: "City"})
+                        ]
                 }).run().getRange({start: 0, end: 1});
+                scriptContext.currentRecord.setValue({fieldId: fieldLib.installerFields.distributorAdd.id, value: searchObj[0].getValue({name: 'city'})});
             }
         }
         catch(error){
