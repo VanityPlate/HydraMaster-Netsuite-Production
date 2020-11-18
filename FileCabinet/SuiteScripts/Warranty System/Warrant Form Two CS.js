@@ -181,7 +181,7 @@ function(search, fieldLib) {
 
     return {
         //pageInit: pageInit,
-        //fieldChanged: fieldChanged,
+        fieldChanged: fieldChanged,
         //postSourcing: postSourcing,
         //sublistChanged: sublistChanged,
         //lineInit: lineInit,
