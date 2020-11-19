@@ -41,7 +41,7 @@ define([], function(){
     //Customer Form Fields
     const  CUSTOMERFIELDS  =   {
         hiddenCustomer  :   {id: 'custpage_hidden_customer', type: FIELDTYPES.SELECT, label: 'Hidden Customer', source: 'customer'},
-        serialNumber    :   {id: 'custpage_serial_number', type: FIELDTYPES.TEXT, label: 'Serial Number'},
+        serialNumber    :   {id: 'custrecord_wrm_reg_ref_seriallot', type: FIELDTYPES.TEXT, label: 'Serial Number'},
         machine         :   {id: 'custpage_machine_type', label: 'Model', type: FIELDTYPES.TEXT},
         oldCustomer     :   {id: 'custpage_customer_number', type: FIELDTYPES.SELECT, label: 'Customer#', source: 'customer'},
         oldCustPhone    :   {id: 'custpage_customer_phone', type: FIELDTYPES.PHONE, label: 'Customer Phone#'},
