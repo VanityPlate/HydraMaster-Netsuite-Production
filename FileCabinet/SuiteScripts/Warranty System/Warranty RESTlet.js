@@ -28,6 +28,7 @@ function(record) {
         }
         catch(error){
             log.error({title: 'Critical Error in doGet', details: error});
+            throw error;
         }
     }
 

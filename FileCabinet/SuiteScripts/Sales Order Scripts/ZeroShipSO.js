@@ -72,7 +72,10 @@ function(currentRecord, record, log, search) {
                 columns: ['phone']
             }).phone;
             if(phone){
-                scriptContext.currentRecord.setValue({fieldId: 'custbody_pcg_contact_phone', value: phone});
+                try {
+                    scriptContext.currentRecord.setValue({fieldId: 'custbody_pcg_contact_phone', value: phone});
+                }
+                catch (error){}
             }
         }
     }

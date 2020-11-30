@@ -1,4 +1,7 @@
 /**
+ *
+ * @copyright Alex S. Ducken 2020 HydraMaster LLC
+ *
  * @NApiVersion 2.x
  * @NScriptType ScheduledScript
  * @NModuleScope SameAccount
@@ -6,6 +9,34 @@
 define(['N/record', 'N/search', 'N/runtime', './Warranty Field Lib.js'],
 
 function(record, search, runtime, fieldLib) {
+
+    /**
+     * Constants
+     */
+    const termSearch = {
+        2: 'customsearch1523',
+        4: 'customsearch1524',
+        3: 'customsearch1525',
+        1: 'customsearch1527'
+    };
+
+    /**
+     * Helper function to set the terms of a warranty
+     *
+     * @param warranty the record
+     * @param item the item internal id
+     */
+    function setTerms(warranty, item){
+        for(var x = 1; x <= 4; x++) {
+            var filter = search.createFilter({name: 'internalid', operator: search.Operator.ANYOF, values: [item]});
+            var searchObj = search.load({id: termSearch[x]});
+            searchObj.filters.push(filter);
+            searchObj = searchObj.run().getRange({start: 0, end: 1});
+            if(searchObj.length > 0){
+                warranty.setValue({fieldId: , value: x});
+            }
+        }
+    }
 
     /**
      * Helper function for converting custpage_ field to custbody_ field
@@ -91,18 +122,46 @@ function(record, search, runtime, fieldLib) {
     /**
      * Create Warranty
      */
-    function createWarranty(customerId, installerId, formOne, formTwo, formThree){
+    function createWarranty(formZero, formOne, formTwo, formThree){
         var warrantyObj = record.create({
             isDynamic: true,
             type: 'customrecord_wrm_warrantyreg'
         });
 
         //Searching Up Item, Invoice, Invoice Date, Distributor
+        var invoiceSearchObj = search.create({
+            type: "invoice",
+            filters:
+                [
+                    ["type","anyof","CustInvc"],
+                    "AND",
+                    ["inventorydetail.inventorynumber","anyof", formOne[fieldLib.customerFields.serialNumber.id]]
+                ],
+            columns:
+                [
+                    search.createColumn({name: "datecreated", label: "Date Created"}),
+                    search.createColumn({name: "item", label: "Item"}),
+                    search.createColumn({name: "internalid", label: "invoice"}),
+                    search.createColumn({
+                        name: "internalid",
+                        join: "customerMain",
+                        label: "distributor"
+                    })
+                ]
+        }).run().getRange({start: 0, end: 1});
+
+        if(invoiceSearchObj.length > 0) {
+            //Field Setting
+            warrantyObj.setValue({
+                fieldId: 'custrecord_wrm_reg_ref_seriallot',
+                value: formOne[fieldLib.customerFields.serialNumber.id]
+            });
+            setTerms(warrantyObj, invoiceSearchObj[0].getValue({name: 'item'}));
 
 
-        //Field Setting
-        warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_customer', value: customerId});
-        warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_ref_seriallot', value: formOne['custpage_serial_number']});
+            //Saving and Returning Warranty Object
+            return warrantyObj.save();
+        }
     }
 
     /**
@@ -163,11 +222,17 @@ function(record, search, runtime, fieldLib) {
             //gathering variables for deciding on how to build warranty
             var customerId = parseInt(formOne[fieldLib.customerFields.hiddenCustomer.id], 10);
             var formSelect = formZero[fieldLib.entrySelect.formSelect.id];
+            var serialNumber = formZero[fieldLib.customerFields.serialNumber.id];
             var installerId, warrantyId;
+
+            //Searching for existing warranty
+            var warrantySearch = search.create({
+
+            });
 
             //Creating Warranty Registration if None Exist
             if(!warrantyId) {
-                warrantyId = createWarranty(customerId, installerId, formOne, formTwo, formThree);
+                warrantyId = createWarranty(formZero, formOne, formTwo, formThree);
             }
 
             //Deciding between new customer or to use existing
