@@ -1,13 +1,18 @@
- /**
-  * @NApiVersion 2.x
-  * @NScriptType MassUpdateScript
+/**
+ *
+ * @copyright Alex S. Ducken 2020 HydraMaster LLC
+ *
+ * @NApiVersion 2.x
+ * @NScriptType MassUpdateScript
+ * @NModuleScope SameAccount
  */
-define(['N/record', 'N/search'],
+define(['N/search', 'N/record'],
     /**
- * @param{record} record
- * @param{search} search
- */
-    (record, search) => {
+     * @param{log} log
+     * @param{record} record
+     */
+    function(search, record) {
+
         /**
          * @Constants
          */
@@ -19,10 +24,12 @@ define(['N/record', 'N/search'],
         };
 
         /**
-         * Defines the Mass Update trigger point.
+         * Definition of Mass Update trigger point.
+         *
          * @param {Object} params
-         * @param {string} params.type - Record type of the record being processed
-         * @param {number} params.id - ID of the record being processed
+         * @param {string} params.type - Record type of the record being processed by the mass update
+         * @param {number} params.id - ID of the record being processed by the mass update
+         *
          * @since 2016.1
          */
         const each = (params) => {
@@ -45,5 +52,9 @@ define(['N/record', 'N/search'],
                 log.error({title: 'Critical error in each', details: error});
             }
         }
-        return {each}
+
+        return {
+            each: each
+        };
+
     });
