@@ -39,7 +39,7 @@ define(['N/search', 'N/record'],
 
                 //Determine Type of Warranty
                 for(var x = 1; x <= 4; x++){
-                    var searchObj = search.load({id: SEARCHES[x]}).run().getRange({start: 0, end: 4000});
+                    var searchObj = search.load({id: SEARCHES[x]}).run().getRange({start: 0, end: 1000});
                     if(searchObj.some(function (result){return params.id == result.id})){
                         itemRecord.setValue({id: 'custitem_wrm_item_trackwarranty', value: 'T'});
                         itemRecord.setValue({id: 'custitem_wrm_item_warrantyterms', value: x});
