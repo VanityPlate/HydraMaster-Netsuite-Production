@@ -1,8 +1,4 @@
  /**
-  *
-  * @copyright Alex S. Ducken 2020 HydraMaster LLC
-  * @details Update to all serialized assemblies so they will work with warranty and case system.
-  *
   * @NApiVersion 2.x
   * @NScriptType MassUpdateScript
  */
