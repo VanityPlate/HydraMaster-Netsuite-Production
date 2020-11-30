@@ -5,7 +5,7 @@
  *
  */
  /**
- * @NApiVersion 2.1
+ * @NApiVersion 2.x
  * @NScriptType MassUpdateScript
  */
 define(['N/record', 'N/search'],
