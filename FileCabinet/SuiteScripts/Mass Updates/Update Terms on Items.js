@@ -32,7 +32,7 @@ define(['N/search', 'N/record'],
          *
          * @since 2016.1
          */
-        const each = (params) => {
+        function each(params) {
             try{
                 //Loading Record
                 var itemRecord = record.load({type: record.Type.ASSEMBLY_ITEM, id: params.id, isDynamic: true});
