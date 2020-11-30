@@ -11,34 +11,6 @@ define(['N/record', 'N/search', 'N/runtime', './Warranty Field Lib.js'],
 function(record, search, runtime, fieldLib) {
 
     /**
-     * Constants
-     */
-    const termSearch = {
-        2: 'customsearch1523',
-        4: 'customsearch1524',
-        3: 'customsearch1525',
-        1: 'customsearch1527'
-    };
-
-    /**
-     * Helper function to set the terms of a warranty
-     *
-     * @param warranty the record
-     * @param item the item internal id
-     */
-    function setTerms(warranty, item){
-        for(var x = 1; x <= 4; x++) {
-            var filter = search.createFilter({name: 'internalid', operator: search.Operator.ANYOF, values: [item]});
-            var searchObj = search.load({id: termSearch[x]});
-            searchObj.filters.push(filter);
-            searchObj = searchObj.run().getRange({start: 0, end: 1});
-            if(searchObj.length > 0){
-                warranty.setValue({fieldId: , value: x});
-            }
-        }
-    }
-
-    /**
      * Helper function for converting custpage_ field to custbody_ field
      *
      * @param fieldId the unconverted field id
@@ -47,7 +19,7 @@ function(record, search, runtime, fieldLib) {
     function convertFieldId(fieldId){
         try{
             var regularExp = /custpage/g;
-            return fieldId.replace(regularExp, 'custbody');
+            return fieldId.replace(regularExp, 'custrecord');
         }
         catch(error){
             log.error({title: 'Critical error in convertFieldId', details: error});
@@ -58,41 +30,46 @@ function(record, search, runtime, fieldLib) {
      * Adding address and name to record
      */
     function fieldUpdate(recordObj, formOne){
-        recordObj.setValue({fieldId: 'email', value: formOne['custpage_info_email']});
-        recordObj.setValue({fieldId: 'phone', value: formOne['custpage_info_phone']});
-        recordObj.setValue({fieldId: 'subsidiary', value: '1'});
-        var nameSplit = formOne['custpage_main_contact'].split(' ');
-        switch (nameSplit.length) {
-            case 1:
-                recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
-                recordObj.setValue({fieldId: 'lastname', value: '_'});
-                break;
-            case 2:
-                recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
-                recordObj.setValue({fieldId: 'lastname', value: nameSplit[1]});
-                break;
-            default:
-                recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
-                recordObj.setValue({fieldId: 'lastname', value: nameSplit[2]});
-                recordObj.setValue({fieldId: 'middlename', value: nameSplit[1]});
+        try {
+            recordObj.setValue({fieldId: 'email', value: formOne['custpage_info_email']});
+            recordObj.setValue({fieldId: 'phone', value: formOne['custpage_info_phone']});
+            recordObj.setValue({fieldId: 'subsidiary', value: '1'});
+            var nameSplit = formOne['custpage_main_contact'].split(' ');
+            switch (nameSplit.length) {
+                case 1:
+                    recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
+                    recordObj.setValue({fieldId: 'lastname', value: '_'});
+                    break;
+                case 2:
+                    recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
+                    recordObj.setValue({fieldId: 'lastname', value: nameSplit[1]});
+                    break;
+                default:
+                    recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
+                    recordObj.setValue({fieldId: 'lastname', value: nameSplit[2]});
+                    recordObj.setValue({fieldId: 'middlename', value: nameSplit[1]});
+            }
+            //Setting Address
+            recordObj.selectNewLine({sublistId: 'addressbook'});
+            var addressSub = recordObj.getCurrentSublistSubrecord({
+                sublistId: 'addressbook',
+                fieldId: 'addressbookaddress'
+            });
+            addressSub.setValue({fieldId: 'addr1', value: formOne['custpage_street_address']});
+            addressSub.setValue({fieldId: 'addressee', value: formOne['custpage_main_contact']});
+            addressSub.setValue({fieldId: 'addrphone', value: formOne['custpage_info_phone']});
+            addressSub.setValue({fieldId: 'city', value: formOne['custpage_city']});
+            addressSub.setValue({fieldId: 'country', value: formOne['custpage_country']});
+            addressSub.setValue({fieldId: 'state', value: formOne['custpage_state']});
+            addressSub.setValue({fieldId: 'zip', value: formOne['custpage_zip']});
+            addressSub.setValue({fieldId: 'addr2', value: formOne['custpage_suite_address']});
+            recordObj.setCurrentSublistValue({sublistId: 'addressbook', fieldId: 'defaultbilling', value: true});
+            recordObj.setCurrentSublistValue({sublistId: 'addressbook', fieldId: 'defaultshipping', value: true});
+            recordObj.commitLine({sublistId: 'addressbook'});
         }
-        //Setting Address
-        recordObj.selectNewLine({sublistId: 'addressbook'});
-        var addressSub = recordObj.getCurrentSublistSubrecord({
-            sublistId: 'addressbook',
-            fieldId: 'addressbookaddress'
-        });
-        addressSub.setValue({fieldId: 'addr1', value: formOne['custpage_street_address']});
-        addressSub.setValue({fieldId: 'addressee', value: formOne['custpage_main_contact']});
-        addressSub.setValue({fieldId: 'addrphone', value: formOne['custpage_info_phone']});
-        addressSub.setValue({fieldId: 'city', value: formOne['custpage_city']});
-        addressSub.setValue({fieldId: 'country', value: formOne['custpage_country']});
-        addressSub.setValue({fieldId: 'state', value: formOne['custpage_state']});
-        addressSub.setValue({fieldId: 'zip', value: formOne['custpage_zip']});
-        addressSub.setValue({fieldId: 'addr2', value: formOne['custpage_suite_address']});
-        recordObj.setCurrentSublistValue({sublistId: 'addressbook', fieldId: 'defaultbilling', value: true});
-        recordObj.setCurrentSublistValue({sublistId: 'addressbook', fieldId: 'defaultshipping', value: true});
-        recordObj.commitLine({sublistId: 'addressbook'});
+        catch(error){
+            log.error({title: 'Critical error in fieldUpdate', details: error});
+        }
     }
 
     /**
@@ -122,7 +99,7 @@ function(record, search, runtime, fieldLib) {
     /**
      * Create Warranty
      */
-    function createWarranty(formZero, formOne, formTwo, formThree){
+    function createWarranty(formZero){
         var warrantyObj = record.create({
             isDynamic: true,
             type: 'customrecord_wrm_warrantyreg'
@@ -135,7 +112,7 @@ function(record, search, runtime, fieldLib) {
                 [
                     ["type","anyof","CustInvc"],
                     "AND",
-                    ["inventorydetail.inventorynumber","anyof", formOne[fieldLib.customerFields.serialNumber.id]]
+                    ["inventorydetail.inventorynumber","anyof", formZero[fieldLib.customerFields.serialNumber.id]]
                 ],
             columns:
                 [
@@ -154,9 +131,13 @@ function(record, search, runtime, fieldLib) {
             //Field Setting
             warrantyObj.setValue({
                 fieldId: 'custrecord_wrm_reg_ref_seriallot',
-                value: formOne[fieldLib.customerFields.serialNumber.id]
+                value: formZero[fieldLib.customerFields.serialNumber.id]
             });
-            setTerms(warrantyObj, invoiceSearchObj[0].getValue({name: 'item'}));
+            warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: invoiceSearchObj[0].getValue({name: 'item'})});
+            warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_invoicedate', value: invoiceSearchObj[0].getValue({name: 'datecreated'})});
+            warrantyObj.setValue({fieldId: 'custrecord_invoice_reference', value: invoiceSearchObj[0].getValue({name: 'internalid'})});
+            warrantyObj.setValue({fieldId: 'custrecord_selling_distributor', value: invoiceSearchObj[0].getValue({name: 'internalid', join: 'customerMain'})});
+            warrantyObj.setValue({fieldId: 'custrecord_vehicle_vin', value: formZero[fieldLib.customerFields.vehicleVIN.id]});
 
 
             //Saving and Returning Warranty Object
@@ -227,12 +208,23 @@ function(record, search, runtime, fieldLib) {
 
             //Searching for existing warranty
             var warrantySearch = search.create({
-
-            });
+                type: "customrecord_wrm_warrantyreg",
+                filters:
+                    [
+                        ["custrecord_wrm_reg_ref_seriallot","contains",serialNumber]
+                    ],
+                columns:
+                    [
+                        search.createColumn({name: "internalid", label: "Internal ID"})
+                    ]
+            }).run().getRange({start: 0, end: 1});
+            if(warrantySearch.length > 0){
+                warrantyId = warrantySearch[0].getValue({name: 'internalid'});
+            }
 
             //Creating Warranty Registration if None Exist
             if(!warrantyId) {
-                warrantyId = createWarranty(formZero, formOne, formTwo, formThree);
+                warrantyId = createWarranty(formZero);
             }
 
             //Deciding between new customer or to use existing
