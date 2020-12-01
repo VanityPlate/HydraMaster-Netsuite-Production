@@ -65,7 +65,6 @@ define([], function(){
         distributor     :   {id: 'custpage_distributor', label: 'Installing Distributor Name', type: FIELDTYPES.SELECT, source: 'customer'},
         distributorAdd  :   {id: 'custpage_distributorlocation', label: 'Distributor Location', type: FIELDTYPES.TEXT},
         installerName   :   {id: 'custpage_name', label: 'Installer\'s Name', type: FIELDTYPES.TEXT},
-        installDate     :   {id: 'custpage_install_date', label: 'Installation Date', type: FIELDTYPES.DATE},
         testDate        :   {id: 'custpage_test_date', label: 'Test Date', type: FIELDTYPES.DATE},
         engineOil       :   {id: 'custpage_oil_engine', label: 'Engine Oil Level', type: FIELDTYPES.SELECT, source: 'customlist_oil_levels'},
         oilBlower       :   {id: 'custpage_oil_blower', label: 'Blower Oil Level', type: FIELDTYPES.SELECT, source: 'customlist_oil_levels'},
@@ -113,7 +112,8 @@ define([], function(){
 
     //Fields for entry select form
     const ENTRYSELECT         =   {
-        formSelect      :   {id: 'custpage_form_select', label: 'Form Select', type: FIELDTYPES.SELECT}
+        formSelect      :   {id: 'custpage_form_select', label: 'Form Select', type: FIELDTYPES.SELECT},
+        installDate     :   {id: 'custpage_install_date', label: 'Installation Date', type: FIELDTYPES.DATE}
     };
 
     return{
@@ -140,6 +140,6 @@ define([], function(){
         validateCust    :   [CUSTOMERFIELDS.serialNumber, CUSTOMERFIELDS.companyName, CUSTOMERFIELDS.customerEmail, CUSTOMERFIELDS.machine, CUSTOMERFIELDS.mainContact, CUSTOMERFIELDS.customerPhone],
         validateInst    :   [INSTALLERFIELDS.distributor, INSTALLERFIELDS.installerName],
         validateReward  :   [REWARDSFIELDS.jacket, REWARDSFIELDS.jacketSize, REWARDSFIELDS.chemicalKit],
-        entry           :   [CUSTOMERFIELDS.serialNumber, ENTRYSELECT.formSelect, CUSTOMERFIELDS.vehicleVIN]
+        entry           :   [CUSTOMERFIELDS.serialNumber, ENTRYSELECT.formSelect, CUSTOMERFIELDS.vehicleVIN, ENTRYSELECT.installDate]
     };
 });

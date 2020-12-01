@@ -99,7 +99,7 @@ function(record, search, runtime, fieldLib) {
     /**
      * Create Warranty
      */
-    function createWarranty(formZero){
+    function createWarranty(formZero, formOne, formTwo){
         var warrantyObj = record.create({
             isDynamic: true,
             type: 'customrecord_wrm_warrantyreg'
@@ -224,7 +224,7 @@ function(record, search, runtime, fieldLib) {
 
             //Creating Warranty Registration if None Exist
             if(!warrantyId) {
-                warrantyId = createWarranty(formZero);
+                warrantyId = createWarranty(formZero, formOne, formTwo);
             }
 
             //Deciding between new customer or to use existing

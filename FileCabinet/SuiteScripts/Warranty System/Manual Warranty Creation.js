@@ -186,7 +186,7 @@ function(serverWidget, redirect, search, task, fieldLib) {
 
         //Fields for installerFieldCheckList
         fields = addFields(assistant, fieldLib.installerCheck, 'fieldgroup_installer_check');
-        fields[9].updateBreakType({breakType: serverWidget.FieldBreakType.STARTCOL});
+        fields[8].updateBreakType({breakType: serverWidget.FieldBreakType.STARTCOL});
 
         //adding vehicle info
        fields = addFields(assistant, fieldLib.vehicleInfo, 'fieldgroup_vehicle_info');
