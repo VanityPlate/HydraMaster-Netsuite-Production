@@ -14,7 +14,7 @@ function(record, search, fullerLib) {
      */
     const ENVIRONMENT = {
         customer    :   20782,
-        contact     :   20808,
+        contact     :   20941,
         addressHMK  :   17022,
         addressHMM  :   17023,
         shipPay     :   3,
