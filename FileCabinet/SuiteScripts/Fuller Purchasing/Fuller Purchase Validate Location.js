@@ -1,4 +1,7 @@
 /**
+ *
+ * @copyright Alex S. Ducken 2020 HydraMaster LLC
+ *
  * @NApiVersion 2.x
  * @NScriptType ClientScript
  * @NModuleScope SameAccount

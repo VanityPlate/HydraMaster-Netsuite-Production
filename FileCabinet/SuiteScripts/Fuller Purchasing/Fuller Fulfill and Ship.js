@@ -1,4 +1,7 @@
 /**
+ *
+ * @copyright Alex S. Ducken 2020 Hydramaster LLC
+ *
  * @NApiVersion 2.x
  * @NScriptType workflowactionscript
  */
@@ -17,8 +20,10 @@ function(runtime, record) {
     function onAction(scriptContext) {
         try{
             //Getting Parameters
-            var purchaseID = runtime.getCurrentScript().getParameter({name: 'custscript_purchase_id_ffs'});
             var salesID = runtime.getCurrentScript().getParameter({name: 'custscript_sales_id'});
+
+            //Refactor
+            log.audit({title: 'testing salesID', details: salesID});
 
             //values for handling new receipts
             var receipt = false;
@@ -27,8 +32,8 @@ function(runtime, record) {
             var poLines = scriptContext.newRecord.getLineCount({sublistId: 'item'});
 
             //Helper functions
-            var getItem = function (x) {return scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'item_display', line: x})};
-            var getPOReceived = function (x) {return scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'quantityreceived', line: x})};
+            var getItem = function (x) {return scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'itemname', line: x})};
+            var getPOReceived = function (x) {return scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'quantity', line: x})};
             var getSaleFulfilled = function (x) {return salesObj.getSublistValue({sublistId: 'item', fieldId: 'quantityfulfilled', line: x})};
 
             //gathering different amounts
