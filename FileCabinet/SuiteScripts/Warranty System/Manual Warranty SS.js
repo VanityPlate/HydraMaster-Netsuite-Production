@@ -134,6 +134,8 @@ function(record, search, runtime, fieldLib) {
                 value: formZero[fieldLib.customerFields.serialNumber.id]
             });
             warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: invoiceSearchObj[0].getValue({name: 'item'})});
+            //Refactor Testing
+            log.audit({title: 'datecreated', details: invoiceSearchObj[0].getValue({name: 'datecreated'})});
             warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_invoicedate', value: invoiceSearchObj[0].getValue({name: 'datecreated'})});
             warrantyObj.setValue({fieldId: 'custrecord_invoice_reference', value: invoiceSearchObj[0].getValue({name: 'internalid'})});
             warrantyObj.setValue({fieldId: 'custrecord_selling_distributor', value: invoiceSearchObj[0].getValue({name: 'internalid', join: 'customerMain'})});

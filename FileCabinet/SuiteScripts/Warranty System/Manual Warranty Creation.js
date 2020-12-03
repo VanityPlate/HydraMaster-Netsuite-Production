@@ -177,7 +177,7 @@ function(serverWidget, redirect, search, task, fieldLib) {
 
         //Fields for installerInformation
         var fields = addFields(assistant, fieldLib.installerInfo, 'fieldgroup_installerinfo');
-        fields[1].defaultValue = salesorderSearchObj[0].getValue({name: 'city'});
+        fields[1].defaultValue = salesorderSearchObj[0].getValue({name: 'shipcity'});
         fields[1].updateDisplayType({displayType: serverWidget.FieldDisplayType.DISABLED});
         fields[0].defaultValue = salesorderSearchObj[0].getValue({name: 'internalid', join: 'customerMain'});
         fields[2].updateBreakType({breakType: serverWidget.FieldBreakType.STARTCOL});
