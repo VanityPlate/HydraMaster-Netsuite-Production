@@ -122,7 +122,7 @@ function(currentRecord, search, message, record, fieldLib) {
                     columns:
                         [
                             search.createColumn({
-                                name: "salesdescription",
+                                name: "description",
                                 join: "item",
                                 label: "Description"
                             })

@@ -241,10 +241,6 @@ function(currentRecord, message, dialog, fieldLib, search) {
             if(searchObj.length == 0){
                 return true;
             }
-            //Checking End User and Installer
-            else if(formSelect ==  0 && (searchObj[0].getValue({name: 'custrecord_installer_info'}) || searchObj[0].getValue({name: 'custrecord_wrm_reg_customer'}))){
-                errorMessage(MESSAGEBODY['0']);
-            }
             //Checking Just End User
             else if(formSelect == 1 && searchObj[0].getValue({name: 'custrecord_wrm_reg_customer'})){
                 errorMessage(MESSAGEBODY['1']);
@@ -252,6 +248,10 @@ function(currentRecord, message, dialog, fieldLib, search) {
             //Checking Just Installer
             else if(formSelect == 2 && searchObj[0].getValue({name: 'custrecord_installer_info'})){
                 errorMessage(MESSAGEBODY['2']);
+            }
+            //Checking End User and Installer
+            else if(formSelect ==  0 && (searchObj[0].getValue({name: 'custrecord_installer_info'}) || searchObj[0].getValue({name: 'custrecord_wrm_reg_customer'}))){
+                errorMessage(MESSAGEBODY['0']);
             }
             else{
                 return true;
