@@ -112,17 +112,17 @@ function(currentRecord, search, message, record, fieldLib) {
             //Setting Machine Type
             if(scriptContext.currentRecord.getValue({fieldId: fieldLib.customerFields.serialNumber.id})){
                 var searchObj = search.create({
-                    type: "salesorder",
+                    type: "transaction",
                     filters:
                         [
-                            ["type", "anyof", "SalesOrd"],
+                            ["type", "anyof", "CustInvc"],
                             "AND",
                             ["serialnumber", "is", scriptContext.currentRecord.getValue({fieldId: fieldLib.customerFields.serialNumber.id})]
                         ],
                     columns:
                         [
                             search.createColumn({
-                                name: "description",
+                                name: "salesdescription",
                                 join: "item",
                                 label: "Description"
                             })
