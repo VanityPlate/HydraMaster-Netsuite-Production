@@ -82,7 +82,7 @@ function(currentRecord, message, dialog, fieldLib, search) {
                         [
                             ["type", "anyof", "SalesOrd"],
                             "AND",
-                            ["serialnumber", "is", serialNumber]
+                            ["serialnumber", "contains", serialNumber]
                         ],
                     columns:
                         [
