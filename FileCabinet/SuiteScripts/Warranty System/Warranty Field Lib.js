@@ -129,7 +129,7 @@ define([], function(){
         customerInfo    :   [CUSTOMERFIELDS.companyName, CUSTOMERFIELDS.mainContact, CUSTOMERFIELDS.customerEmail, CUSTOMERFIELDS.customerPhone, CUSTOMERFIELDS.customerAddress,
             CUSTOMERFIELDS.customerCountry, CUSTOMERFIELDS.customerStreet, CUSTOMERFIELDS.customerSuite, CUSTOMERFIELDS.customerCity, CUSTOMERFIELDS.customerState, CUSTOMERFIELDS.customerZip],
         installerInfo   :   [INSTALLERFIELDS.distributor, INSTALLERFIELDS.distributorAdd, INSTALLERFIELDS.installerName],
-        installerCheck  :   [INSTALLERFIELDS.installDate, INSTALLERFIELDS.testDate, INSTALLERFIELDS.engineOil, INSTALLERFIELDS.oilBlower, INSTALLERFIELDS.oilPump,
+        installerCheck  :   [INSTALLERFIELDS.testDate, INSTALLERFIELDS.engineOil, INSTALLERFIELDS.oilBlower, INSTALLERFIELDS.oilPump,
             INSTALLERFIELDS.connections, INSTALLERFIELDS.leaks, INSTALLERFIELDS.valve, INSTALLERFIELDS.beltsPulleys, INSTALLERFIELDS.hourMeter, INSTALLERFIELDS.waterBox, INSTALLERFIELDS.recoveryTank,
             INSTALLERFIELDS.pumpOut, INSTALLERFIELDS.chemMeter, INSTALLERFIELDS.blowerRpm, INSTALLERFIELDS.engineRpm, INSTALLERFIELDS.highPressure, INSTALLERFIELDS.vacuumSetting,
             INSTALLERFIELDS.tempNoFlow, INSTALLERFIELDS.tempContin],
