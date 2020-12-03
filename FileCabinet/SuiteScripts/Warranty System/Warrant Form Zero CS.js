@@ -77,10 +77,10 @@ function(currentRecord, message, dialog, fieldLib, search) {
             if(scriptContext.fieldId == fieldLib.customerFields.serialNumber.id){
                 var serialNumber = scriptContext.currentRecord.getValue({fieldId: fieldLib.customerFields.serialNumber.id});
                 var searchObj = search.create({
-                    type: "salesorder",
+                    type: "transaction",
                     filters:
                         [
-                            ["type", "anyof", "SalesOrd"],
+                            ["type", "anyof", "CustInvc"],
                             "AND",
                             ["serialnumber", "contains", serialNumber]
                         ],
