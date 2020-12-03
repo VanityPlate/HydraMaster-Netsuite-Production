@@ -147,9 +147,9 @@ function(serverWidget, redirect, search, task, fieldLib) {
                 [
                     search.createColumn({name: "internalid", label: "Internal ID"}),
                     search.createColumn({
-                        name: "altname",
+                        name: "internalid",
                         join: "customerMain",
-                        label: "Name"
+                        label: "internalid"
                     }),
                     search.createColumn({name: "shipcity", label: "Shipping City"})
                 ]
@@ -177,9 +177,9 @@ function(serverWidget, redirect, search, task, fieldLib) {
 
         //Fields for installerInformation
         var fields = addFields(assistant, fieldLib.installerInfo, 'fieldgroup_installerinfo');
-        fields[1].defaultValue = salesorderSearchObj[0].getValue({name: 'city', join: 'shippingAddress'});
+        fields[1].defaultValue = salesorderSearchObj[0].getValue({name: 'city'});
         fields[1].updateDisplayType({displayType: serverWidget.FieldDisplayType.DISABLED});
-        fields[0].defaultValue = salesorderSearchObj[0].getValue({name: 'entity'});
+        fields[0].defaultValue = salesorderSearchObj[0].getValue({name: 'internalid', join: 'customerMain'});
         fields[2].updateBreakType({breakType: serverWidget.FieldBreakType.STARTCOL});
 
         //Fields for installerFieldCheckList
