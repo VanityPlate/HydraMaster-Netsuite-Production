@@ -87,9 +87,8 @@ function(currentRecord, message, dialog, fieldLib, search) {
                     columns:
                         [
                             search.createColumn({
-                                name: "salesdescription",
-                                join: "item",
-                                label: "Description"
+                                name: "internalid",
+                                label: "InternalId"
                             })
                         ]
                 }).run().getRange({start: 0, end: 1});
