@@ -136,24 +136,22 @@ function(serverWidget, redirect, search, task, fieldLib) {
 
         //collecting distributor info
         var salesorderSearchObj = search.create({
-            type: "salesorder",
+            type: "invoice",
             filters:
                 [
-                    ["type","anyof","SalesOrd"],
+                    ["serialnumber","contains", serialNumber],
                     "AND",
-                    ["serialnumber","is", serialNumber]
+                    ["type","anyof","CustInvc"]
                 ],
             columns:
                 [
+                    search.createColumn({name: "internalid", label: "Internal ID"}),
                     search.createColumn({
-                        name: "entity",
-                        label: "Distributor"
+                        name: "altname",
+                        join: "customerMain",
+                        label: "Name"
                     }),
-                    search.createColumn({
-                        name: "city",
-                        join: "shippingAddress",
-                        label: " City"
-                    })
+                    search.createColumn({name: "shipcity", label: "Shipping City"})
                 ]
         }).run().getRange({start: 0, end: 1});
 
