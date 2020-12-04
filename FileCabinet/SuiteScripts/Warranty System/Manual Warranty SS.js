@@ -144,6 +144,7 @@ function(record, search, runtime, fieldLib, format) {
             warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_invoicedate', value: dateCreated, ignoreFieldChange: true});
             warrantyObj.setValue({fieldId: 'custrecord_invoice_reference', value: invoiceSearchObj[0].getValue({name: 'internalid'})});
             warrantyObj.setValue({fieldId: 'custrecord_selling_distributor', value: invoiceSearchObj[0].getValue({name: 'internalid', join: 'customerMain'})});
+            warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_customer', value: invoiceSearchObj[0].getValue({name: 'internalid', join: 'customerMain'})});
             warrantyObj.setValue({fieldId: 'custrecord_vehicle_vin', value: formZero[fieldLib.customerFields.vehicleVIN.id]});
             //Setting Warranty Date
             var startDate = format.parse({value: formZero[fieldLib.entrySelect.installDate.id], type: format.Type.DATE});
