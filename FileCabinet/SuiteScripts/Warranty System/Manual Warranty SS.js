@@ -112,18 +112,22 @@ function(record, search, runtime, fieldLib, format) {
                 [
                     ["type","anyof","CustInvc"],
                     "AND",
-                    ["inventorydetail.inventorynumber","anyof", formZero[fieldLib.customerFields.serialNumber.id]]
+                    ["serialnumber","contains", formZero[fieldLib.customerFields.serialNumber.id]]
                 ],
             columns:
                 [
-                    search.createColumn({name: "datecreated", label: "Date Created"}),
-                    search.createColumn({name: "item", label: "Item"}),
-                    search.createColumn({name: "internalid", label: "invoice"}),
+                    search.createColumn({
+                        name: "internalid",
+                        join: "item",
+                        label: "Internal ID"
+                    }),
                     search.createColumn({
                         name: "internalid",
                         join: "customerMain",
-                        label: "distributor"
-                    })
+                        label: "Internal ID"
+                    }),
+                    search.createColumn({name: "internalid", label: "Internal ID"}),
+                    search.createColumn({name: "datecreated", label: "Date Created"})
                 ]
         }).run().getRange({start: 0, end: 1});
 
@@ -133,9 +137,9 @@ function(record, search, runtime, fieldLib, format) {
                 fieldId: 'custrecord_wrm_reg_ref_seriallot',
                 value: formZero[fieldLib.customerFields.serialNumber.id]
             });
-            warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: invoiceSearchObj[0].getValue({name: 'item'})});
+            warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: invoiceSearchObj[0].getValue({name: 'internalid', join: 'item'})});
             //Refactor Testing
-            log.audit({title: 'item', details: invoiceSearchObj[0].getValue({name: 'item'})});
+            log.audit({title: 'item', details: invoiceSearchObj[0].getValue({name: 'internalid', join: 'item'})});
             var dateCreated = format.parse({value: invoiceSearchObj[0].getValue({name: 'datecreated'}), type: format.Type.DATE});
             warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_invoicedate', value: dateCreated, ignoreFieldChange: true});
             warrantyObj.setValue({fieldId: 'custrecord_invoice_reference', value: invoiceSearchObj[0].getValue({name: 'internalid'})});
