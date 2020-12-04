@@ -135,7 +135,7 @@ function(record, search, runtime, fieldLib, format) {
             });
             warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: invoiceSearchObj[0].getValue({name: 'item'})});
             //Refactor Testing
-            var dateCreated = format.parse({value: invoiceSearchObj[0].getValue({name: 'datecreated'}), type: format.Type.MMYYDATE});
+            var dateCreated = format.parse({value: invoiceSearchObj[0].getValue({name: 'datecreated'}), type: format.Type.DATETIMETZ});
             log.audit({title: 'Date Created', details: dateCreated});
             warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_invoicedate', value: dateCreated});
             warrantyObj.setValue({fieldId: 'custrecord_invoice_reference', value: invoiceSearchObj[0].getValue({name: 'internalid'})});
