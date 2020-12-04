@@ -6,9 +6,9 @@
  * @NScriptType ScheduledScript
  * @NModuleScope SameAccount
  */
-define(['N/record', 'N/search', 'N/runtime', './Warranty Field Lib.js', 'N/format'],
+define(['N/email', 'N/record', 'N/search', 'N/runtime', './Warranty Field Lib.js', 'N/format'],
 
-function(record, search, runtime, fieldLib, format) {
+function(email, record, search, runtime, fieldLib, format) {
 
     /**
      * Helper function for converting custpage_ field to custbody_ field
@@ -174,20 +174,38 @@ function(record, search, runtime, fieldLib, format) {
      * Create Sales Order when incentives are Requested
      */
     function createSales(customerId, jacket, chemKit, jacketSize){
+        try{
 
+        }
+        catch(error){
+            log.error({title: 'Critical error in createSales', details: error});
+        }
     }
 
     /**
      * Adds the end user information to the warranty registration
      */
-    function appendCustomer(customerId, warrantyId){
+    function appendRecords(installerId = null, customerId = null, warrantyId){
         try{
-
+            if(installerId || customerId){
+                var warrantyObj = record.load({
+                    type: 'customrecord_wrm_warrantyreg',
+                    id: warrantyId,
+                    isDynamic: true
+                });
+                if(installerId){warrantyObj.setValue({fieldId: 'custrecord_installer_info', value: installerId})};
+                if(customerId){warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_customer', value: customerId})};
+                warrantyObj.save();
+            }
         }
         catch(error){
             log.error({title: 'Critical Error in appendCustomer', details: error});
         }
     }
+
+    /**
+     * Send email notifaction to thank end user
+     */
 
     /**
      * Definition of the Scheduled script trigger point.
@@ -240,22 +258,27 @@ function(record, search, runtime, fieldLib, format) {
                 warrantyId = createWarranty(formZero, formOne, formTwo);
             }
 
-            //Deciding between new customer or to use existing
-            if(!customerId && (formSelect == 0 || formSelect == 1)){
-                customerId = createCustomer(formOne, formTwo, formThree);
-            }
-            else{
-                appendCustomer(customerId, warrantyId);
-            }
             //Creating Installer Record
             if(formSelect == 0 || formSelect == 2) {
                 installerId = createInstaller(formOne, formTwo, formThree);
             }
 
+            //Deciding between new customer or to use existing
+            if(!customerId && (formSelect == 0 || formSelect == 1)){
+                customerId = createCustomer(formOne, formTwo, formThree);
+            }
+
+            //Appending records to warranty registration
+            appendRecords(installerId, customerId, warrantyId);
+
+
             //Creating Sales Order if One is Required
             if(formThree[fieldLib.rewardsFields.jacket.id] == 'T' || formThree[fieldLib.rewardsFields.chemicalKit.id] == 'T'){
                createSales(customerId, formThree[fieldLib.rewardsFields.jacket.id], formThree[fieldLib.rewardsFields.chemicalKit.id], formThree[fieldLib.rewardsFields.jacketSize.id]);
             }
+
+            //Sending email notifaction send out thank you card
+            sendEmail()
 
         }
         catch(error){
