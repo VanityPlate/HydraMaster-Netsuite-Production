@@ -164,7 +164,7 @@ function(email, record, search, runtime, fieldLib, format) {
     function createInstaller(formOne, formTwo, formThree){
         var installerObj = record.create({
             isDynamic: true,
-            type: 'customrecord_install_details'
+            type: 'customrecord_installer_info'
         });
         installerObj.setValue({fieldId: 'name', value: 'Test 3070'});
         return installerObj.save()
@@ -185,8 +185,12 @@ function(email, record, search, runtime, fieldLib, format) {
     /**
      * Adds the end user information to the warranty registration
      */
-    function appendRecords(installerId = null, customerId = null, warrantyId){
+    function appendRecords(installerId, customerId, warrantyId){
         try{
+            //Testing for undefined variables
+            installerId = (typeof installerId !== 'undefined' && installerId != null) ? installerId : -1;
+            customerId = (typeof customerId !== 'undefined' && customerId != null) ? customerId : -1
+
             if(installerId || customerId){
                 var warrantyObj = record.load({
                     type: 'customrecord_wrm_warrantyreg',
