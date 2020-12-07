@@ -7,6 +7,10 @@
  * @NModuleScope SameAccount
  **/
 define([], function(){
+    //Email List
+    const EMAILIDS = [20817];
+    const SENDER = 17602;
+
     //Field types from N/ui/serverWidget
     //See netsuite.com/app/help/helpcenter.nl?fid=section_4332671056.html
     const FIELDTYPES        =   {
@@ -122,6 +126,8 @@ define([], function(){
         installerFields :   INSTALLERFIELDS,
         rewardsFields   :   REWARDSFIELDS,
         entrySelect     :   ENTRYSELECT,
+        emailIds        :   EMAILIDS,
+        sender          :   SENDER,
 
         //returning the field groups as arrays to be added to suitelet.
         customerMacine  :   [CUSTOMERFIELDS.hiddenCustomer, CUSTOMERFIELDS.serialNumber, CUSTOMERFIELDS.machine],

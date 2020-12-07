@@ -206,6 +206,52 @@ function(email, record, search, runtime, fieldLib, format) {
     /**
      * Send email notifaction to thank end user
      */
+    function sendEmail(warrantyId, customerId){
+        try{
+            //Find warranty to attach to email
+            var warranty = search.create({
+                type: "customrecord_wrm_warrantyreg",
+                filters:
+                    [
+                        ["internalid","anyof", warrantyId]
+                    ],
+                columns:
+                    [
+                        search.createColumn({name: "internalid", label: "Internal ID"})
+                    ]
+            }).run().getRange({start: 0, end: 1});
+
+            //Find customer to attach to email
+            var customer = search.create({
+                type: "customer",
+                filters:
+                    [
+                        ["internalid","anyof", customerId]
+                    ],
+                columns:
+                    [
+                        search.createColumn({
+                            name: "name",
+                            label: "Name"
+                        })
+                    ]
+            }).run().getRange({start: 0, end: 1});
+
+            //Constructing body of the email
+            var body = 'Customer: ' + customer.getValue({name: 'name'}) + ' Warranty: ' + warranty.getValue({name: ''}) + '.'
+
+            //Send email
+            email.send({
+                author:         fieldLib.sender,
+                recipients:     fieldLib.emailIds,
+                subject:        'Please send a thank you card!',
+                body:           body
+            });
+        }
+        catch(error){
+            log.error({title: 'Critical error in sendEmail', details: error});
+        }
+    }
 
     /**
      * Definition of the Scheduled script trigger point.
@@ -278,7 +324,9 @@ function(email, record, search, runtime, fieldLib, format) {
             }
 
             //Sending email notifaction send out thank you card
-            sendEmail()
+            if(formSelect == 0 || formSelect == 1) {
+                sendEmail(warrantyId, customerId);
+            }
 
         }
         catch(error){
