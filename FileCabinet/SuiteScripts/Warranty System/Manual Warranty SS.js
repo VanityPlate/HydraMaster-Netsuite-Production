@@ -162,25 +162,39 @@ function(email, record, search, runtime, fieldLib, format) {
      * Create Installer Record
      */
     function createInstaller(formOne, formTwo, formThree){
-        var installerObj = record.create({
-            isDynamic: true,
-            type: 'customrecord_installer_info'
-        });
+        try {
+            var installerObj = record.create({
+                isDynamic: true,
+                type: 'customrecord_installer_info'
+            });
 
-        //Setting fields
-        for (const [key, value] of fieldLib.installerFields){
-            switch(fieldLib.installerFields[key].id){
-                case fieldLib.installerFields.testDate.id:
-                    var setDate = format.format({value: formTwo[fieldLib.installerFields.testDate.id], type: format.Type.DATE});
-                    installerObj.setValue({fieldId: fieldLib.installerFields.testDate.id, value: setDate});
-                    break;
-                default:
-                    installerObj.setValue({fieldId: convertFieldId(fieldLib.installerFields[key].id), value: formTwo[fieldLib.installerFields[key].id], ignoreFieldChange: true});
+            //Setting fields
+            for (const [key, value] of fieldLib.installerFields) {
+                switch (fieldLib.installerFields[key].id) {
+                    case fieldLib.installerFields.testDate.id:
+                        if(formTwo[fieldLib.installerFields.testDate.id]) {
+                            var setDate = format.parse({
+                                value: formTwo[fieldLib.installerFields.testDate.id],
+                                type: format.Type.DATE
+                            });
+                            installerObj.setValue({fieldId: fieldLib.installerFields.testDate.id, value: setDate});
+                        }
+                        break;
+                    default:
+                        installerObj.setValue({
+                            fieldId: convertFieldId(fieldLib.installerFields[key].id),
+                            value: formTwo[fieldLib.installerFields[key].id],
+                            ignoreFieldChange: true
+                        });
+                }
             }
-        }
 
-        //Save and return
-        return installerObj.save()
+            //Save and return
+            return installerObj.save();
+        }
+        catch(error){
+            log.error({title: 'Critical error in createInstaller', details: error});
+        }
     }
 
     /**
