@@ -170,6 +170,7 @@ function(email, record, search, runtime, fieldLib, format) {
 
             //Setting fields
             for (const [key, value] of fieldLib.installerFields) {
+                log.audit({title: 'Checking access', details: fieldLib.installerFields[key].id});
                 switch (fieldLib.installerFields[key].id) {
                     case fieldLib.installerFields.testDate.id:
                         if(formTwo[fieldLib.installerFields.testDate.id]) {
