@@ -168,14 +168,14 @@ function(email, record, search, runtime, fieldLib, format) {
         });
 
         //Setting fields
-        for (const property in fieldLib.installerFields){
-            switch(fieldLib.installerFields[property].id){
+        for (const [key, value] of fieldLib.installerFields){
+            switch(fieldLib.installerFields[key].id){
                 case fieldLib.installerFields.testDate.id:
                     var setDate = format.format({value: formTwo[fieldLib.installerFields.testDate.id], type: format.Type.DATE});
                     installerObj.setValue({fieldId: fieldLib.installerFields.testDate.id, value: setDate});
                     break;
                 default:
-                    installerObj.setValue({fieldId: convertFieldId(fieldLib.installerFields[property].id), value: formTwo[fieldLib.installerFields[property].id], ignoreFieldChange: true});
+                    installerObj.setValue({fieldId: convertFieldId(fieldLib.installerFields[key].id), value: formTwo[fieldLib.installerFields[key].id], ignoreFieldChange: true});
             }
         }
 
