@@ -168,8 +168,12 @@ function(email, record, search, runtime, fieldLib, format) {
                 type: 'customrecord_installer_info'
             });
 
+            //Refactor Testing
+            log.audit({title: 'Test Fire', details: 'Create Installer'});
+
             //Setting fields
             for (const [key, value] of fieldLib.installerFields) {
+                //Refactor Testing
                 log.audit({title: 'Checking access', details: fieldLib.installerFields[key].id});
                 switch (fieldLib.installerFields[key].id) {
                     case fieldLib.installerFields.testDate.id:
@@ -216,8 +220,8 @@ function(email, record, search, runtime, fieldLib, format) {
     function appendRecords(installerId, customerId, warrantyId){
         try{
             //Testing for undefined variables
-            installerId = (typeof installerId !== 'undefined' && installerId != null) ? installerId : -1;
-            customerId = (typeof customerId !== 'undefined' && customerId != null) ? customerId : -1
+            installerId = (typeof installerId !== 'undefined' && installerId != null) ? installerId : null;
+            customerId = (typeof customerId !== 'undefined' && customerId != null) ? customerId : null;
 
             if(installerId || customerId){
                 var warrantyObj = record.load({
@@ -270,7 +274,7 @@ function(email, record, search, runtime, fieldLib, format) {
             }).run().getRange({start: 0, end: 1});
 
             //Constructing body of the email
-            var body = 'Customer: ' + customer.getValue({name: 'altname'}) + ' Warranty: ' + warranty.getValue({name: ''}) + '.'
+            var body = 'Customer: ' + customer[0].getValue({name: 'altname'}) + ' Warranty: ' + warranty[0].getValue({name: ''}) + '.'
 
             //Send email
             email.send({
