@@ -163,6 +163,9 @@ function(email, record, search, runtime, fieldLib, format) {
      */
     function createInstaller(formOne, formTwo, formThree){
         try {
+            //Arrays of fields
+            var fields = ['vehicleInfo', 'installerCheck', 'certificates', 'installerInfo'];
+
             var installerObj = record.create({
                 isDynamic: true,
                 type: 'customrecord_installer_info'
@@ -172,27 +175,18 @@ function(email, record, search, runtime, fieldLib, format) {
             log.audit({title: 'Test Fire', details: 'Create Installer'});
 
             //Setting fields
-            for (const [key, value] of fieldLib.installerFields) {
-                //Refactor Testing
-                log.audit({title: 'Checking access', details: fieldLib.installerFields[key].id});
-                switch (fieldLib.installerFields[key].id) {
-                    case fieldLib.installerFields.testDate.id:
-                        if(formTwo[fieldLib.installerFields.testDate.id]) {
-                            var setDate = format.parse({
-                                value: formTwo[fieldLib.installerFields.testDate.id],
-                                type: format.Type.DATE
-                            });
-                            installerObj.setValue({fieldId: fieldLib.installerFields.testDate.id, value: setDate});
-                        }
-                        break;
-                    default:
-                        installerObj.setValue({
-                            fieldId: convertFieldId(fieldLib.installerFields[key].id),
-                            value: formTwo[fieldLib.installerFields[key].id],
-                            ignoreFieldChange: true
-                        });
-                }
-            }
+            fields.forEach(function (field){
+               fieldLib[field].forEach(function (fieldObj){
+                    switch(fieldObj.id){
+                        case fieldLib.installerFields.testDate.id:
+                            var dateSet = format.parse({value: formTwo[fieldObj.id], type: format.Type.DATE});
+                            installerObj.setValue({fieldId: convertFieldId(fieldObj.id), value: dateSet, ignoreFieldChange: true});
+                            break;
+                        default:
+                            installerObj.setValue({value: formTwo[fieldObj.id], fieldId: convertFieldId(fieldObj.id)});
+                    }
+               });
+            });
 
             //Save and return
             return installerObj.save();
@@ -253,7 +247,7 @@ function(email, record, search, runtime, fieldLib, format) {
                     ],
                 columns:
                     [
-                        search.createColumn({name: "internalid", label: "Internal ID"})
+                        search.createColumn({name: "custrecord_wrm_reg_registration", label: "Record Name"})
                     ]
             }).run().getRange({start: 0, end: 1});
 
@@ -274,7 +268,7 @@ function(email, record, search, runtime, fieldLib, format) {
             }).run().getRange({start: 0, end: 1});
 
             //Constructing body of the email
-            var body = 'Customer: ' + customer[0].getValue({name: 'altname'}) + ' Warranty: ' + warranty[0].getValue({name: ''}) + '.'
+            var body = 'Customer: ' + customer[0].getValue({name: 'altname'}) + ' Warranty: ' + warranty[0].getValue({name: 'custrecord_wrm_reg_registration'}) + '.'
 
             //Send email
             email.send({
