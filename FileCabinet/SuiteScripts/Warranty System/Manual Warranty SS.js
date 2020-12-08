@@ -166,7 +166,20 @@ function(email, record, search, runtime, fieldLib, format) {
             isDynamic: true,
             type: 'customrecord_installer_info'
         });
-        installerObj.setValue({fieldId: 'name', value: 'Test 3070'});
+
+        //Setting fields
+        for (const property in fieldLib.installerFields){
+            switch(fieldLib.installerFields[property].id){
+                case fieldLib.installerFields.testDate.id:
+                    var setDate = format.format({value: formTwo[fieldLib.installerFields.testDate.id], type: format.Type.DATE});
+                    installerObj.setValue({fieldId: fieldLib.installerFields.testDate.id, value: setDate});
+                    break;
+                default:
+                    installerObj.setValue({fieldId: convertFieldId(fieldLib.installerFields[property].id), value: formTwo[fieldLib.installerFields[property].id], ignoreFieldChange: true});
+            }
+        }
+
+        //Save and return
         return installerObj.save()
     }
 
@@ -235,14 +248,14 @@ function(email, record, search, runtime, fieldLib, format) {
                 columns:
                     [
                         search.createColumn({
-                            name: "name",
+                            name: "altname",
                             label: "Name"
                         })
                     ]
             }).run().getRange({start: 0, end: 1});
 
             //Constructing body of the email
-            var body = 'Customer: ' + customer.getValue({name: 'name'}) + ' Warranty: ' + warranty.getValue({name: ''}) + '.'
+            var body = 'Customer: ' + customer.getValue({name: 'altname'}) + ' Warranty: ' + warranty.getValue({name: ''}) + '.'
 
             //Send email
             email.send({
