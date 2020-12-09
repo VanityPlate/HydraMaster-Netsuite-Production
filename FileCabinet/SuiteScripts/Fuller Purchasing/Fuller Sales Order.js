@@ -43,8 +43,6 @@ function(record, search, fullerLib) {
             var poShipMethod = scriptContext.newRecord.getValue({fieldId: 'shipmethod'}).toString();
 
             //Setting Values
-            //Refactor Testing
-            log.audit({title: 'Testing Stuff', details: ENVIRONMENT.customer})
             saleObj.setValue({fieldId: 'entity', value: ENVIRONMENT.customer});
             saleObj.setValue({fieldId: 'custbody_pcg_contact_name', value: ENVIRONMENT.contact});
             saleObj.setValue({fieldId: 'otherrefnum', value: purchaseOrder});
