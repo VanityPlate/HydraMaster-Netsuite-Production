@@ -1,4 +1,7 @@
 /**
+ *
+ * @copyright Alex S. Ducken 2020 HydraMaster LLC
+ *
  * @NApiVersion 2.x
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
@@ -12,6 +15,34 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
      */
     function(currentRecord, log, record, search, dialog) {
 
+        /**
+         *
+         */
+        function postSourcing(scriptContext){
+            try{
+                if(scriptContext.fieldId === 'quantity'){
+                    var items = [];
+                    var recordObject = scriptContext.currentRecord;
+                    for(var x = recordObject.getLineCount({sublistId: 'component'}) - 1; x >= 0; x--){
+                        recordObject.selectLine({sublistId: 'component', line: x});
+                        var quantity = recordObject.getCurrentSublistValue({sublistId: 'component', fieldId: 'quantity'});
+                        var onHand = recordObject.getCurrentSublistValue({sublistId: 'component', fieldId: 'quantityonhand'});
+                        if(quantity > onHand){
+                            items.push(recordObject.getCurrentSublistValue({sublistId: 'component', fieldId: 'item'}));
+                        }
+                    }
+                    if(items.length > 0){
+                        dialog.alert({
+                            title: 'Negative Inventory Alert',
+                            message: 'The following items are in danger of becoming negative. ' + items.toString()
+                        }).then(success).catch(failure);
+                    }
+                }
+            }
+            catch(error){
+                log.error({title: 'Critical error in postSourcing', details: error});
+            }
+        }
 
         /**
          * Validation function to be executed when record is saved.
@@ -76,6 +107,7 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
             }
         }
         return {
-            saveRecord: saveRecord
+            saveRecord: saveRecord,
+            postSourcing: postSourcing
         };
     });

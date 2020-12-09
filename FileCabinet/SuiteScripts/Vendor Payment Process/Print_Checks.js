@@ -53,7 +53,7 @@ function(serverWidget, massPrint, http,task, file, url, record, search) {
         iterator.each(function(line){
             var invoiceURL = url.resolveRecord({
                 recordType: record.Type.VENDOR_PAYMENT,
-                recordId: line,
+                recordId: line.toString(),
                 isEditMode: false
             });
             var results = search.create({
