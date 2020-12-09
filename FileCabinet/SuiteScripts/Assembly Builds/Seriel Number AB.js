@@ -25,6 +25,8 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
                     var items = [];
                     var recordObject = scriptContext.currentRecord;
                     for(var x = recordObject.getLineCount({sublistId: 'component'}) - 1; x >= 0; x--){
+                        //Refactor Testing
+                        log.audit({title: 'Testing Sublist Access', details: x});
                         recordObject.selectLine({sublistId: 'component', line: x});
                         var quantity = recordObject.getCurrentSublistValue({sublistId: 'component', fieldId: 'quantity'});
                         var onHand = recordObject.getCurrentSublistValue({sublistId: 'component', fieldId: 'quantityonhand'});
