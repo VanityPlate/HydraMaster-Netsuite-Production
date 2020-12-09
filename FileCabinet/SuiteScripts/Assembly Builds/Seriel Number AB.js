@@ -20,6 +20,7 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
          */
         function postSourcing(scriptContext){
             try{
+                debugger;
                 if(scriptContext.fieldId === 'quantity'){
                     var items = [];
                     var recordObject = scriptContext.currentRecord;
