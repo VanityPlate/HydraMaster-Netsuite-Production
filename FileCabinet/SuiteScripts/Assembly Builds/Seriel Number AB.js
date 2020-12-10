@@ -18,7 +18,7 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
         /**
          *
          */
-        function postSourcing(scriptContext){
+        function fieldChange(scriptContext){
             try{
                 debugger;
                 if(scriptContext.fieldId === 'quantity'){
@@ -111,6 +111,6 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
         }
         return {
             saveRecord: saveRecord,
-            postSourcing: postSourcing
+            fieldChange: fieldChange
         };
     });
