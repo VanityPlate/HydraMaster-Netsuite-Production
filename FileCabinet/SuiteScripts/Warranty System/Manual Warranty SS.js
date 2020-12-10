@@ -189,8 +189,9 @@ function(email, record, search, runtime, fieldLib, format) {
                                });
                                break;
                            default:
+                               var setValue = formTwo[fieldObj.id] == 'T' ? true : formTwo[fieldObj.id];
                                installerObj.setValue({
-                                   value: formTwo[fieldObj.id],
+                                   value: setValue,
                                    fieldId: convertFieldId(fieldObj.id)
                                });
                        }
