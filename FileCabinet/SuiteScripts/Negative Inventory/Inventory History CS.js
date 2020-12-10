@@ -32,7 +32,7 @@ function(currentRecord, getInternal, message, search) {
             myPage.data.forEach(function(result){
                 var type = result.getValue({name: 'type', summary: 'GROUP'});
                 var quantity =  parseInt(result.getValue({name: 'quantity', summary: 'MIN'}));
-                if(type == 'WorkOrd' || type == 'PurchOrd' || type == 'WOIssue' || type == 'WOClose' || type == 'TrnfrOrd' || type == 'CustCred'){}
+                if(type == 'binwksht' || type == 'WorkOrd' || type == 'PurchOrd' || type == 'WOIssue' || type == 'WOClose' || type == 'TrnfrOrd' || type == 'CustCred' || type == 'bintrnfr'){}
                 else {
                     //Calculating Totals
                     switch(type){
