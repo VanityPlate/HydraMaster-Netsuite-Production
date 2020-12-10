@@ -180,7 +180,17 @@ function(email, record, search, runtime, fieldLib, format) {
                     switch(fieldObj.id){
                         case fieldLib.installerFields.testDate.id:
                             var dateSet = format.parse({value: formTwo[fieldObj.id], type: format.Type.DATE});
-                            installerObj.setValue({fieldId: convertFieldId(fieldObj.id), value: dateSet, ignoreFieldChange: true});
+                            //Refactor Testing
+                            try {
+                                installerObj.setValue({
+                                    fieldId: convertFieldId(fieldObj.id),
+                                    value: dateSet,
+                                    ignoreFieldChange: true
+                                });
+                            }
+                            catch(error){
+                                log.error({title: 'Testing Field Set Installer Info', details: error});
+                            }
                             break;
                         default:
                             installerObj.setValue({value: formTwo[fieldObj.id], fieldId: convertFieldId(fieldObj.id)});
