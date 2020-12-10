@@ -22,8 +22,8 @@ function(search, fieldLib) {
     function pageInit(scriptContext) {
         try{
             //Installer Name to Default and Mandatory
-            scriptContext.currentRecord.getField({fieldId: fieldLib.customerFields.serialNumber.id}).isMandatory = true;
-            scriptContext.currentRecord.setValue({fieldId: fieldLib.customerFields.serialNumber.id, value: 'N/A'});
+            scriptContext.currentRecord.getField({fieldId: fieldLib.installerFields.installerName.id}).isMandatory = true;
+            scriptContext.currentRecord.setValue({fieldId: fieldLib.installerFields.installerName.id, value: 'N/A'});
         }
         catch(error){
             throw 'Critical error in pageInit' + error;
