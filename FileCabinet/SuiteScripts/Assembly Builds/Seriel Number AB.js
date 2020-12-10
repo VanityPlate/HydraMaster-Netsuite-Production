@@ -18,7 +18,7 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
         /**
          *
          */
-        function fieldChange(scriptContext){
+        function fieldChanged(scriptContext){
             try{
                 debugger;
                 if(scriptContext.fieldId === 'quantity'){
@@ -111,6 +111,6 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
         }
         return {
             saveRecord: saveRecord,
-            fieldChange: fieldChange
+            fieldChanged: fieldChanged
         };
     });
