@@ -21,7 +21,9 @@ function(search, fieldLib) {
      */
     function pageInit(scriptContext) {
         try{
-
+            //Installer Name to Default and Mandatory
+            scriptContext.currentRecord.getField({fieldId: fieldLib.customerFields.serialNumber.id}).isMandatory = true;
+            scriptContext.currentRecord.setValue({fieldId: fieldLib.customerFields.serialNumber.id, value: 'N/A'});
         }
         catch(error){
             throw 'Critical error in pageInit' + error;
@@ -179,7 +181,7 @@ function(search, fieldLib) {
     }
 
     return {
-        //pageInit: pageInit,
+        pageInit: pageInit,
         fieldChanged: fieldChanged,
         //postSourcing: postSourcing,
         //sublistChanged: sublistChanged,
