@@ -188,6 +188,9 @@ function(email, record, search, runtime, fieldLib, format) {
                                    ignoreFieldChange: true
                                });
                                break;
+                           case fieldLib.installerFields.installerName.id:
+                               installerObj.setValue({fieldId: 'name', value: formTwo[fieldObj.id]});
+                               break;
                            default:
                                var setValue = formTwo[fieldObj.id] == 'T' ? true : formTwo[fieldObj.id];
                                installerObj.setValue({
