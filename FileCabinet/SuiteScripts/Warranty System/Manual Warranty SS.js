@@ -177,24 +177,27 @@ function(email, record, search, runtime, fieldLib, format) {
             //Setting fields
             fields.forEach(function (field){
                fieldLib[field].forEach(function (fieldObj){
-                    switch(fieldObj.id){
-                        case fieldLib.installerFields.testDate.id:
-                            var dateSet = format.parse({value: formTwo[fieldObj.id], type: format.Type.DATE});
-                            //Refactor Testing
-                            try {
-                                installerObj.setValue({
-                                    fieldId: convertFieldId(fieldObj.id),
-                                    value: dateSet,
-                                    ignoreFieldChange: true
-                                });
-                            }
-                            catch(error){
-                                log.error({title: 'Testing Field Set Installer Info', details: error});
-                            }
-                            break;
-                        default:
-                            installerObj.setValue({value: formTwo[fieldObj.id], fieldId: convertFieldId(fieldObj.id)});
-                    }
+                   try {
+                       switch (fieldObj.id) {
+                           case fieldLib.installerFields.testDate.id:
+                               var dateSet = format.parse({value: formTwo[fieldObj.id], type: format.Type.DATE});
+                               //Refactor Testing
+                               installerObj.setValue({
+                                   fieldId: convertFieldId(fieldObj.id),
+                                   value: dateSet,
+                                   ignoreFieldChange: true
+                               });
+                               break;
+                           default:
+                               installerObj.setValue({
+                                   value: formTwo[fieldObj.id],
+                                   fieldId: convertFieldId(fieldObj.id)
+                               });
+                       }
+                   }
+                   catch(error){
+                       log.error({title: 'Testing field for installer info.', details: error});
+                   }
                });
             });
 
