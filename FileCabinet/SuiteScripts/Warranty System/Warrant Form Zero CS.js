@@ -229,7 +229,7 @@ function(currentRecord, message, dialog, fieldLib, search) {
                 type: "customrecord_wrm_warrantyreg",
                 filters:
                     [
-                        ["custrecord_wrm_reg_serialnumber","anyof", scriptContext.currentRecord.getValue({fieldId: fieldLib.customerFields.serialNumber.id})]
+                        ["custrecord_wrm_reg_serialnumber","contains", scriptContext.currentRecord.getValue({fieldId: fieldLib.customerFields.serialNumber.id})]
                     ],
                 columns:
                     [
