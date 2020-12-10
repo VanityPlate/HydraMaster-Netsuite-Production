@@ -66,6 +66,7 @@ define([], function(){
 
     //Installer Form Fields
     const INSTALLERFIELDS =   {
+        elevation       :   {id: 'custpage_elevation', label: 'Elevation Machine Operated', type: FIELDTYPES.INTEGER},
         distributor     :   {id: 'custpage_distributor', label: 'Installing Distributor Name', type: FIELDTYPES.SELECT, source: 'customer'},
         distributorAdd  :   {id: 'custpage_distributorlocation', label: 'Distributor Location', type: FIELDTYPES.TEXT},
         installerName   :   {id: 'custpage_name', label: 'Installer\'s Name', type: FIELDTYPES.TEXT},
@@ -138,7 +139,7 @@ define([], function(){
         installerCheck  :   [INSTALLERFIELDS.testDate, INSTALLERFIELDS.engineOil, INSTALLERFIELDS.oilBlower, INSTALLERFIELDS.oilPump,
             INSTALLERFIELDS.connections, INSTALLERFIELDS.leaks, INSTALLERFIELDS.valve, INSTALLERFIELDS.beltsPulleys, INSTALLERFIELDS.hourMeter, INSTALLERFIELDS.waterBox, INSTALLERFIELDS.recoveryTank,
             INSTALLERFIELDS.pumpOut, INSTALLERFIELDS.chemMeter, INSTALLERFIELDS.blowerRpm, INSTALLERFIELDS.engineRpm, INSTALLERFIELDS.highPressure, INSTALLERFIELDS.vacuumSetting,
-            INSTALLERFIELDS.tempNoFlow, INSTALLERFIELDS.tempContin],
+            INSTALLERFIELDS.tempNoFlow, INSTALLERFIELDS.tempContin, INSTALLERFIELDS.elevation],
         vehicleInfo     :   [INSTALLERFIELDS.make, INSTALLERFIELDS.model, INSTALLERFIELDS.engineYear, INSTALLERFIELDS.engine, INSTALLERFIELDS.fuelSystem, INSTALLERFIELDS.roofVents, INSTALLERFIELDS.installComments],
         certificates    :   [INSTALLERFIELDS.mounted, INSTALLERFIELDS.guideProvided, INSTALLERFIELDS.installerTrain, INSTALLERFIELDS.freshWater, INSTALLERFIELDS.fuelInstaller, INSTALLERFIELDS.compliantHM,
             INSTALLERFIELDS.compliantLocal, INSTALLERFIELDS.unitFunctional],
