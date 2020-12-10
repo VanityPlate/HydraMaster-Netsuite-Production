@@ -180,13 +180,15 @@ function(email, record, search, runtime, fieldLib, format) {
                    try {
                        switch (fieldObj.id) {
                            case fieldLib.installerFields.testDate.id:
-                               var dateSet = format.parse({value: formTwo[fieldObj.id], type: format.Type.DATE});
-                               //Refactor Testing
-                               installerObj.setValue({
-                                   fieldId: convertFieldId(fieldObj.id),
-                                   value: dateSet,
-                                   ignoreFieldChange: true
-                               });
+                               if(formTwo[fieldObj.id]) {
+                                   var dateSet = format.parse({value: formTwo[fieldObj.id], type: format.Type.DATE});
+                                   //Refactor Testing
+                                   installerObj.setValue({
+                                       fieldId: convertFieldId(fieldObj.id),
+                                       value: dateSet,
+                                       ignoreFieldChange: true
+                                   });
+                               }
                                break;
                            case fieldLib.installerFields.installerName.id:
                                installerObj.setValue({fieldId: 'name', value: formTwo[fieldObj.id]});
