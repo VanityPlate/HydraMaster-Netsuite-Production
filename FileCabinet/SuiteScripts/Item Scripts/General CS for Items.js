@@ -23,6 +23,7 @@ function(currentRecord) {
      */
     function pageInit(scriptContext) {
         try{
+            debugger;
             //Defaulting subsidiary to HydraMaster, LLC on record creation
             if(scriptContext.mode === 'create'){
                 scriptContext.currentRecord.getValue({fieldId: 'subsidiary', value: 1});
