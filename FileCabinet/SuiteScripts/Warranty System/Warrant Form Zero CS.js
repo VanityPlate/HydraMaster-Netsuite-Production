@@ -75,6 +75,7 @@ function(currentRecord, message, dialog, fieldLib, search) {
     function fieldChanged(scriptContext) {
         try{
             if(scriptContext.fieldId == fieldLib.customerFields.serialNumber.id){
+                debugger;
                 var serialNumber = scriptContext.currentRecord.getValue({fieldId: fieldLib.customerFields.serialNumber.id});
                 var searchObj = search.create({
                     type: "transaction",
