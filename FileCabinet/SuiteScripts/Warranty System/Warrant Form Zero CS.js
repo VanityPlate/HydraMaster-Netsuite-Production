@@ -224,6 +224,7 @@ function(currentRecord, message, dialog, fieldLib, search) {
      */
     function saveRecord(scriptContext) {
         try{
+            debugger;
             var formSelect = scriptContext.currentRecord.getValue({fieldId: fieldLib.entrySelect.formSelect.id});
             var searchObj = search.create({
                 type: "customrecord_wrm_warrantyreg",
