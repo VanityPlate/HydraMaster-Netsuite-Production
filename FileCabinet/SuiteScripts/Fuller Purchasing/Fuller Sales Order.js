@@ -5,9 +5,9 @@
  * @NApiVersion 2.x
  * @NScriptType workflowactionscript
  */
-define(['N/record', 'N/search', 'SuiteScripts/Fuller Purchasing/Fuller Library.js'],
+define(['N/record', 'N/search', 'SuiteScripts/Fuller Purchasing/Fuller Library.js', 'N/format'],
 
-function(record, search, fullerLib) {
+function(record, search, fullerLib, format) {
 
     /**
      * Enum Containing Environment Specific Values
@@ -82,10 +82,40 @@ function(record, search, fullerLib) {
 
             //Saving Record
             var salesID = saleObj.save();
-            //Refactor Testing
-            log.audit({title: 'Testing Sales ID', details: salesID});
+
+            //Finding purchase order created from sales order
+            var poSearch = search.create({
+                type: "purchaseorder",
+                filters:
+                    [
+                        ["type","anyof","PurchOrd"],
+                        "AND",
+                        ["createdfrom.internalid","anyof", parseInt(salesID, 10)]
+                    ],
+                columns:
+                    [
+                        search.createColumn({name: "internalid", label: "Internal ID"})
+                    ]
+            }).run().getRange({start: 0, end: 1});
+            var poId = parseInt(poSearch[0].getValue({name: 'internalid'}), 10);
+
+            //Editing receipt dates and bill to address
+            var poRecord = record.load({type: record.Type.PURCHASE_ORDER, id: poId, isDynamic: true});
+            var billAddress = 'HydraMaster, LLC (FP)\n11-15 47th Ave West\nMukilteo WA 98275\nUnited States';
+            poRecord.setValue({fieldId: 'custbody_hm_bill_to', value: billAddress});
+            for(var x = 0; x < items; x++){
+                poRecord.selectLine({sublistId: 'item', line: x});
+                var date = scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'expectedreceiptdate', line: x});
+                date = format.parse({value: date, type: format.Type.DATE});
+                poRecord.setCurrentSublistValue({sublistId: 'item', value: date, ignoreFieldChange: true});
+                poRecord.commitLine({sublistId: 'item'});
+            }
+
+            //Saving po record
+            poRecord.save();
+
+            //Returning sale order id
             return parseInt(salesID, 10);
-            
         }
         catch(error){
             log.error({title: 'Critical error in onAction', details: error});
