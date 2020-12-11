@@ -26,7 +26,7 @@ function(runtime, record) {
             var receipt = false;
             var itemsQuantity = [];
             var salesObj = record.load({type: record.Type.SALES_ORDER, id: salesID});
-            var poObj = record.load({type: record.Type.PURCHASE_ORDER, id: scriptContext.newRecord.getValue({fieldId: 'createdfrom'})})
+            var poObj = record.load({type: record.Type.PURCHASE_ORDER, id: scriptContext.newRecord.getValue({fieldId: 'createdfrom'})});
             var poLines = poObj.getLineCount({sublistId: 'item'});
 
             //Helper functions
