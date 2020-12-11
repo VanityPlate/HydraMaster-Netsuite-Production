@@ -111,6 +111,6 @@ define(['N/currentRecord', 'N/log', 'N/record', 'N/search', 'N/ui/dialog'],
         }
         return {
             saveRecord: saveRecord,
-            fieldChanged: fieldChanged
+            //fieldChanged: fieldChanged
         };
     });
