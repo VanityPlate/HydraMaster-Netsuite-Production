@@ -107,7 +107,7 @@ function(record, search, fullerLib, format) {
                 poRecord.selectLine({sublistId: 'item', line: x});
                 var date = scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'expectedreceiptdate', line: x});
                 date = format.parse({value: date, type: format.Type.DATE});
-                poRecord.setCurrentSublistValue({sublistId: 'item', value: date, ignoreFieldChange: true});
+                poRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'expectedreceiptdate', value: date, ignoreFieldChange: true});
                 poRecord.commitLine({sublistId: 'item'});
             }
 
