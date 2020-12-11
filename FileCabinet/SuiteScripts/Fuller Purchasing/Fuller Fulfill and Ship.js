@@ -22,26 +22,23 @@ function(runtime, record) {
             //Getting Parameters
             var salesID = runtime.getCurrentScript().getParameter({name: 'custscript_sales_id'});
 
-            //Refactor
-            log.audit({title: 'testing salesID', details: salesID});
-
             //values for handling new receipts
             var receipt = false;
             var itemsQuantity = [];
             var salesObj = record.load({type: record.Type.SALES_ORDER, id: salesID});
-            var poLines = scriptContext.newRecord.getLineCount({sublistId: 'item'});
+            var poObj = record.load({type: record.Type.PURCHASE_ORDER, id: scriptContext.newRecord.getValue({fieldId: 'createdfrom'})})
+            var poLines = poObj.getLineCount({sublistId: 'item'});
 
             //Helper functions
-            var getItem = function (x) {return scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'itemname', line: x})};
-            var getPOReceived = function (x) {return scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'quantity', line: x})};
+            var getItem = function (x) {return poObj.getSublistValue({sublistId: 'item', fieldId: 'itemname', line: x})};
+            var getPOReceived = function (x) {return poObj.getSublistValue({sublistId: 'item', fieldId: 'quantityreceived', line: x})};
             var getSaleFulfilled = function (x) {return salesObj.getSublistValue({sublistId: 'item', fieldId: 'quantityfulfilled', line: x})};
 
             //gathering different amounts
             for(var x = 0; x < poLines; x++){
-                var salesLine = salesObj.findSublistLineWithValue({sublistId: 'item', fieldId: 'item_display', value: '*' + getItem(x)});
-                var differance = Math.abs(getPOReceived(x) - getSaleFulfilled(salesLine));
+                var differance = Math.abs(getPOReceived(x) - getSaleFulfilled(x));
                 //Refactor Testing
-                log.audit({title: 'Testing Ouput', details: getPOReceived(x) + ' ' + getSaleFulfilled(salesLine)});
+                log.audit({title: 'Testing Ouput', details: getPOReceived(x) + ' ' + getSaleFulfilled(x)});
                 if(differance != 0){
                     itemsQuantity.push('*' + getItem(x));
                     itemsQuantity.push(differance);
