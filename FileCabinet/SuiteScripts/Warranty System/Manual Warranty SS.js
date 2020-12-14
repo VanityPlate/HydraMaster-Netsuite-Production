@@ -289,8 +289,8 @@ function(email, record, search, runtime, fieldLib, format) {
                     id: warrantyId,
                     isDynamic: true
                 });
-                if(installerId){warrantyObj.setValue({fieldId: 'custrecord_installer_info', value: installerId})};
-                if(customerId){warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_customer', value: customerId})};
+                if(installerId){warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_customer', value: installerId})};
+                if(customerId){warrantyObj.setValue({fieldId: 'custrecord_selling_distributor', value: customerId})};
                 warrantyObj.save();
             }
         }
