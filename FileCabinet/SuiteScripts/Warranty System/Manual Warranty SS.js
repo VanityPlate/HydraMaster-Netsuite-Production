@@ -227,8 +227,46 @@ function(email, record, search, runtime, fieldLib, format) {
     /**
      * Create Sales Order when incentives are Requested
      */
-    function createSales(customerId, jacket, chemKit, jacketSize){
+    function createSales(customerId, jacket, chemKit, jacketSize, formZero){
         try{
+            //Constants for jacket size
+            const JACKETSIZE = {
+                1: 'Small',
+                2: 'Medium',
+                3: 'Large',
+                4: 'X-Large',
+                5: 'XX-Large',
+                6: 'XXX-Large'
+            };
+
+            //Create sales orders
+            var salesObj = record.create({
+                isDynamic: true,
+                type: record.Type.SALES_ORDER
+            });
+
+            //Setting values
+            salesObj.setValue({fieldId: 'entity', value: customerId});
+            salesObj.setValue({fieldId: 'otherrefnum', value: formZero[fieldLib.customerFields.serialNumber.id]});
+            salesObj.setValue({fieldId: 'custbody_shipping_payment_method', value: 2});
+            salesObj.setValue({fieldId: 'memo', value: 'Thank you for purchasing from HydraMaster!'});
+
+            //Setting line items
+            if(jacket) {
+                salesObj.selectNewLine({sublistId: 'item'});
+                salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'item', value: 21188});
+                salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'quantity', value: 1});
+                salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'description', value: JACKETSIZE[parseInt(jacketSize, 10)]});
+                salesObj.commitLine({sublistId: 'item'});
+            }
+            if(chemKit){
+                salesObj.selectNewLine({sublistId: 'item'});
+                salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'quantity', value: 1});
+                salesObj.commitLine({sublistId: 'item'});
+            }
+
+            //Saving record
+            salesObj.save();
 
         }
         catch(error){
@@ -378,7 +416,7 @@ function(email, record, search, runtime, fieldLib, format) {
 
             //Creating Sales Order if One is Required
             if(formThree[fieldLib.rewardsFields.jacket.id] == 'T' || formThree[fieldLib.rewardsFields.chemicalKit.id] == 'T'){
-               createSales(customerId, formThree[fieldLib.rewardsFields.jacket.id], formThree[fieldLib.rewardsFields.chemicalKit.id], formThree[fieldLib.rewardsFields.jacketSize.id]);
+               createSales(customerId, formThree[fieldLib.rewardsFields.jacket.id], formThree[fieldLib.rewardsFields.chemicalKit.id], formThree[fieldLib.rewardsFields.jacketSize.id], formZero);
             }
 
             //Sending email notifaction send out thank you card
