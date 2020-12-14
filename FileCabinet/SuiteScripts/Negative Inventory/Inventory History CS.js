@@ -24,6 +24,38 @@ function(currentRecord, getInternal, message, search) {
      * Takes the paged search results and renders them to the page
      */
     function updatePage(searchResults) {
+        //Calculating Running Total and Updating
+        updateLine = function (result, quantity) {
+            runningTotal = runningTotal + parseInt(quantity);
+            page.selectNewLine({sublistId: 'custpage_results'});
+            page.setCurrentSublistValue({
+                sublistId: 'custpage_results',
+                fieldId: 'custpage_document',
+                value: result.getValue({name: 'tranid', summary: 'GROUP'})
+            });
+            page.setCurrentSublistValue({
+                sublistId: 'custpage_results',
+                fieldId: 'custpage_transaction',
+                value: type
+            });
+            page.setCurrentSublistValue({
+                sublistId: 'custpage_results',
+                fieldId: 'custpage_date',
+                value: result.getValue({name: 'datecreated', summary: 'GROUP'})
+            });
+            page.setCurrentSublistValue({
+                sublistId: 'custpage_results',
+                fieldId: 'custpage_adjusted',
+                value: quantity
+            });
+            page.setCurrentSublistValue({
+                sublistId: 'custpage_results',
+                fieldId: 'custpage_total',
+                value: runningTotal
+            });
+            page.commitLine({sublistId: 'custpage_results'});
+        };
+
         var page = currentRecord.get();
         var runningTotal = 0;
         var shipped = 0, received = 0, adjusted = 0, consumed = 0, built = 0;
@@ -39,54 +71,32 @@ function(currentRecord, getInternal, message, search) {
                         case 'Build':
                             if(quantity > 0){built += quantity;}
                             else{consumed += quantity;}
+                            updateLine(result, quantity);
                             break;
                         case 'WOCompl':
                             if(quantity > 0){built += quantity;}
                             else{consumed += quantity;}
+                            updateLine(result, quantity);
                             break;
                         case 'ItemShip':
                             shipped += quantity;
+                            updateLine(result, quantity);
                             break;
                         case 'ItemRcpt':
-                            received += quantity;
+                            if(quantity > 0) {
+                                received += quantity;
+                                updateLine(result, quantity);
+                            }
                             break;
                         case 'Unbuild':
                             if(quantity < 0){built += quantity;}
                             else{consumed += quantity;}
+                            updateLine(result, quantity);
                             break;
                         default:
                             adjusted += quantity;
+                            updateLine(result, quantity);
                     }
-
-                    //Calculating Running Total and Updating
-                    runningTotal = runningTotal + parseInt(quantity);
-                    page.selectNewLine({sublistId: 'custpage_results'});
-                    page.setCurrentSublistValue({
-                        sublistId: 'custpage_results',
-                        fieldId: 'custpage_document',
-                        value: result.getValue({name: 'tranid', summary: 'GROUP'})
-                    });
-                    page.setCurrentSublistValue({
-                        sublistId: 'custpage_results',
-                        fieldId: 'custpage_transaction',
-                        value: type
-                    });
-                    page.setCurrentSublistValue({
-                        sublistId: 'custpage_results',
-                        fieldId: 'custpage_date',
-                        value: result.getValue({name: 'datecreated', summary: 'GROUP'})
-                    });
-                    page.setCurrentSublistValue({
-                        sublistId: 'custpage_results',
-                        fieldId: 'custpage_adjusted',
-                        value: quantity
-                    });
-                    page.setCurrentSublistValue({
-                        sublistId: 'custpage_results',
-                        fieldId: 'custpage_total',
-                        value: runningTotal
-                    });
-                    page.commitLine({sublistId: 'custpage_results'});
                 }
             });
         });
