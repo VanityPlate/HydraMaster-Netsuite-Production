@@ -18,7 +18,6 @@ function(currentRecord, search, message, record, fieldLib) {
      */
     function noUserFoundMessage(){
         try{
-            debugger;
             var messageObj = message.create({
                 title: 'NO USER FOUND',
                 message: 'User Might be a Lead or Prospect and require conversion or does not exist.',
@@ -28,14 +27,14 @@ function(currentRecord, search, message, record, fieldLib) {
 
             //Setting Field Values
             var clientObj = currentRecord.get();
-            clientObj.setValue({fieldId: fieldLib.customerFields.oldCustomer.id, value: null});
-            clientObj.setValue({fieldId: fieldLib.customerFields.oldCustEmail.id, value: null});
-            clientObj.setValue({fieldId: fieldLib.customerFields.oldCustPhone.id, value: null});
-            clientObj.setValue({fieldId: fieldLib.customerFields.customerAddress.id, value: ''});
-            clientObj.setValue({fieldId: fieldLib.customerFields.customerPhone.id, value: ''});
-            clientObj.setValue({fieldId: fieldLib.customerFields.customerEmail.id, value: ''});
-            clientObj.setValue({fieldId: fieldLib.customerFields.mainContact.id, value: ''});
-            clientObj.setValue({fieldId: fieldLib.customerFields.companyName.id, value: ''});
+            clientObj.setValue({fieldId: fieldLib.customerFields.oldCustomer.id, value: null, ignoreFieldChange: true});
+            clientObj.setValue({fieldId: fieldLib.customerFields.oldCustEmail.id, value: null, ignoreFieldChange: true});
+            clientObj.setValue({fieldId: fieldLib.customerFields.oldCustPhone.id, value: null, ignoreFieldChange: true});
+            clientObj.setValue({fieldId: fieldLib.customerFields.customerAddress.id, value: '', ignoreFieldChange: true});
+            clientObj.setValue({fieldId: fieldLib.customerFields.customerPhone.id, value: '', ignoreFieldChange: true});
+            clientObj.setValue({fieldId: fieldLib.customerFields.customerEmail.id, value: '', ignoreFieldChange: true});
+            clientObj.setValue({fieldId: fieldLib.customerFields.mainContact.id, value: '', ignoreFieldChange: true});
+            clientObj.setValue({fieldId: fieldLib.customerFields.companyName.id, value: '', ignoreFieldChange: true});
 
             //Enabling Fields
             fieldLib.customerInfo.forEach(function(fieldObj){
@@ -158,7 +157,6 @@ function(currentRecord, search, message, record, fieldLib) {
      */
     function fieldChanged(scriptContext) {
         try{
-            debugger;
             if(scriptContext.fieldId == fieldLib.customerFields.oldCustomer.id){
                 //gathering information to post to page
                 existingCustomer(scriptContext.currentRecord.getValue({fieldId: fieldLib.customerFields.oldCustomer.id}));
