@@ -75,7 +75,6 @@ function(currentRecord, message, dialog, fieldLib, search) {
     function fieldChanged(scriptContext) {
         try{
             if(scriptContext.fieldId == fieldLib.customerFields.serialNumber.id){
-                debugger;
                 var serialNumber = scriptContext.currentRecord.getValue({fieldId: fieldLib.customerFields.serialNumber.id});
                 var searchObj = search.create({
                     type: "transaction",
@@ -225,7 +224,6 @@ function(currentRecord, message, dialog, fieldLib, search) {
      */
     function saveRecord(scriptContext) {
         try{
-            debugger;
             var formSelect = scriptContext.currentRecord.getValue({fieldId: fieldLib.entrySelect.formSelect.id});
             var searchObj = search.create({
                 type: "customrecord_wrm_warrantyreg",
