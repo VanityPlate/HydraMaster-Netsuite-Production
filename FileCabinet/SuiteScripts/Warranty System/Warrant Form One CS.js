@@ -18,6 +18,7 @@ function(currentRecord, search, message, record, fieldLib) {
      */
     function noUserFoundMessage(){
         try{
+            debugger;
             var messageObj = message.create({
                 title: 'NO USER FOUND',
                 message: 'User Might be a Lead or Prospect and require conversion or does not exist.',
@@ -157,6 +158,7 @@ function(currentRecord, search, message, record, fieldLib) {
      */
     function fieldChanged(scriptContext) {
         try{
+            debugger;
             if(scriptContext.fieldId == fieldLib.customerFields.oldCustomer.id){
                 //gathering information to post to page
                 existingCustomer(scriptContext.currentRecord.getValue({fieldId: fieldLib.customerFields.oldCustomer.id}));
