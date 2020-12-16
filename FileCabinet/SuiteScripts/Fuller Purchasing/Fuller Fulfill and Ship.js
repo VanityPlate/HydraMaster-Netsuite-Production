@@ -30,7 +30,7 @@ function(runtime, record) {
             var poLines = poObj.getLineCount({sublistId: 'item'});
 
             //Helper functions
-            var getItem = function (x) {return poObj.getSublistValue({sublistId: 'item', fieldId: 'itemname', line: x})};
+            var getItem = function (x) {return poObj.getSublistValue({sublistId: 'item', fieldId: 'item_display', line: x})};
             var getPOReceived = function (x) {return poObj.getSublistValue({sublistId: 'item', fieldId: 'quantityreceived', line: x})};
             var getSaleFulfilled = function (x) {return salesObj.getSublistValue({sublistId: 'item', fieldId: 'quantityfulfilled', line: x})};
 
