@@ -265,6 +265,9 @@ function(email, record, search, runtime, fieldLib, format) {
                 salesObj.commitLine({sublistId: 'item'});
             }
 
+            //Setting shipping to zero
+            salesObj.setValue({fieldId: 'shippingcost', value: 0});
+
             //Saving record
             salesObj.save();
 
