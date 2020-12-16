@@ -337,7 +337,7 @@ function(email, record, search, runtime, fieldLib, format) {
             }).run().getRange({start: 0, end: 1});
 
             //Constructing body of the email
-            var body = 'Customer: ' + customer[0].getValue({name: 'altname'}) + ' Warranty: ' + warranty[0].getValue({name: 'custrecord_wrm_reg_registration'}) + '.'
+            var body = 'Customer: ' + customer[0].getValue({name: 'altname'}) + ' Warranty: ' + warranty[0].getValue({name: 'custrecord_wrm_reg_registration'}) + '.';
 
             //Send email
             email.send({
