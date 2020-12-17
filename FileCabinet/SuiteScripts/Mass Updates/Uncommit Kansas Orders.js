@@ -6,6 +6,7 @@
  /**
  * @NApiVersion 2.1
  * @NScriptType MassUpdateScript
+  * @NModuleScope SameAccount
  */
 define(['N/record'],
     
@@ -45,6 +46,6 @@ define(['N/record'],
             }
         }
 
-        return {each}
+        return {each: each};
 
     });
