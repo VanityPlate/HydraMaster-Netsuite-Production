@@ -1,5 +1,8 @@
 /**
- * @NApiVersion 2.x
+ *
+ * @copyright Alex S. Ducken 2020 HydraMaster LLC
+ *
+ * @NApiVersion 2.1
  * @NScriptType workflowactionscript
  */
 define(['N/record'],

@@ -2,7 +2,7 @@
  *
  * @copyright Alex S. Ducken 2020 HydraMaster LLC
  *
- * @NApiVersion 2.x
+ * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  * @NModuleScope SameAccount
  */
@@ -20,7 +20,7 @@ function(runtime, record, loadUnknown, email, search) {
     const SALESEMAILID = 20582;
 
     /**
-     * Global Variables For Manipulation(I know I know...)
+     * Global Variables For Manipulation(I know, I know...)
      */
     var orginalSale = '', createdSale = '', journalEntry = '', createdSalesId = '';
 
