@@ -7,9 +7,9 @@
  * @NApiVersion 2.1
  * @NScriptType MassUpdateScript
  */
-define([],
+define(['N/record'],
     
-    () => {
+    (record) => {
         /**
          * Defines the Mass Update trigger point.
          * @param {Object} params
@@ -17,7 +17,7 @@ define([],
          * @param {number} params.id - ID of the record being processed
          * @since 2016.1
          */
-        const each = (params) => {
+        function each (params) {
             try{
                 //Loading Record
                 var saleObj = record.load({
