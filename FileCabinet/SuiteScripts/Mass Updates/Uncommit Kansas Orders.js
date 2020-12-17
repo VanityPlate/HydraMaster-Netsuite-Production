@@ -9,7 +9,7 @@
  */
 define(['N/record'],
     
-    (record) => {
+    function (record) {
         /**
          * Defines the Mass Update trigger point.
          * @param {Object} params
