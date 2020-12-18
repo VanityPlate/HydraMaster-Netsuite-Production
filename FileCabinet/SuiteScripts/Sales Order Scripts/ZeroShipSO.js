@@ -54,29 +54,71 @@ function(currentRecord, record, log, search) {
      * @since 2015.2
      */
     function postSourcing(scriptContext) {
-        if(scriptContext.fieldId == "shipmethod"){
-            //Gathering Values
-            var checkShipping = scriptContext.currentRecord.getValue({fieldId: "shippingcost"});
-            var altshippingcost = scriptContext.currentRecord.getValue({fieldId: "altshippingcost"});
+        try {
+            if (scriptContext.fieldId == "shipmethod") {
+                //Gathering Values
+                var checkShipping = scriptContext.currentRecord.getValue({fieldId: "shippingcost"});
+                var altshippingcost = scriptContext.currentRecord.getValue({fieldId: "altshippingcost"});
 
-            //if shipping cost is to be calculated then set it to zero to effectively cut out the
-            //shipping calculator
-            if(checkShipping == "To Be Calculated"){
-                scriptContext.currentRecord.setValue({fieldId: "shippingcost", value: 0});
+                //if shipping cost is to be calculated then set it to zero to effectively cut out the
+                //shipping calculator
+                if (checkShipping == "To Be Calculated") {
+                    scriptContext.currentRecord.setValue({fieldId: "shippingcost", value: 0});
+                }
+            } else if (scriptContext.fieldId == 'entity' && scriptContext.currentRecord.getValue({fieldId: 'entity'})) {
+                var phone = search.lookupFields({
+                    type: search.Type.CUSTOMER,
+                    id: scriptContext.currentRecord.getValue({fieldId: 'entity'}),
+                    columns: ['phone']
+                }).phone;
+                if (phone) {
+                    try {
+                        scriptContext.currentRecord.setValue({fieldId: 'custbody_pcg_contact_phone', value: phone});
+                    } catch (error) {
+                    }
+                }
+                //This condition is for setting the hidden line field kan_bins when inventory is committed to the sales order
+            } else if (scriptContext.sublistId == 'item' && scriptContext.fieldId == 'quantitycommitted') {
+                //Refactor Testing
+                debugger;
+                var itemId = function(){scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'})};
+                var location = function (){scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'location'})};
+                var committed = function(){scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'quantitycommitted'})};
+                if((location() == 16 || location() == 101) && committed() > 0){
+                    var bins = '';
+                    var binSearch = search.create({
+                        type: "item",
+                        filters:
+                            [
+                                ["internalid","anyof",itemId()]
+                            ],
+                        columns:
+                            [
+                                search.createColumn({name: "displayname", label: "Display Name"}),
+                                search.createColumn({
+                                    name: "quantityonhand",
+                                    join: "binOnHand",
+                                    label: "On Hand"
+                                }),
+                                search.createColumn({
+                                    name: "binnumber",
+                                    join: "binOnHand",
+                                    label: "Bin Number"
+                                })
+                            ]
+                    }).run().getRange({start: 0, end: 100});
+                    binSearch.forEach(function (result){
+                        if(result.getValue({name: 'quantityonhand', join: 'binOnHand'}) > 0){
+                            bins.concat(result.getValue({name: 'binnumber', join: 'binOnHand'}) + ": " +
+                            result.getValue({name: 'quantityonhand', join: 'binOnHand'}) + "\n");
+                        }
+                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_kan_bins', value: bins, ignoreFieldChange: true});
+                    });
+                }
             }
         }
-        else if(scriptContext.fieldId == 'entity' && scriptContext.currentRecord.getValue({fieldId: 'entity'})){
-            var phone = search.lookupFields({
-                type: search.Type.CUSTOMER,
-                id: scriptContext.currentRecord.getValue({fieldId: 'entity'}),
-                columns: ['phone']
-            }).phone;
-            if(phone){
-                try {
-                    scriptContext.currentRecord.setValue({fieldId: 'custbody_pcg_contact_phone', value: phone});
-                }
-                catch (error){}
-            }
+        catch (error){
+            log.error({title: 'Critical error in postSourcing', details: error});
         }
     }
 
