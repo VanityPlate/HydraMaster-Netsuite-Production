@@ -55,6 +55,7 @@ function(email, record, search, runtime, fieldLib, format) {
                 sublistId: 'addressbook',
                 fieldId: 'addressbookaddress'
             });
+            addressSub.setValue({fieldId: 'attention', value: formOne[fieldLib.customerFields.companyName.id]});
             addressSub.setValue({fieldId: 'addr1', value: formOne['custpage_street_address']});
             addressSub.setValue({fieldId: 'addressee', value: formOne['custpage_main_contact']});
             addressSub.setValue({fieldId: 'addrphone', value: formOne['custpage_info_phone']});
@@ -249,10 +250,12 @@ function(email, record, search, runtime, fieldLib, format) {
             salesObj.setValue({fieldId: 'entity', value: customerId});
             salesObj.setValue({fieldId: 'otherrefnum', value: formZero[fieldLib.customerFields.serialNumber.id]});
             salesObj.setValue({fieldId: 'custbody_shipping_payment_method', value: 2});
-            salesObj.setValue({fieldId: 'memo', value: 'Thank you for purchasing from HydraMaster!'});
+            salesObj.setValue({fieldId: 'message', value: 'Thank you for purchasing from HydraMaster!'});
 
             //Setting line items
             if(jacket) {
+                var po = salesObj.getValue({fieldId: 'otherrefnum'});
+                salesObj.setValue({fieldId: 'otherrefnum', value: po.concat('-JACKET')});
                 salesObj.selectNewLine({sublistId: 'item'});
                 salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'item', value: 21188});
                 salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'quantity', value: 1});
@@ -260,6 +263,8 @@ function(email, record, search, runtime, fieldLib, format) {
                 salesObj.commitLine({sublistId: 'item'});
             }
             if(chemKit){
+                var po = salesObj.getValue({fieldId: 'otherrefnum'});
+                salesObj.setValue({fieldId: 'otherrefnum', value: po.concat('-CHEMICAL')});
                 salesObj.selectNewLine({sublistId: 'item'});
                 salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'quantity', value: 1});
                 salesObj.commitLine({sublistId: 'item'});
