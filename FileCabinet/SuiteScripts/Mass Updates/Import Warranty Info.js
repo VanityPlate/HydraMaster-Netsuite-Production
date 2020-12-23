@@ -65,23 +65,23 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 var nameSplit = values[6];
                 switch (nameSplit.length) {
                     case 1:
-                        recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
-                        recordObj.setValue({fieldId: 'lastname', value: '_'});
+                        customerObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
+                        customerObj.setValue({fieldId: 'lastname', value: '_'});
                         break;
                     case 2:
-                        recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
-                        recordObj.setValue({fieldId: 'lastname', value: nameSplit[1]});
+                        customerObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
+                        customerObj.setValue({fieldId: 'lastname', value: nameSplit[1]});
                         break;
                     default:
-                        recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
-                        recordObj.setValue({fieldId: 'lastname', value: nameSplit[2]});
-                        recordObj.setValue({fieldId: 'middlename', value: nameSplit[1]});
+                        customerObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
+                        customerObj.setValue({fieldId: 'lastname', value: nameSplit[2]});
+                        customerObj.setValue({fieldId: 'middlename', value: nameSplit[1]});
                 }
                 if(values[12] != '') {
                     try {
                         //Setting Address
-                        recordObj.selectNewLine({sublistId: 'addressbook'});
-                        var addressSub = recordObj.getCurrentSublistSubrecord({
+                        customerObj.selectNewLine({sublistId: 'addressbook'});
+                        var addressSub = customerObj.getCurrentSublistSubrecord({
                             sublistId: 'addressbook',
                             fieldId: 'addressbookaddress'
                         });
@@ -93,17 +93,17 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                         addressSub.setValue({fieldId: 'country', value: values[12]});
                         addressSub.setValue({fieldId: 'state', value: values[10]});
                         addressSub.setValue({fieldId: 'zip', value: values[11]});
-                        recordObj.setCurrentSublistValue({
+                        customerObj.setCurrentSublistValue({
                             sublistId: 'addressbook',
                             fieldId: 'defaultbilling',
                             value: true
                         });
-                        recordObj.setCurrentSublistValue({
+                        customerObj.setCurrentSublistValue({
                             sublistId: 'addressbook',
                             fieldId: 'defaultshipping',
                             value: true
                         });
-                        recordObj.commitLine({sublistId: 'addressbook'});
+                        customerObj.commitLine({sublistId: 'addressbook'});
                     } catch (error) {
                         log.audit({title: 'Minor error - address failure', details: error});
                     }
@@ -210,6 +210,8 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
 
 
                 //Setting Record Values
+                //Refactor Testing
+                log.debug({title: 'Testing serial number', details: values[1].replace(SERIAL_REGX, '')});
                 warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_ref_seriallot', value: values[1].replace(SERIAL_REGX, '')});
                 warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_customer', value: distributor});
                 warrantyObj.setValue({fieldId: 'custrecord_selling_distributor', value: customer});
