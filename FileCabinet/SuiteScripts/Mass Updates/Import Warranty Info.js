@@ -27,6 +27,7 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
         const ITEM_REGX = /(boxxer|cts|cds|gtxr|titan)/ig;
         const DEFAULT_DATE = '1/1/2012';
         const PHONE_REGX = /( |\(|\)|-)/ig;
+        const SERIAL_REGX = /( |\*)/;
 
         /**
          * Creates a date object
@@ -56,7 +57,7 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 });
 
                 //Setting Fields
-                customerObj.setValue({fieldId: 'isperson', value: true});
+                customerObj.setValue({fieldId: 'isperson', value: 'T'});
                 customerObj.setValue({fieldId: 'companyname', value: values[7]});
                 customerObj.setValue({fieldId: 'phone', value: values[14].replace(PHONE_REGX, '')});
                 customerObj.setValue({fieldId: 'email', value: values[13]});
@@ -209,7 +210,7 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
 
 
                 //Setting Record Values
-                warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_ref_seriallot', value: values[1]});
+                warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_ref_seriallot', value: values[1].replace(SERIAL_REGX, '')});
                 warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_customer', value: distributor});
                 warrantyObj.setValue({fieldId: 'custrecord_selling_distributor', value: customer});
 
