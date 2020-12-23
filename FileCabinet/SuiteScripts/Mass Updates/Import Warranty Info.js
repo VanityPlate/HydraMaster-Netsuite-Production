@@ -27,7 +27,7 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
         const ITEM_REGX = /(boxxer|cts|cds|gtxr|titan)/ig;
         const DEFAULT_DATE = '1/1/2012';
         const PHONE_REGX = /( |\(|\)|-)/ig;
-        const SERIAL_REGX = /( |\*)/;
+        const SERIAL_REGX = /( |\*)/ig;
 
         /**
          * Creates a date object
