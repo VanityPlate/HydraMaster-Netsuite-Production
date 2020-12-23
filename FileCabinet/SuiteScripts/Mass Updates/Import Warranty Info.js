@@ -188,8 +188,6 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 }
 
                 //Finding End User
-                //Refactor Testing
-                log.debug({title: 'checking phone number', details: values[14].replace(PHONE_REGX, '')});
                 var customer = search.create({
                     type: "customer",
                     filters:
@@ -210,15 +208,13 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
 
 
                 //Setting Record Values
-                //Refactor Testing
-                log.debug({title: 'Testing serial number', details: values[1].replace(SERIAL_REGX, '')});
                 warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_ref_seriallot', value: values[1].replace(SERIAL_REGX, '')});
                 warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_customer', value: distributor});
                 warrantyObj.setValue({fieldId: 'custrecord_selling_distributor', value: customer});
 
                 //Setting install date
                 var installDate = values[0] != '' ? setDate(values[0]) : setDate(DEFAULT_DATE);
-                warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_warrantybegin', values: installDate});
+                warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_warrantybegin', values: installDate, ignoreFieldChange: true});
 
                 //Selecting Item
                 var itemSelect = values[2].match(ITEM_REGX);
