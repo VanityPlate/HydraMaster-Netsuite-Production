@@ -187,6 +187,8 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 }
 
                 //Finding End User
+                //Refactor Testing
+                log.debug({title: 'checking phone number', details: values[14].replace(PHONE_REGX, '')});
                 var customer = search.create({
                     type: "customer",
                     filters:
