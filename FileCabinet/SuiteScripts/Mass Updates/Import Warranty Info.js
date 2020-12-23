@@ -216,7 +216,7 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 var installDate = values[0] != '' ? setDate(values[0]) : setDate(DEFAULT_DATE);
                 //Refactor Testing
                 log.debug({title: 'Testing install date', details: installDate});
-                warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_warrantybegin', values: installDate, ignoreFieldChange: true});
+                warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_warrantybegin', value: installDate, ignoreFieldChange: true});
 
                 //Selecting Item
                 var itemSelect = values[2].match(ITEM_REGX);
