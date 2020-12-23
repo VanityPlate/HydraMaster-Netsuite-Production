@@ -15,7 +15,7 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
         /**
          * Constants
          */
-        const items = {
+        const ITEMS = {
             BOXXER_WPH: 23860,
             CTS_WPH: 23862,
             CDS_WPH: 23861,
@@ -24,7 +24,8 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
         };
 
         const CUSTOMER_WPH = 21188;
-
+        const ITEM_REGX = /(boxxer|cts|cds|gtxr|titan)/ig;
+        const DEFAULT_DATE = '1/1/2012';
         const PHONE_REGX = /( |\(|\)|-)/ig;
 
         /**
@@ -195,6 +196,28 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_ref_seriallot', value: values[1]});
                 warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_customer', value: distributor});
                 warrantyObj.setValue({fieldId: 'custrecord_selling_distributor', value: customer});
+
+                //Selecting Item
+                var itemSelect = values[2].match(ITEM_REGX);
+                switch (itemSelect[0].toLowerCase()){
+                    case 'cts':
+                        warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: ITEMS.CTS_WPH});
+                        break;
+                    case 'cds':
+                        warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: ITEMS.CDS_WPH});
+                        break;
+                    case 'titan':
+                        warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: ITEMS.TITAN_WPH});
+                        break;
+                    case 'boxxer':
+                        warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: ITEMS.BOXXER_WPH});
+                        break;
+                    case 'gtxr':
+                        warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: ITEMS.GTXR_WPH});
+                        break;
+                    default:
+                        warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_item', value: ITEMS.CDS_WPH});
+                };
 
                 //Saving Record
             }
