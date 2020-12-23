@@ -45,6 +45,53 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 customerObj.setValue({fieldId: 'companyname', value: values[7]});
                 customerObj.setValue({fieldId: 'phone', value: values[14].replace(PHONE_REGX, '')});
                 customerObj.setValue({fieldId: 'email', value: values[13]});
+                customerObj.setValue({fieldId: 'subsidiary', value: '1'});
+                var nameSplit = values[6];
+                switch (nameSplit.length) {
+                    case 1:
+                        recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
+                        recordObj.setValue({fieldId: 'lastname', value: '_'});
+                        break;
+                    case 2:
+                        recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
+                        recordObj.setValue({fieldId: 'lastname', value: nameSplit[1]});
+                        break;
+                    default:
+                        recordObj.setValue({fieldId: 'firstname', value: nameSplit[0]});
+                        recordObj.setValue({fieldId: 'lastname', value: nameSplit[2]});
+                        recordObj.setValue({fieldId: 'middlename', value: nameSplit[1]});
+                }
+                if(values[12] != '') {
+                    try {
+                        //Setting Address
+                        recordObj.selectNewLine({sublistId: 'addressbook'});
+                        var addressSub = recordObj.getCurrentSublistSubrecord({
+                            sublistId: 'addressbook',
+                            fieldId: 'addressbookaddress'
+                        });
+                        addressSub.setValue({fieldId: 'attention', value: values[7]});
+                        addressSub.setValue({fieldId: 'addr1', value: values[8]});
+                        addressSub.setValue({fieldId: 'addressee', value: values[6]});
+                        addressSub.setValue({fieldId: 'addrphone', value: values[14]});
+                        addressSub.setValue({fieldId: 'city', value: values[9]});
+                        addressSub.setValue({fieldId: 'country', value: values[12]});
+                        addressSub.setValue({fieldId: 'state', value: values[10]});
+                        addressSub.setValue({fieldId: 'zip', value: values[11]});
+                        recordObj.setCurrentSublistValue({
+                            sublistId: 'addressbook',
+                            fieldId: 'defaultbilling',
+                            value: true
+                        });
+                        recordObj.setCurrentSublistValue({
+                            sublistId: 'addressbook',
+                            fieldId: 'defaultshipping',
+                            value: true
+                        });
+                        recordObj.commitLine({sublistId: 'addressbook'});
+                    } catch (error) {
+                        log.audit({title: 'Minor error - address failure', details: error});
+                    }
+                }
 
                 //Saving and Returning Internal ID
                 return customerObj.save();
