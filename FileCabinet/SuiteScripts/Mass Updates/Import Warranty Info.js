@@ -29,6 +29,20 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
         const PHONE_REGX = /( |\(|\)|-)/ig;
 
         /**
+         * Creates a date object
+         * @param {date} the date string to convert
+         * @return {Nesutie Date Object}
+         */
+        function setDate(date){
+            try{
+                return format.parse({value: date, type: format.Type.DATE});
+            }
+            catch (error){
+                log.error({title: 'Critical error in setDate', details: error});
+            }
+        }
+
+        /**
          * Creates an individual customer
          * @param {values} information used to create customer
          * @returns {integer} the new customer internal id
@@ -197,6 +211,10 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_customer', value: distributor});
                 warrantyObj.setValue({fieldId: 'custrecord_selling_distributor', value: customer});
 
+                //Setting install date
+                var installDate = values[0] != '' ? setDate(values[0]) : setDate(DEFAULT_DATE);
+                warrantyObj.setValue({fieldId: 'custrecord_wrm_reg_warrantybegin', values: installDate});
+
                 //Selecting Item
                 var itemSelect = values[2].match(ITEM_REGX);
                 switch (itemSelect[0].toLowerCase()){
@@ -220,6 +238,7 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 };
 
                 //Saving Record
+                warrantyObj.save();
             }
             catch(error){
                 log.error({title: 'Critical error in map', details: error});
