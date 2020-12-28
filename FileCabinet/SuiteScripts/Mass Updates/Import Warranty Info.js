@@ -165,9 +165,6 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 //Creating Record
                 var warrantyObj = record.create({type: 'customrecord_wrm_warrantyreg', isDynamic: true});
 
-                //Determining Item
-
-
                 //Finding Distributor
                 var distributor = search.create({
                     type: "customer",
@@ -188,17 +185,20 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 }
 
                 //Finding End User
-                var customer = search.create({
-                    type: "customer",
-                    filters:
-                        [
-                            ["phone","haskeywords",values[14].replace(PHONE_REGX, '')]
-                        ],
-                    columns:
-                        [
-                            search.createColumn({name: "internalid", label: "Internal ID"})
-                        ]
-                }).run().getRange({start: 0, end: 1});
+                if(values[14] != '') {
+                    var customer = search.create({
+                        type: "customer",
+                        filters:
+                            [
+                                ["phone", "haskeywords", values[14].replace(PHONE_REGX, '')]
+                            ],
+                        columns:
+                            [
+                                search.createColumn({name: "internalid", label: "Internal ID"})
+                            ]
+                    }).run().getRange({start: 0, end: 1});
+                }
+                else{var customer = [];}
                 if(customer.length > 0){
                     customer = customer[0].id;
                 }
