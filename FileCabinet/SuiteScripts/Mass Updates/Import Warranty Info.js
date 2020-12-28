@@ -242,6 +242,7 @@ define(['N/record', 'N/search', 'N/file', 'N/format'],
                 warrantyObj.save();
             }
             catch(error){
+                log.audit({title: 'Serial Failed On!', details: values[1]});
                 log.error({title: 'Critical error in map', details: error});
             }
         }
