@@ -50,8 +50,32 @@ function(record, message, dialog, search) {
 
     }
 
+    function saveRec(scriptContext){
+        try{
+            var trackingNumbers = '';
+            var upsLines = scriptContext.currentRecord.getLineCount({sublistId: 'packageups'});
+            if(upsLines > 0) {
+                for (var x = 0; x < upsLines; x++) {
+                    trackingNumbers = trackingNumbers.concat(scriptContext.getSublistValue({sublistId: 'packageups', fieldId: 'packagetrackingnumberups', line: x}) + '\n');
+                }
+            }
+            var fedLines = scriptContext.currentRecord.getLineCount({sublistId: 'packagefedex'});
+            if(upsLines > 0) {
+                for (var x = 0; x < fedLines; x++) {
+                    trackingNumbers = trackingNumbers.concat(scriptContext.getSublistValue({sublistId: 'packagefedex', fieldId: 'packagetrackingnumberups', line: x}) + '\n');
+                }
+            }
+            scriptContext.currentRecord.setValue({fieldId: 'custbody_pcg_ifcustom_tracking_number', value: trackingNumbers});
+            return true;
+        }
+        catch (error){
+            log.error({title: 'Critical error in saveRec', details: error});
+        }
+    }
+
     return {
         pageInit: pageInit,
+        saveRec: saveRec
     };
     
 });
