@@ -54,12 +54,15 @@ function(record, message, dialog, search) {
         try{
             var trackingNumbers = '';
             var upsLines = scriptContext.currentRecord.getLineCount({sublistId: 'packageups'});
+            log.debug({title: 'checking variables', details: trackingNumbers + upsLines});
             if(upsLines > 0) {
                 for (var x = 0; x < upsLines; x++) {
                     trackingNumbers = trackingNumbers.concat(scriptContext.getSublistValue({sublistId: 'packageups', fieldId: 'packagetrackingnumberups', line: x}) + '\n');
+                    log.debug({title: 'checking variables', details: trackingNumbers + upsLines});
                 }
             }
             var fedLines = scriptContext.currentRecord.getLineCount({sublistId: 'packagefedex'});
+            log.debug({title: 'checking variables', details: trackingNumbers + upsLines});
             if(upsLines > 0) {
                 for (var x = 0; x < fedLines; x++) {
                     trackingNumbers = trackingNumbers.concat(scriptContext.getSublistValue({sublistId: 'packagefedex', fieldId: 'packagetrackingnumberups', line: x}) + '\n');
