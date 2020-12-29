@@ -64,7 +64,7 @@ function(record, message, dialog, search) {
             }
             var fedLines = scriptContext.currentRecord.getLineCount({sublistId: 'packagefedex'});
             log.debug({title: 'checking variables', details: trackingNumbers + upsLines});
-            if(upsLines > 0) {
+            if(fedLines > 0) {
                 for (var x = 0; x < fedLines; x++) {
                     trackingNumbers = trackingNumbers.concat(scriptContext.getSublistValue({sublistId: 'packagefedex', fieldId: 'packagetrackingnumberups', line: x}) + '\n');
                 }
@@ -79,7 +79,7 @@ function(record, message, dialog, search) {
 
     return {
         pageInit: pageInit,
-        saveRecord: saveRecord
+        //saveRecord: saveRecord
     };
     
 });
