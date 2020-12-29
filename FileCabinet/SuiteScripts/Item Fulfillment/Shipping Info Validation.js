@@ -52,6 +52,7 @@ function(record, message, dialog, search) {
 
     function saveRecord(scriptContext){
         try{
+            debugger;
             var trackingNumbers = '';
             var upsLines = scriptContext.currentRecord.getLineCount({sublistId: 'packageups'});
             log.debug({title: 'checking variables', details: trackingNumbers + upsLines});
