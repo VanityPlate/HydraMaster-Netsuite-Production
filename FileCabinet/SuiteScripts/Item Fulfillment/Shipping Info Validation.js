@@ -58,7 +58,7 @@ function(record, message, dialog, search) {
             log.debug({title: 'checking variables', details: trackingNumbers + upsLines});
             if(upsLines > 0) {
                 for (var x = 0; x < upsLines; x++) {
-                    trackingNumbers = trackingNumbers.concat(scriptContext.getSublistValue({sublistId: 'packageups', fieldId: 'packagetrackingnumberups', line: x}) + '\n');
+                    trackingNumbers = trackingNumbers.concat(scriptContext.currentRecord.getSublistValue({sublistId: 'packageups', fieldId: 'packagetrackingnumberups', line: x}) + '\n');
                     log.debug({title: 'checking variables', details: trackingNumbers + upsLines});
                 }
             }
@@ -66,7 +66,7 @@ function(record, message, dialog, search) {
             log.debug({title: 'checking variables', details: trackingNumbers + upsLines});
             if(fedLines > 0) {
                 for (var x = 0; x < fedLines; x++) {
-                    trackingNumbers = trackingNumbers.concat(scriptContext.getSublistValue({sublistId: 'packagefedex', fieldId: 'packagetrackingnumberups', line: x}) + '\n');
+                    trackingNumbers = trackingNumbers.concat(scriptContext.currentRecord.getSublistValue({sublistId: 'packagefedex', fieldId: 'packagetrackingnumberups', line: x}) + '\n');
                 }
             }
             scriptContext.currentRecord.setValue({fieldId: 'custbody_pcg_ifcustom_tracking_number', value: trackingNumbers});
