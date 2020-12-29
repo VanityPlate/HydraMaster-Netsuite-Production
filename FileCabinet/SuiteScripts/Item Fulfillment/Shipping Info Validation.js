@@ -50,7 +50,7 @@ function(record, message, dialog, search) {
 
     }
 
-    function saveRec(scriptContext){
+    function saveRecord(scriptContext){
         try{
             var trackingNumbers = '';
             var upsLines = scriptContext.currentRecord.getLineCount({sublistId: 'packageups'});
@@ -75,7 +75,7 @@ function(record, message, dialog, search) {
 
     return {
         pageInit: pageInit,
-        saveRec: saveRec
+        saveRecord: saveRecord
     };
     
 });
