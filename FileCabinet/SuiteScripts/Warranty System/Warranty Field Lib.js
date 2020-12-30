@@ -112,7 +112,7 @@ define([], function(){
         chemicalKit     :   {id: 'custpage_chemical_kit', label: 'Chemical Kit', type: FIELDTYPES.CHECKBOX},
         jacket          :   {id: 'custpage_jacket', label: 'Jacket', type: FIELDTYPES.CHECKBOX},
         jacketSize      :   {id: 'custpage_jacket_size', label: 'Jacket Size', type: FIELDTYPES.SELECT, source: 'customlist_jacket_size'},
-        decal           :   {id: 'custpage_decal', label: 'Decal', type: FIELDTYPES.CHECKBOX},
+        //decal           :   {id: 'custpage_decal', label: 'Decal', type: FIELDTYPES.CHECKBOX},
     };
 
     //Fields for entry select form
@@ -143,7 +143,7 @@ define([], function(){
         vehicleInfo     :   [INSTALLERFIELDS.make, INSTALLERFIELDS.model, INSTALLERFIELDS.engineYear, INSTALLERFIELDS.engine, INSTALLERFIELDS.fuelSystem, INSTALLERFIELDS.roofVents, INSTALLERFIELDS.installComments],
         certificates    :   [INSTALLERFIELDS.mounted, INSTALLERFIELDS.guideProvided, INSTALLERFIELDS.installerTrain, INSTALLERFIELDS.freshWater, INSTALLERFIELDS.fuelInstaller, INSTALLERFIELDS.compliantHM,
             INSTALLERFIELDS.compliantLocal, INSTALLERFIELDS.unitFunctional],
-        rewards         :   [REWARDSFIELDS.performanceIns, REWARDSFIELDS.chemicalKit, REWARDSFIELDS.jacket, REWARDSFIELDS.jacketSize, REWARDSFIELDS.decal],
+        rewards         :   [REWARDSFIELDS.performanceIns, REWARDSFIELDS.chemicalKit, REWARDSFIELDS.jacket, REWARDSFIELDS.jacketSize],
         validateCust    :   [CUSTOMERFIELDS.serialNumber, CUSTOMERFIELDS.companyName, CUSTOMERFIELDS.customerEmail, CUSTOMERFIELDS.machine, CUSTOMERFIELDS.mainContact, CUSTOMERFIELDS.customerPhone],
         validateInst    :   [INSTALLERFIELDS.distributor, INSTALLERFIELDS.installerName],
         validateReward  :   [REWARDSFIELDS.jacket, REWARDSFIELDS.jacketSize, REWARDSFIELDS.chemicalKit],
