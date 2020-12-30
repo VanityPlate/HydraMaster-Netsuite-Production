@@ -48,6 +48,7 @@ function(currentRecord, message, dialog, fieldLib, search) {
      */
     function pageInit(scriptContext) {
         try{
+            scriptContext.currentRecord.setValue({fieldLib: fieldLib.customerFields.hiddenCustomer.id, value: ''});
             message.create({
                 duration: 30000,
                 type: message.Type.INFORMATION,

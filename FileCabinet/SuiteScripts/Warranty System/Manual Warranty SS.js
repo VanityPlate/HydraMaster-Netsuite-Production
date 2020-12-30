@@ -298,6 +298,7 @@ function(email, record, search, runtime, fieldLib, format) {
                     isDynamic: true
                 });
                 if(installerId){warrantyObj.setValue({fieldId: 'custrecord_installer_info', value: installerId})};
+                //Field name/description mismatch is intentional(change made are request of Customer Service HydraMaster)
                 if(customerId){warrantyObj.setValue({fieldId: 'custrecord_selling_distributor', value: customerId})};
                 warrantyObj.save();
             }
