@@ -267,6 +267,7 @@ function(email, record, search, runtime, fieldLib, format) {
                 var po = salesObj.getValue({fieldId: 'otherrefnum'});
                 salesObj.setValue({fieldId: 'otherrefnum', value: po.concat('-CHEMICAL')});
                 salesObj.selectNewLine({sublistId: 'item'});
+                salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'item', value: 16733});
                 salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'quantity', value: 1});
                 salesObj.commitLine({sublistId: 'item'});
             }
