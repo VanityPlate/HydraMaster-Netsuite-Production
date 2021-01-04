@@ -269,6 +269,7 @@ function(email, record, search, runtime, fieldLib, format) {
                 salesObj.selectNewLine({sublistId: 'item'});
                 salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'item', value: 16733});
                 salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'quantity', value: 1});
+                salesObj.setCurrentSublistValue({sublistId: 'item', fieldId: 'amount', value: 0});
                 salesObj.commitLine({sublistId: 'item'});
             }
 
