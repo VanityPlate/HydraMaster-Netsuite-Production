@@ -251,6 +251,7 @@ function(email, record, search, runtime, fieldLib, format) {
             salesObj.setValue({fieldId: 'otherrefnum', value: formZero[fieldLib.customerFields.serialNumber.id]});
             salesObj.setValue({fieldId: 'custbody_shipping_payment_method', value: 2});
             salesObj.setValue({fieldId: 'message', value: 'Thank you for purchasing from HydraMaster!'});
+            salesObj.setValue({fieldId: 'memo', value: 'Jacket and or Chemical Kit Order.'});
 
             //Setting line items
             if(jacket) {
