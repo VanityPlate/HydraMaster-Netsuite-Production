@@ -32,6 +32,9 @@ function(email, record, search, runtime, fieldLib, format) {
     function fieldUpdate(recordObj, formOne){
         try {
             recordObj.setValue({fieldId: 'email', value: formOne['custpage_info_email']});
+            recordObj.setValue({fieldId: 'custentity_pcg_invoice_emails', value: formOne['custpage_info_email']});
+            recordObj.setValue({fieldId: 'custentity_pcg_acknowledgement_email', value: formOne['custpage_info_email']});
+            recordObj.setValue({fieldId: 'emailpreference', value: 'PDF'});
             recordObj.setValue({fieldId: 'phone', value: formOne['custpage_info_phone']});
             recordObj.setValue({fieldId: 'subsidiary', value: '1'});
             var nameSplit = formOne['custpage_main_contact'].split(' ');
@@ -55,9 +58,9 @@ function(email, record, search, runtime, fieldLib, format) {
                 sublistId: 'addressbook',
                 fieldId: 'addressbookaddress'
             });
-            addressSub.setValue({fieldId: 'attention', value: formOne[fieldLib.customerFields.companyName.id]});
+            addressSub.setValue({fieldId: 'addressee', value: formOne[fieldLib.customerFields.companyName.id]});
             addressSub.setValue({fieldId: 'addr1', value: formOne['custpage_street_address']});
-            addressSub.setValue({fieldId: 'addressee', value: formOne['custpage_main_contact']});
+            addressSub.setValue({fieldId: 'attention', value: formOne['custpage_main_contact']});
             addressSub.setValue({fieldId: 'addrphone', value: formOne['custpage_info_phone']});
             addressSub.setValue({fieldId: 'city', value: formOne['custpage_city']});
             addressSub.setValue({fieldId: 'country', value: formOne['custpage_country']});
