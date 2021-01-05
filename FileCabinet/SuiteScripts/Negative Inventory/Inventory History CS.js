@@ -36,7 +36,7 @@ function(currentRecord, getInternal, message, search) {
             page.setCurrentSublistValue({
                 sublistId: 'custpage_results',
                 fieldId: 'custpage_transaction',
-                value: type
+                value: result.getValue({name: 'type', summary: 'GROUP'})
             });
             page.setCurrentSublistValue({
                 sublistId: 'custpage_results',
@@ -63,7 +63,7 @@ function(currentRecord, getInternal, message, search) {
             var myPage = searchResults.fetch({index: pageRange.index});
             myPage.data.forEach(function(result){
                 var type = result.getValue({name: 'type', summary: 'GROUP'});
-                var quantity =  parseInt(result.getValue({name: 'quantity', summary: 'MIN'}));
+                var quantity =  parseInt(result.getValue({name: 'quantity'}));
                 if(type == 'BinWksht' || type == 'WorkOrd' || type == 'PurchOrd' || type == 'WOIssue' || type == 'WOClose' || type == 'TrnfrOrd' || type == 'CustCred' || type == 'BinTrnfr'){}
                 else {
                     //Calculating Totals
@@ -118,7 +118,7 @@ function(currentRecord, getInternal, message, search) {
                 [
                     ["item.internalid","anyof",itemID],
                     "AND",
-                    ["type","noneof","InvReval","CustInvc","SalesOrd","Estimate", "Opprtnty", "VendBill", "VendPymt", "VPrep"],
+                    ["type","noneof","InvReval","CustInvc","SalesOrd","Estimate", "Opprtnty", "VendBill", "VendPymt", "VPrep", "InvCount"],
                     "AND",
                     ["location","anyof",location],
                     "AND",
@@ -144,7 +144,6 @@ function(currentRecord, getInternal, message, search) {
                     }),
                     search.createColumn({
                         name: "quantity",
-                        summary: "MIN",
                         label: "Quantity"
                     })
                 ]
