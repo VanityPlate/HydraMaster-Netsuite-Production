@@ -61,48 +61,42 @@ function(currentRecord, getInternal, message, search) {
         var shipped = 0, received = 0, adjusted = 0, consumed = 0, built = 0;
         searchResults.pageRanges.forEach(function (pageRange) {
             var myPage = searchResults.fetch({index: pageRange.index});
-            myPage.data.forEach(function(result) {
+            myPage.data.forEach(function(result){
                 var type = result.getValue({name: 'type', summary: 'GROUP'});
-                var quantity = parseInt(result.getValue({name: 'quantity', summary: 'MIN'}));
-                //Calculating Totals
-                switch (type) {
-                    case 'Build':
-                        if (quantity > 0) {
-                            built += quantity;
-                        } else {
-                            consumed += quantity;
-                        }
-                        updateLine(result, quantity);
-                        break;
-                    case 'WOCompl':
-                        if (quantity > 0) {
-                            built += quantity;
-                        } else {
-                            consumed += quantity;
-                        }
-                        updateLine(result, quantity);
-                        break;
-                    case 'ItemShip':
-                        shipped += quantity;
-                        updateLine(result, quantity);
-                        break;
-                    case 'ItemRcpt':
-                        if (quantity > 0) {
-                            received += quantity;
+                var quantity =  parseInt(result.getValue({name: 'quantity', summary: 'MIN'}));
+                if(type == 'BinWksht' || type == 'WorkOrd' || type == 'PurchOrd' || type == 'WOIssue' || type == 'WOClose' || type == 'TrnfrOrd' || type == 'CustCred' || type == 'BinTrnfr'){}
+                else {
+                    //Calculating Totals
+                    switch(type){
+                        case 'Build':
+                            if(quantity > 0){built += quantity;}
+                            else{consumed += quantity;}
                             updateLine(result, quantity);
-                        }
-                        break;
-                    case 'Unbuild':
-                        if (quantity < 0) {
-                            built += quantity;
-                        } else {
-                            consumed += quantity;
-                        }
-                        updateLine(result, quantity);
-                        break;
-                    default:
-                        adjusted += quantity;
-                        updateLine(result, quantity);
+                            break;
+                        case 'WOCompl':
+                            if(quantity > 0){built += quantity;}
+                            else{consumed += quantity;}
+                            updateLine(result, quantity);
+                            break;
+                        case 'ItemShip':
+                            shipped += quantity;
+                            updateLine(result, quantity);
+                            break;
+                        case 'ItemRcpt':
+                            if(quantity > 0) {
+                                received += quantity;
+                                updateLine(result, quantity);
+                            }
+                            break;
+                        case 'Unbuild':
+                            if(quantity < 0){built += quantity;}
+                            else{consumed += quantity;}
+                            updateLine(result, quantity);
+                            break;
+                        default:
+                            adjusted += quantity;
+                            updateLine(result, quantity);
+                    }
                 }
             });
         });
