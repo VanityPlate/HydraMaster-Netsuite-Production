@@ -181,7 +181,6 @@ function(currentRecord, record, log, search) {
         try{
             if(scriptContext.sublistId === 'item'){
                 var itemType = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'itemtype'});
-                var location = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'location'});
                 if(itemType != 'InvtPart' && itemType != 'Assembly'){
                         scriptContext.currentRecord.setCurrentSublistValue({
                             sublistId: 'item',
@@ -197,15 +196,6 @@ function(currentRecord, record, log, search) {
                     });
                         return true;
                    }
-                else if(location == 16){
-                    scriptContext.currentRecord.setCurrentSublistValue({
-                        sublistId: 'item',
-                        fieldId: 'commitinventory',
-                        value: 3,
-                        ignoreFieldChange: true
-                    });
-                    return true;
-                }
                 else{return true;}
             }
             else{return true;}
