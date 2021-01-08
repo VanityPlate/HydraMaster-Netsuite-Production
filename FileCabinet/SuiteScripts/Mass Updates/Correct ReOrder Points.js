@@ -65,7 +65,7 @@ define(['N/record', 'N/search'],
 
         const map = (mapContext) => {
                 try{
-                        var itemId = mapContext.value.id;
+                        var itemId = mapContext.value;
                         var recordObject = record.load({type: record.Type.ITEM, isDynamic: true, id: itemId});
                         var lines = recordObject.getLineCount({sublistId: 'locations'});
                         for(var x = 0; x < lines; x++){
