@@ -67,7 +67,7 @@ define(['N/record', 'N/search'],
                 try{
                         log.audit({title: 'Value Output', details: mapContext.value});
                         var itemId = mapContext.value.id;
-                        var recordObject = record.load({type: record.Type.ITEM, isDynamic: true, id: itemId});
+                        var recordObject = record.load({type: record.Type.INVENTORY_ITEM, isDynamic: true, id: itemId});
                         var lines = recordObject.getLineCount({sublistId: 'locations'});
                         for(var x = 0; x < lines; x++){
                                 recordObject.selectLine({line: x, sublistId: 'locations'});
