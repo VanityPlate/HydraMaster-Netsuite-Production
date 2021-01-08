@@ -74,6 +74,7 @@ define(['N/record', 'N/search'],
                                 recordObject.setCurrentSublistValue({sublistId: 'locations', fieldId: 'preferredstocklevel', value: null});
                                 recordObject.commitLine({sublistId: 'locations'});
                         }
+                        recordObject.save();
                 }
                 catch (error){
                         log.error({title: 'Critical error in map', details: error});
