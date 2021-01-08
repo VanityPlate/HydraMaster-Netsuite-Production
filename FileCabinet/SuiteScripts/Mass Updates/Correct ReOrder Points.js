@@ -66,7 +66,7 @@ define(['N/record', 'N/search'],
         const map = (mapContext) => {
                 try{
                         var itemId = mapContext.value.id;
-                        var recordObject = record.create({type: record.Type.ITEM, isDynamic: true, id: itemId});
+                        var recordObject = record.load({type: record.Type.ITEM, isDynamic: true, id: itemId});
                         var lines = recordObject.getLineCount({sublistId: 'locations'});
                         for(var x = 0; x < lines; x++){
                                 recordObject.selectLine({line: x, sublistId: 'locations'});
