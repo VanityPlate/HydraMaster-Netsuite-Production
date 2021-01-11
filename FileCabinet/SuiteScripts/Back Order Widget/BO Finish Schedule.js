@@ -205,7 +205,7 @@ function(runtime, record, loadUnknown, email, search) {
         salesObj.setValue({fieldId: 'custbody_bo_order', value: true});
         salesObj.setValue({fieldId: 'custbody_pcg_ship_instructions', value: SHIPINSTRUCTIONS});
         salesObj.setValue({fieldId: 'shipcarrier', value: 'nonups'});
-        salesObj.setValue({fieldId: 'shipmethod', value: '21192'});
+        salesObj.setValue({fieldId: 'shipmethod', value: '20223'});
         salesObj.setValue({fieldId: 'custbody_shipping_payment_method', value: '2'});
         salesObj.setValue({fieldId: 'custbody_ready_to_ship', value: false});
         salesObj.setValue({fieldId: 'custbody_ltl_sales_order', value: false});
