@@ -216,12 +216,18 @@ function(runtime, record, loadUnknown, email, search) {
         salesObj.setValue({fieldId: 'linkedtrackingnumbers', value: ''});
         salesObj.setValue({fieldId: 'shippingcost', value: 0.00});
 
-
-
         //Removing Original Line Items
         var lines = salesObj.getLineCount({sublistId: 'item'});
         for(var x = lines - 1; x >= 0; x--){
             salesObj.removeLine({sublistId: 'item', line: x});
+        }
+
+        //Removing Promotions
+        var promotions = salesObj.getLineCount({sublistId: 'promotions'});
+        if(promotions > 0){
+            for(var x = promotions - 1; x >= 0; x--){
+                salesObj.removeLine({sublistId: 'promotions', line: x});
+            }
         }
 
         //Adding New Line Items
