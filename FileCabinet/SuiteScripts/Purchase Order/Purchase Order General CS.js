@@ -117,6 +117,7 @@ function(currentRecord, search) {
                     columns: ['custitem_pcg_status_code']
                 });
                 log.audit({title: 'test itemStatus', details: itemStatus});
+                return true;
             }
             else{
                 return true;
