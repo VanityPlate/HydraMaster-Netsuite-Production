@@ -59,8 +59,8 @@ function(currentRecord) {
                     var locations = scriptContext.currentRecord.getLineCount({sublistId: 'locations'});
                     for(var x = 0; x < locations; x++){
                         scriptContext.currentRecord.selectLine({sublistId: 'locations', line: x});
-                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'locations', fieldId: 'reorderpoint', value: null});
-                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'locations', fieldId: 'preferredstocklevel', value: null});
+                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'locations', fieldId: 'reorderpoint', value: 0});
+                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'locations', fieldId: 'preferredstocklevel', value: 0});
                         scriptContext.currentRecord.commitLine({sublistId: 'locations'});
                     }
                 }
