@@ -60,7 +60,23 @@ function(currentRecord) {
      * @since 2015.2
      */
     function postSourcing(scriptContext) {
-
+        try{
+            if(scriptContext.fieldId == 'custitem_pcg_status_code'){
+                var itemStatus = scriptContext.currentRecord.getValue({fieldId: 'custitem_pcg_status_code'});
+                if(itemStatus == 2 || itemStatus == 3 || itemStatus ==  8 || itemStatus == 9){
+                    var locations = scriptContext.currentRecord.getLineCount({sublistId: 'locations'});
+                    for(var x = 0; x < locations; x++){
+                        scriptContext.currentRecord.selectLine({sublistId: 'locations', line: x});
+                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'locations', fieldId: 'reorderpoint', value: null});
+                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'locations', fieldId: 'preferredstocklevel', value: null});
+                        scriptContext.currentRecord.commitLine({sublistId: 'locations'});
+                    }
+                }
+            }
+        }
+        catch (error){
+            log.error({title: 'Critical error in fieldChanged', details: error});
+        }
     }
 
     /**
@@ -168,7 +184,7 @@ function(currentRecord) {
     return {
         pageInit: pageInit,
         //fieldChanged: fieldChanged,
-        //postSourcing: postSourcing,
+        postSourcing: postSourcing,
         //sublistChanged: sublistChanged,
         //lineInit: lineInit,
         //validateField: validateField,
