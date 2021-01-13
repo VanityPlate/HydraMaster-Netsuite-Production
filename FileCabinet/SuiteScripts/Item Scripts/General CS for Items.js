@@ -46,20 +46,6 @@ function(currentRecord) {
      * @since 2015.2
      */
     function fieldChanged(scriptContext) {
-
-    }
-
-    /**
-     * Function to be executed when field is slaved.
-     *
-     * @param {Object} scriptContext
-     * @param {Record} scriptContext.currentRecord - Current form record
-     * @param {string} scriptContext.sublistId - Sublist name
-     * @param {string} scriptContext.fieldId - Field name
-     *
-     * @since 2015.2
-     */
-    function postSourcing(scriptContext) {
         try{
             //Refactor Testing
             log.audit({title: 'postSourcing', details: 'FIRED!'});
@@ -83,6 +69,20 @@ function(currentRecord) {
         catch (error){
             log.error({title: 'Critical error in fieldChanged', details: error});
         }
+    }
+
+    /**
+     * Function to be executed when field is slaved.
+     *
+     * @param {Object} scriptContext
+     * @param {Record} scriptContext.currentRecord - Current form record
+     * @param {string} scriptContext.sublistId - Sublist name
+     * @param {string} scriptContext.fieldId - Field name
+     *
+     * @since 2015.2
+     */
+    function postSourcing(scriptContext) {
+
     }
 
     /**
@@ -189,8 +189,8 @@ function(currentRecord) {
 
     return {
         pageInit: pageInit,
-        //fieldChanged: fieldChanged,
-        postSourcing: postSourcing,
+        fieldChanged: fieldChanged,
+        //postSourcing: postSourcing,
         //sublistChanged: sublistChanged,
         //lineInit: lineInit,
         //validateField: validateField,
