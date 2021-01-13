@@ -61,7 +61,13 @@ function(currentRecord) {
      */
     function postSourcing(scriptContext) {
         try{
+            //Refactor Testing
+            log.audit({title: 'postSourcing', details: 'FIRED!'});
+
             if(scriptContext.fieldId == 'custitem_pcg_status_code'){
+                //Refactor Testing
+                log.audit({title: 'if statement', details: 'FIRED!'});
+
                 var itemStatus = scriptContext.currentRecord.getValue({fieldId: 'custitem_pcg_status_code'});
                 if(itemStatus == 2 || itemStatus == 3 || itemStatus ==  8 || itemStatus == 9){
                     var locations = scriptContext.currentRecord.getLineCount({sublistId: 'locations'});
