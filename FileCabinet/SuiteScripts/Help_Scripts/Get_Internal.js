@@ -7,7 +7,7 @@ function(search) {
     function item(external){
         var find = search.create({
             type: search.Type.ITEM,
-            filters: ['externalid', 'anyof', external]
+            filters: ['name', 'contains', external]
         });
 
         var result = find.run().getRange({start: 0, end: 10});
