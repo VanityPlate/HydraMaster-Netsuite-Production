@@ -116,7 +116,7 @@ function(currentRecord, search) {
                     id: scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'}),
                     columns: ['custitem_pcg_status_code']
                 });
-                log.audit({title: 'test itemStatus', details: itemStatus});
+                log.audit({title: 'test itemStatus', details: itemStatus.custitem_pcg_status_code});
                 return true;
             }
             else{
