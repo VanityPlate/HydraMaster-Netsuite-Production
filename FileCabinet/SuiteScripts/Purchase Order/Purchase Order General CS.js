@@ -123,7 +123,7 @@ function(currentRecord, search, dialog) {
                         var options = {title: 'Purchase Alert!', message: 'Item you\'ve selected is currently under a status that prohibits purchasing. Do you still want to purchase?'};
                         const success = (result) => {if(result){return true;}else{return false;}};
                         const failure = () => {};
-                        dialog.confirm(options).then(success).catch(failure);
+                        dialog.confirm(options).then(function(result){success(result)}).catch(failure);
                     }
                     else{
                         return true;
