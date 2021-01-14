@@ -3,12 +3,12 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/currentRecord', 'N/search'],
+define(['N/currentRecord', 'N/search', 'N/ui/dialog'],
 /**
  * @param{currentRecord} currentRecord
  * @param{search} search
  */
-function(currentRecord, search) {
+function(currentRecord, search, dialog) {
     
     /**
      * Function to be executed after page is initialized.
@@ -117,7 +117,21 @@ function(currentRecord, search) {
                     columns: ['custitem_pcg_status_code']
                 });
                 log.audit({title: 'test itemStatus', details: itemStatus.custitem_pcg_status_code});
-                return true;
+                if(itemStatus.custitem_pcg_status_code.length > 0){
+                    itemStatus = itemStatus.custitem_pcg_status_code[0].value;
+                    if(itemStatus == 2 || itemStatus == 3 || itemStatus == 8 || itemStatus == 9){
+                        var options = {title: 'Purchase Alert!', message: 'Item you\'ve selected is currently under a status that prohibits purchasing. Do you still want to purchase?'};
+                        const success = (result) => {if(result){return true;}else{return false;}};
+                        const failure = () => {};
+                        dialog.confirm(options).then(success).catch(failure);
+                    }
+                    else{
+                        return true;
+                    }
+                }
+                else{
+                    return true;
+                }
             }
             else{
                 return true;
