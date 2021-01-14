@@ -137,7 +137,7 @@ function(currentRecord, search, dialog) {
                 return true;
             }
         }
-        catch (e) {
+        catch (error) {
             log.error({title: 'Critical error in validateLine', details: error});
         }
     }
