@@ -42,6 +42,9 @@ function(record, search, fullerLib, format) {
             var location = scriptContext.newRecord.getValue({fieldId: 'shipaddresslist'});
             var poShipMethod = scriptContext.newRecord.getValue({fieldId: 'shipmethod'}).toString();
 
+            //Refactor Testing
+            log.audit({title: 'poShipMethod', details: poShipMethod});
+
             //Setting Values
             saleObj.setValue({fieldId: 'entity', value: ENVIRONMENT.customer});
             saleObj.setValue({fieldId: 'custbody_pcg_contact_name', value: ENVIRONMENT.contact});
