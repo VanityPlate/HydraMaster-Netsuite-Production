@@ -10,16 +10,24 @@ define(['N/record', 'N/search', 'SuiteScripts/Fuller Purchasing/Fuller Library.j
 function(record, search, fullerLib, format) {
 
     /**
-     * Enum Containing Environment Specific Values
+     * Tests the address validity for ship to if not found adds the address to the customer record
+     *
+     * @param {Record} The address record
+     * @return {String} The internal id of the address record
      */
-    const ENVIRONMENT = {
-        customer    :   20782,
-        contact     :   20941,
-        addressHMK  :   17022,
-        addressHMM  :   17023,
-        shipPay     :   3,
-        subsidiary  :   3
+    function testAddress(saleObj, location){
+        try{
+            if(location == fullerLib.environment.addressHMK || location == fullerLib.environment.addressHMM){
+                saleObj.setValue({fieldId: 'shipaddresslist', value: location});
+            }
+            else {
+            }
+        }
+        catch(error){
+            log.error({title: 'Critical error in testAddress', details: error});
+        }
     };
+
 
     /**
      * Definition of the Suitelet script trigger point.
@@ -39,21 +47,27 @@ function(record, search, fullerLib, format) {
 
             //Capturing Values For Use
             var purchaseOrder = scriptContext.newRecord.getValue({fieldId: 'tranid'});
-            var location = scriptContext.newRecord.getValue({fieldId: 'shipaddresslist'});
-            var poShipMethod = scriptContext.newRecord.getValue({fieldId: 'shipmethod'}).toString();
-
             //Refactor Testing
-            log.audit({title: 'poShipMethod', details: poShipMethod});
+            log.audit({title: 'testing location', details: scriptContext.newRecord.getValue({fieldId: 'shipaddresslist'})});
+            log.audit({title: 'testing ship to', details: scriptContext.newRecord.getValue({fieldId: 'shipaddress'})});
+            var location = scriptContext.newRecord.getValue({fieldId: 'shipaddresslist'})
+            var poShipMethod = scriptContext.newRecord.getValue({fieldId: 'shipmethod'}).toString();
+            var shipPaymentMethod = scriptContext.newRecord.getValue({fieldId: 'custbody_shipping_payment_method'});
+            var shipInstructions = scriptContext.newRecord.getValue({fieldId: 'custbody_hm_po_ship_instructions'});
+
+            //Testing Ship To Address Validity
+            location = testAddress(saleObj, location);
 
             //Setting Values
-            saleObj.setValue({fieldId: 'entity', value: ENVIRONMENT.customer});
-            saleObj.setValue({fieldId: 'custbody_pcg_contact_name', value: ENVIRONMENT.contact});
+            saleObj.setValue({fieldId: 'entity', value: fullerLib.environment.customer});
+            saleObj.setValue({fieldId: 'custbody_pcg_contact_name', value: fullerLib.environment.contact});
             saleObj.setValue({fieldId: 'otherrefnum', value: purchaseOrder});
             saleObj.setValue({fieldId: 'memo', value: 'Auto Generated for ' + purchaseOrder + '.'});
-            saleObj.setValue({fieldId: 'custbody_shipping_payment_method', value: ENVIRONMENT.shipPay});
-            saleObj.setValue({fieldId: 'shipaddresslist', value: location});
             saleObj.setValue({fieldId: 'shipcarrier', value: fullerLib.poso[poShipMethod].carrier});
             saleObj.setValue({fieldId: 'shipmethod', value: fullerLib.poso[poShipMethod].method});
+            saleObj.setValue({fieldId: 'custbody_shipping_payment_method', value: shipPaymentMethod});
+            saleObj.setValue({fieldId: 'custbody_pcg_to_be_emailed_sales', value: true});
+            saleObj.setValue({fieldId: 'custbody_pcg_ship_instructions', value: shipInstructions});
             saleObj.setValue({fieldId: 'shippingcost', value: 0});
 
             //Setting Line Items
@@ -72,7 +86,7 @@ function(record, search, fullerLib, format) {
                         'AND',
                         ['name', 'haskeywords', itemDisplay],
                         'AND',
-                        ['subsidiary', 'anyof', ENVIRONMENT.subsidiary]
+                        ['subsidiary', 'anyof', fullerLib.environment.subsidiary]
                     ],
                     columns: []
                 }).run().getRange({start: 0, end: 1})[0].id;
@@ -104,8 +118,7 @@ function(record, search, fullerLib, format) {
 
             //Editing receipt dates and bill to address
             var poRecord = record.load({type: record.Type.PURCHASE_ORDER, id: poId, isDynamic: true});
-            var billAddress = 'HydraMaster, LLC (FP)\n11-15 47th Ave West\nMukilteo WA 98275\nUnited States';
-            poRecord.setValue({fieldId: 'custbody_hm_bill_to', value: billAddress});
+            poRecord.setValue({fieldId: 'custbody_hm_bill_to', value: fullerLib.billTo});
             for(var x = 0; x < items; x++){
                 poRecord.selectLine({sublistId: 'item', line: x});
                 var date = scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'expectedreceiptdate', line: x});
@@ -113,6 +126,13 @@ function(record, search, fullerLib, format) {
                 poRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'expectedreceiptdate', value: date, ignoreFieldChange: true});
                 poRecord.commitLine({sublistId: 'item'});
             }
+
+            //Setting PO to be emailed
+            poRecord.setValue({fieldId: 'tobeemailed', value: true});
+
+            //Setting Ship To Address
+            log.audit({title: 'testing shiptoaddress', details: scriptContext.newRecord.getValue({fieldId: 'shipaddress'})});
+            poRecord.setValue({fieldId: 'shipaddress', value: scriptContext.newRecord.getValue({fieldId: 'shipaddress'})});
 
             //Saving po record
             poRecord.save();

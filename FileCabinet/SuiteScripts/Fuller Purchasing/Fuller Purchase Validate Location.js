@@ -6,19 +6,9 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/ui/message'],
+define(['N/ui/message', 'SuiteScripts/Fuller Purchasing/Fuller Library.js'],
 
-function(message) {
-
-    /**
-     * Enum Containing Environment Specific Values
-     */
-    const ENVIRONMENT = {
-        vendor      :   20807,
-        shipto      :   20782,
-        16          :   17023,
-        8           :   17022
-    };
+function(message, fullerLib) {
     
     /**
      * Function to be executed after page is initialized.
@@ -61,11 +51,11 @@ function(message) {
      */
     function postSourcing(scriptContext) {
         try{
-            if(scriptContext.fieldId === 'entity' && scriptContext.currentRecord.getValue({fieldId: 'entity'}) == ENVIRONMENT.vendor){
-                scriptContext.currentRecord.setValue({fieldId: 'shipto', value: ENVIRONMENT.shipto});
+            if(scriptContext.fieldId === 'entity' && scriptContext.currentRecord.getValue({fieldId: 'entity'}) == fullerLib.environment_cs.vendor){
+                scriptContext.currentRecord.setValue({fieldId: 'shipto', value: fullerLib.environment_cs.shipto});
             }
-            else if(scriptContext.fieldId === 'location' && scriptContext.currentRecord.getValue({fieldId: 'entity'}) == ENVIRONMENT.vendor){
-                scriptContext.currentRecord.setValue({fieldId: 'shipaddresslist', value: ENVIRONMENT[scriptContext.currentRecord.getValue({fieldId: 'location'})]});
+            else if(scriptContext.fieldId === 'location' && scriptContext.currentRecord.getValue({fieldId: 'entity'}) == fullerLib.environment_cs.vendor){
+                scriptContext.currentRecord.setValue({fieldId: 'shipaddresslist', value: fullerLib.environment_cs[scriptContext.currentRecord.getValue({fieldId: 'location'})]});
             }
         }
         catch(error){
@@ -174,7 +164,7 @@ function(message) {
     function saveRecord(scriptContext) {
         try{
             var vendor = parseInt(scriptContext.currentRecord.getValue({fieldId: 'entity'}), 10);
-            if(vendor == ENVIRONMENT.vendor){
+            if(vendor == fullerLib.environment_cs.vendor){
                 if(!scriptContext.currentRecord.getValue({fieldId: 'shipaddresslist'})){
                     message.create({
                     type: message.Type.ERROR,
@@ -189,6 +179,15 @@ function(message) {
                         type: message.Type.ERROR,
                         title: 'Error - Cannot Save',
                         message: 'All Fuller purchase orders must include a selection for \'SHIPPING METHOD\'',
+                        duration: 30000
+                    }).show();
+                    return false;
+                }
+                else if(!scriptContext.currentRecord.getValue({fieldId: 'custbody_shipping_payment_method'})){
+                    message.create({
+                        type: message.Type.ERROR,
+                        title: 'Error - Cannot Save',
+                        message: 'All Fuller purchase orders must include a selection for \'SHIPPING PAYMENT METHOD\'',
                         duration: 30000
                     }).show();
                     return false;
