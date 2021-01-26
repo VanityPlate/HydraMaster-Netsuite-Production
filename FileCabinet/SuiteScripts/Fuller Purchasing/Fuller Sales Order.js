@@ -47,13 +47,11 @@ function(record, search, fullerLib, format) {
 
             //Capturing Values For Use
             var purchaseOrder = scriptContext.newRecord.getValue({fieldId: 'tranid'});
-            //Refactor Testing
-            log.audit({title: 'testing location', details: scriptContext.newRecord.getValue({fieldId: 'shipaddresslist'})});
-            log.audit({title: 'testing ship to', details: scriptContext.newRecord.getValue({fieldId: 'shipaddress'})});
             var location = scriptContext.newRecord.getValue({fieldId: 'shipaddresslist'})
             var poShipMethod = scriptContext.newRecord.getValue({fieldId: 'shipmethod'}).toString();
             var shipPaymentMethod = scriptContext.newRecord.getValue({fieldId: 'custbody_shipping_payment_method'});
             var shipInstructions = scriptContext.newRecord.getValue({fieldId: 'custbody_hm_po_ship_instructions'});
+            var createdFrom = scriptContext.newRecord.getValue({fieldId: 'createdfrom'});
 
             //Testing Ship To Address Validity
             location = testAddress(saleObj, location);
@@ -76,8 +74,6 @@ function(record, search, fullerLib, format) {
                 //Gathering Values
                 var itemDisplay = scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'item_display', line: x});
                 var itemCount = scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'quantity', line: x});
-                //Refactor Testing
-                log.audit({title: 'Checking Line Items', details: itemDisplay+itemCount});
                 //Find Correct Inventory Item
                 var inventoryItemsaleObj = search.create({
                     type: 'inventoryitem',
@@ -119,12 +115,34 @@ function(record, search, fullerLib, format) {
             //Editing receipt dates and bill to address
             var poRecord = record.load({type: record.Type.PURCHASE_ORDER, id: poId, isDynamic: true});
             poRecord.setValue({fieldId: 'custbody_hm_bill_to', value: fullerLib.billTo});
-            for(var x = 0; x < items; x++){
-                poRecord.selectLine({sublistId: 'item', line: x});
-                var date = scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'expectedreceiptdate', line: x});
-                date = format.parse({value: date, type: format.Type.DATE});
-                poRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'expectedreceiptdate', value: date, ignoreFieldChange: true});
-                poRecord.commitLine({sublistId: 'item'});
+            //Syncing Ship Dates if Created from Sales Order
+            if(createdFrom){
+                var saleRecord = record.load({type: record.Type.SALES_ORDER, id: createdFrom, isDynamic: true});
+                for(var x = 0; x < items; x++){
+                    poRecord.selectLine({sublistId: 'item', line: x});
+                    var date = saleRecord.getSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', line: x});
+                    date = format.parse({value: date, type: format.Type.DATE});
+                    poRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'expectedreceiptdate', value: date, ignoreFieldChange: true});
+                    poRecord.commitLine({sublistId: 'item'});
+                }
+            }
+            else {
+                for (var x = 0; x < items; x++) {
+                    poRecord.selectLine({sublistId: 'item', line: x});
+                    var date = scriptContext.newRecord.getSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'expectedreceiptdate',
+                        line: x
+                    });
+                    date = format.parse({value: date, type: format.Type.DATE});
+                    poRecord.setCurrentSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'expectedreceiptdate',
+                        value: date,
+                        ignoreFieldChange: true
+                    });
+                    poRecord.commitLine({sublistId: 'item'});
+                }
             }
 
             //Setting PO to be emailed
