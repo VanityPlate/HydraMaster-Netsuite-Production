@@ -5,9 +5,14 @@
  * @NApiVersion 2.1
  * @NScriptType Suitelet
  */
-define(['N/task'],
+define(['N/redirect', 'N/task'],
     
-    (task) => {
+    (redirect, task) => {
+        /**
+         * Constants
+         */
+        const STATUS = 'https://5429364-sb1.app.netsuite.com/app/common/scripting/mapreducescriptstatus.nl?whence=';
+
         /**
          * Defines the Suitelet script trigger point.
          * @param {Object} scriptContext
@@ -34,6 +39,9 @@ define(['N/task'],
                 var taskId = taskObj.submit();
 
                 scriptContext.response.write({output: oldItem + newItem + taskId});
+
+                //Redirecting to Status Page
+                redirect.redirect({url: STATUS});
             }
             catch (error){
                 log.error({title: 'Critical error in onRequest.', details: error});
