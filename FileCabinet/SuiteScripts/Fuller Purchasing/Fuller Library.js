@@ -25,7 +25,7 @@ function() {
      */
     const ENVIRONMENT = {
         customer    :   20782,
-        contact     :   20811,
+        contact     :   23452,
         addressHMK  :   17022,
         addressHMM  :   17023,
         shipPay     :   3,
