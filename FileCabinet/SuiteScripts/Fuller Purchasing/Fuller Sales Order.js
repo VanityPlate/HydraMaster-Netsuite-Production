@@ -115,15 +115,34 @@ function(record, search, fullerLib, format) {
             //Editing receipt dates and bill to address
             var poRecord = record.load({type: record.Type.PURCHASE_ORDER, id: poId, isDynamic: true});
             poRecord.setValue({fieldId: 'custbody_hm_bill_to', value: fullerLib.billTo});
+            items = poRecord.getLineCount({sublistId: 'item'});
             //Syncing Ship Dates if Created from Sales Order
             if(createdFrom){
                 var saleRecord = record.load({type: record.Type.SALES_ORDER, id: createdFrom, isDynamic: true});
-                for(var x = 0; x < items; x++){
+                for(var x = 0; x < items; x++) {
                     poRecord.selectLine({sublistId: 'item', line: x});
-                    var date = saleRecord.getSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', line: x});
-                    date = format.parse({value: date, type: format.Type.DATE});
-                    poRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'expectedreceiptdate', value: date, ignoreFieldChange: true});
-                    poRecord.commitLine({sublistId: 'item'});
+                    var itemLine = saleRecord.findSublistLineWithValue({
+                        fieldId: 'item',
+                        sublistId: 'item',
+                        value: poRecord.getCurrentSublistValue({fieldId: 'item', sublistId: 'item'})
+                    });
+                    if (itemLine != -1) {
+                        var date = saleRecord.getSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'custcol_hm_expected_ship_date',
+                            line: itemLine
+                        });
+                        if (date) {
+                            date = format.parse({value: date, type: format.Type.DATE});
+                            poRecord.setCurrentSublistValue({
+                                sublistId: 'item',
+                                fieldId: 'expectedreceiptdate',
+                                value: date,
+                                ignoreFieldChange: true
+                            })
+                            poRecord.commitLine({sublistId: 'item'});
+                        }
+                    }
                 }
             }
             else {
