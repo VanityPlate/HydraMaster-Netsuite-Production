@@ -53,7 +53,7 @@ function(https, url, message, dialog, get_internal, currentRecord, bomLib) {
             });
 
             //Redirecting User Via Suitlet
-            setTimeout(CALL_REDIRECT, 5 * 1000);
+            //setTimeout(CALL_REDIRECT, 5 * 1000);
 
         }
         else{

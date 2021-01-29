@@ -9,11 +9,6 @@ define(['N/task'],
     
     (task) => {
         /**
-         * Constants
-         */
-        const STATUS = 'https://5429364-sb1.app.netsuite.com/app/common/scripting/mapreducescriptstatus.nl?whence=';
-
-        /**
          * Defines the Suitelet script trigger point.
          * @param {Object} scriptContext
          * @param {ServerRequest} scriptContext.request - Incoming request
@@ -39,9 +34,6 @@ define(['N/task'],
                 var taskId = taskObj.submit();
 
                 scriptContext.response.write({output: oldItem + newItem + taskId});
-
-                //Redirecting to Status Page
-                redirect.redirect({url: STATUS});
             }
             catch (error){
                 log.error({title: 'Critical error in onRequest.', details: error});
