@@ -5,9 +5,14 @@
  * @NApiVersion 2.1
  * @NScriptType Suitelet
  */
-define(['N/ui/serverWidget', 'SuiteScripts/Bom Update/Bom Update Library.js'],
+define(['N/redirect', 'N/ui/serverWidget', 'SuiteScripts/Bom Update/Bom Update Library.js'],
     
-    (serverWidget, bomLib) => {
+    (redirect, serverWidget, bomLib) => {
+
+        /**
+         * Constants
+         */
+        const STATUSPAGE = 'https://5429364.app.netsuite.com/app/common/scripting/mapreducescriptstatus.nl?whence=';
 
         /**
          * @return {serverWidget.Form object} form built for bom updates
@@ -39,7 +44,17 @@ define(['N/ui/serverWidget', 'SuiteScripts/Bom Update/Bom Update Library.js'],
          */
         const onRequest = (scriptContext) => {
             try{
-                scriptContext.response.writePage({pageObject: renderForm()});
+                if(scriptContext.request.method === "GET") {
+                    if(scriptContext.request.parameters['redirect']){
+                        redirect.redirect({
+                            url: STATUSPAGE
+                        });
+                    }
+                    else
+                    {
+                        scriptContext.response.writePage({pageObject: renderForm()});
+                    }
+                }
             }
             catch (error){
                 log.error({title: 'Critical error onRequest', details: error});

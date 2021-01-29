@@ -11,6 +11,20 @@ define(['N/https', 'N/url', 'N/ui/message', 'N/ui/dialog', 'SuiteScripts/Help_Sc
 function(https, url, message, dialog, get_internal, currentRecord, bomLib) {
 
     /**
+     * CONST
+     */
+    const CALL_REDIRECT = () => {
+        var output = url.resolveScript({
+            scriptId: 'customscript_bom_update',
+            deploymentId: 'customdeploy_bom_update',
+            params: {redirect: true}
+        });
+        https.get({
+            url: output
+        });
+    };
+
+    /**
      * Starts replacement script and informs user
      */
     var fire = (result) => {
@@ -38,8 +52,9 @@ function(https, url, message, dialog, get_internal, currentRecord, bomLib) {
                url: output
             });
 
-            //Refactor Testing
-            console.log(response);
+            //Redirecting User Via Suitlet
+            setTimeout(CALL_REDIRECT, 5 * 1000);
+
         }
         else{
             message.create({
