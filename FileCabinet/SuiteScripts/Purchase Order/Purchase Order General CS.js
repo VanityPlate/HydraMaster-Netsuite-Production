@@ -9,6 +9,12 @@ define(['N/currentRecord', 'N/search', 'N/ui/dialog'],
  * @param{search} search
  */
 function(currentRecord, search, dialog) {
+
+    /**
+     * CONSTANTS
+     */
+    const PO_SHIP_INSTRUCTIONS = 'custbody_hm_po_ship_instructions';
+    const DEFAULT_INSTRUCTIONS = 'Please proceed with the above purchase order and send order acknowledgement at your earliest convenience.'
     
     /**
      * Function to be executed after page is initialized.
@@ -20,7 +26,15 @@ function(currentRecord, search, dialog) {
      * @since 2015.2
      */
     function pageInit(scriptContext) {
-
+        try{
+            if(scriptContext.mode == 'create'){
+                scriptContext.currentRecord.setValue({fieldId: PO_SHIP_INSTRUCTIONS, value: DEFAULT_INSTRUCTIONS});
+            }
+        }
+        catch(error)
+        {
+            log.error({title: 'Critical error in pageInit!', details: error});
+        }
     }
 
     /**
@@ -185,7 +199,7 @@ function(currentRecord, search, dialog) {
     }
 
     return {
-        //pageInit: pageInit,
+        pageInit: pageInit,
         //fieldChanged: fieldChanged,
         //postSourcing: postSourcing,
         //sublistChanged: sublistChanged,
