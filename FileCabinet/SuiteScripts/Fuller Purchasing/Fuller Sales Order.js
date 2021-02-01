@@ -164,9 +164,6 @@ function(record, search, fullerLib, format) {
                 }
             }
 
-            //Setting PO to be emailed
-            poRecord.setValue({fieldId: 'tobeemailed', value: true});
-
             //Setting Ship To Address
             log.audit({title: 'testing shiptoaddress', details: scriptContext.newRecord.getValue({fieldId: 'shipaddress'})});
             poRecord.setValue({fieldId: 'shipaddress', value: scriptContext.newRecord.getValue({fieldId: 'shipaddress'})});
