@@ -118,8 +118,8 @@ function(record, search, fullerLib, format) {
             items = poRecord.getLineCount({sublistId: 'item'});
             //Syncing Ship Dates if Created from Sales Order
             if(createdFrom){
-                poRecord.setValue({fieldId: 'custbody_shipping_payment_method', value: saleRecord.getValue({fieldId: 'custbody_shipping_payment_method'})});
                 var saleRecord = record.load({type: record.Type.SALES_ORDER, id: createdFrom, isDynamic: true});
+                poRecord.setValue({fieldId: 'custbody_shipping_payment_method', value: saleRecord.getValue({fieldId: 'custbody_shipping_payment_method'})});
                 for(var x = 0; x < items; x++) {
                     poRecord.selectLine({sublistId: 'item', line: x});
                     var itemLine = saleRecord.findSublistLineWithValue({
