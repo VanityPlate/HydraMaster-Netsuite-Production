@@ -199,7 +199,7 @@ function(currentRecord, search, dialog) {
     }
 
     return {
-        pageInit: pageInit,
+        //pageInit: pageInit,
         //fieldChanged: fieldChanged,
         //postSourcing: postSourcing,
         //sublistChanged: sublistChanged,
