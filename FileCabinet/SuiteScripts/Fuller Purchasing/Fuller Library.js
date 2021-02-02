@@ -16,7 +16,7 @@ function() {
      */
     const POSO = {
         4:     {carrier: 'ups', method: 23313},
-        23870: {carrier: 'nonups', method: 23312},
+        23870: {carrier: 'nonups', method: 24416},
         20224: {carrier: 'nonups', method: 23312},
         23869: {carrier: 'nonups', method: 24398},
         21001: {carrier: 'nonups', method: 24399},
