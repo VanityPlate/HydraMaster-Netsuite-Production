@@ -151,7 +151,7 @@ function(record, search, fullerLib, format) {
                 var shipInstructions = poRecord.getValue({fieldId: 'custbody_hm_po_ship_instructions'});
                 var soNumber = saleRecord.getValue({fieldId: 'tranid'});
                 var soPONumber = saleRecord.getValue({fieldId: 'otherrefnum'});
-                shipInstructions = 'Customer SO & PO '  + soNumber + ' ' + soPONumber + ' ' + shipInstructions + '.';
+                shipInstructions = 'Customer SO '  + soNumber + ' & customer PO ' + soPONumber + ' ' + shipInstructions + '.';
                 poRecord.setValue({fieldId: 'custbody_hm_po_ship_instructions', value: shipInstructions});
             }
             else {
