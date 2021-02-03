@@ -114,6 +114,7 @@ function(record, search, fullerLib, format) {
 
             //Editing receipt dates and bill to address
             var poRecord = record.load({type: record.Type.PURCHASE_ORDER, id: poId, isDynamic: true});
+            poRecord.setValue({fieldId: 'shipdate', value: null});
             poRecord.setValue({fieldId: 'custbody_hm_bill_to', value: fullerLib.billTo});
             items = poRecord.getLineCount({sublistId: 'item'});
             //Syncing Ship Dates if Created from Sales Order
