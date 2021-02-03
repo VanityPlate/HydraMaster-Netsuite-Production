@@ -114,7 +114,6 @@ function(record, search, fullerLib, format) {
 
             //Editing receipt dates and bill to address
             var poRecord = record.load({type: record.Type.PURCHASE_ORDER, id: poId, isDynamic: true});
-            poRecord.setValue({fieldId: 'shipdate', value: null});
             poRecord.setValue({fieldId: 'custbody_hm_bill_to', value: fullerLib.billTo});
             items = poRecord.getLineCount({sublistId: 'item'});
             //Syncing Ship Dates if Created from Sales Order
@@ -148,6 +147,12 @@ function(record, search, fullerLib, format) {
                         }
                     }
                 }
+                //Updating Ship Instructions With SO and PO Information
+                var shipInstructions = poRecord.getValue({fieldId: 'custbody_hm_po_ship_instructions'});
+                var soNumber = saleRecord.getValue({fieldId: 'tranid'});
+                var soPONumber = saleRecord.getValue({fieldId: 'otherrefnum'});
+                shipInstructions = 'Customer SO & PO '  + soNumber + ' ' + soPONumber + ' ' + shipInstructions + '.';
+                poRecord.setValue({fieldId: 'custbody_hm_po_ship_instructions', value: shipInstructions});
             }
             else {
                 for (var x = 0; x < items; x++) {
