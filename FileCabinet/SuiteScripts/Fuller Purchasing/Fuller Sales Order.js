@@ -121,12 +121,13 @@ function(record, search, fullerLib, format) {
                 var saleRecord = record.load({type: record.Type.SALES_ORDER, id: createdFrom, isDynamic: true});
                 poRecord.setValue({fieldId: 'custbody_shipping_payment_method', value: saleRecord.getValue({fieldId: 'custbody_shipping_payment_method'})});
                 for(var x = 0; x < items; x++) {
-                    poRecord.selectLine({sublistId: 'item', line: x});
+                    var itemName = scriptContext.newRecord.getSublistValue({sublistId: 'item', fieldId: 'item', line: x});
                     var itemLine = saleRecord.findSublistLineWithValue({
                         fieldId: 'item',
                         sublistId: 'item',
-                        value: poRecord.getCurrentSublistValue({fieldId: 'item', sublistId: 'item'})
+                        value: itemName
                     });
+
                     if (itemLine != -1) {
                         var date = saleRecord.getSublistValue({
                             sublistId: 'item',
@@ -134,6 +135,7 @@ function(record, search, fullerLib, format) {
                             line: itemLine
                         });
                         if (date) {
+                            poRecord.selectLine({sublistId: 'item', line: x})
                             date = format.parse({value: date, type: format.Type.DATE});
                             poRecord.setCurrentSublistValue({
                                 sublistId: 'item',
