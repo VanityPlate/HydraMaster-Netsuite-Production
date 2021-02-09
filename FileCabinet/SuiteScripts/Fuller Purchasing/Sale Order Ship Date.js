@@ -115,7 +115,7 @@ function(shipDatesLib, moment) {
             if(scriptContext.sublistId === 'item'){
                 if(scriptContext.currentRecord.getCurrentSublistValue({fieldId: 'location', sublistId: 'item'}) == shipDatesLib.LOCATION){
                     var itemId = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'});
-                    var date = moment.add(1, 'days');
+                    var date = moment().add(1, 'days');
                     //Refactor Testing
                     log.audit({title: 'Checking Date', details: date});
                 }
