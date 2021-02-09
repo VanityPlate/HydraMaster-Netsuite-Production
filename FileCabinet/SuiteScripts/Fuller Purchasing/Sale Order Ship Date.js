@@ -117,17 +117,17 @@ function(format, shipDatesLib, moment) {
                     var itemId = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'});
                     if(itemId in shipDatesLib.ITEM_DATES){
                         var date = moment().add(shipDatesLib.ITEM_DATES[itemId], 'days');
-                        date = format.parse({value: date, type: format.Type.DATE});
-                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
+                        date = format.parse({value: date, type: format.Type.DATETIME});
                         //Refactor Testing
                         log.audit({title: 'Checking Date', details: date});
+                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
                     }
                     else{
                         var date = moment().add(shipDatesLib.DEFAULT, 'days');
-                        date = format.parse({value: date, type: format.Type.DATE});
-                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
+                        date = format.parse({value: date, type: format.Type.DATETIME});
                         //Refactor Testing
                         log.audit({title: 'Checking Date', details: date});
+                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
                     }
                 }
             }
