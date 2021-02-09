@@ -118,8 +118,10 @@ function(format, shipDatesLib, moment) {
                     var itemId = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'});
                     if(itemId in shipDatesLib.ITEM_DATES){
                         var date = moment().add(shipDatesLib.ITEM_DATES[itemId], 'days');
-                        date = format.parse({value: date, type: format.Type.DATE});
+
                         //Refactor Testing
+                        date = new Date();
+                        date = format.parse({value: date, type: format.Type.DATE});
                         log.audit({title: 'Checking Date', details: date});
                         scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
                     }
