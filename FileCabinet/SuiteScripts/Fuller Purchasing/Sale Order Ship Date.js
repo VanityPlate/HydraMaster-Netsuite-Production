@@ -119,13 +119,13 @@ function(format, shipDatesLib) {
                     if(itemId in shipDatesLib.ITEM_DATES){
                         var date = new Date();
                         date = date.setDate(date.getDate() + shipDatesLib.ITEM_DATES[itemId]);
-                        date = format.parse({value: date, type: format.Type.DATE});
+                        date = format.parse({value: new Date(date), type: format.Type.DATE});
                         scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
                     }
                     else{
                         var date = new Date();
                         date = date.setDate(date.getDate() + shipDatesLib.DEFAULT);
-                        date = format.parse({value: date, type: format.Type.DATE});
+                        date = format.parse({value: new Date(date), type: format.Type.DATE});
                         scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
                     }
                 }
