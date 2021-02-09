@@ -7,9 +7,9 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['N/format', 'SuiteScripts/Fuller Purchasing/Ship Dates Lib.js', 'SuiteScripts/Help_Scripts/Moment.js'],
+define(['N/format', 'SuiteScripts/Fuller Purchasing/Ship Dates Lib.js'],
 
-function(format, shipDatesLib, moment) {
+function(format, shipDatesLib) {
     
     /**
      * Function to be executed after page is initialized.
@@ -117,19 +117,15 @@ function(format, shipDatesLib, moment) {
                 if(scriptContext.currentRecord.getCurrentSublistValue({fieldId: 'location', sublistId: 'item'}) == shipDatesLib.LOCATION){
                     var itemId = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'});
                     if(itemId in shipDatesLib.ITEM_DATES){
-                        var date = moment().add(shipDatesLib.ITEM_DATES[itemId], 'days');
-
-                        //Refactor Testing
-                        date = new Date();
+                        var date = new Date();
+                        date = date.setDate(date.getDate() + shipDatesLib.ITEM_DATES[itemId]);
                         date = format.parse({value: date, type: format.Type.DATE});
-                        log.audit({title: 'Checking Date', details: date});
                         scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
                     }
                     else{
-                        var date = moment().add(shipDatesLib.DEFAULT, 'days');
+                        var date = new Date();
+                        date = date.setDate(date.getDate() + shipDatesLib.DEFAULT);
                         date = format.parse({value: date, type: format.Type.DATE});
-                        //Refactor Testing
-                        log.audit({title: 'Checking Date', details: date});
                         scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
                     }
                 }
