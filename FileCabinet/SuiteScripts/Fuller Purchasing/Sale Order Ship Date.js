@@ -115,9 +115,16 @@ function(shipDatesLib, moment) {
             if(scriptContext.sublistId === 'item'){
                 if(scriptContext.currentRecord.getCurrentSublistValue({fieldId: 'location', sublistId: 'item'}) == shipDatesLib.LOCATION){
                     var itemId = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'});
-                    var date = moment().add(1, 'days');
-                    //Refactor Testing
-                    log.audit({title: 'Checking Date', details: date});
+                    if(itemId in shipDatesLib.ITEM_DATES){
+                        var date = moment().add(shipDatesLib.ITEM_DATES[itemId], 'days');
+                        //Refactor Testing
+                        log.audit({title: 'Checking Date', details: date});
+                    }
+                    else{
+                        var date = moment().add(shipDatesLib.DEFAULT, 'days');
+                        //Refactor Testing
+                        log.audit({title: 'Checking Date', details: date});
+                    }
                 }
             }
             return true;
