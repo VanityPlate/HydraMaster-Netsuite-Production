@@ -111,20 +111,21 @@ function(format, shipDatesLib, moment) {
      */
     function validateLine(scriptContext) {
         try{
+            //Refactor Testing
             debugger;
             if(scriptContext.sublistId === 'item'){
                 if(scriptContext.currentRecord.getCurrentSublistValue({fieldId: 'location', sublistId: 'item'}) == shipDatesLib.LOCATION){
                     var itemId = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'});
                     if(itemId in shipDatesLib.ITEM_DATES){
                         var date = moment().add(shipDatesLib.ITEM_DATES[itemId], 'days');
-                        date = format.parse({value: date, type: format.Type.DATETIME});
+                        date = format.parse({value: date, type: format.Type.DATE});
                         //Refactor Testing
                         log.audit({title: 'Checking Date', details: date});
                         scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
                     }
                     else{
                         var date = moment().add(shipDatesLib.DEFAULT, 'days');
-                        date = format.parse({value: date, type: format.Type.DATETIME});
+                        date = format.parse({value: date, type: format.Type.DATE});
                         //Refactor Testing
                         log.audit({title: 'Checking Date', details: date});
                         scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
