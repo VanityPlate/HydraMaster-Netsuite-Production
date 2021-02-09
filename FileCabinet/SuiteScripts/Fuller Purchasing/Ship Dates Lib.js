@@ -10,13 +10,13 @@ define([],
     function(){
 
         const LEADTIMES = {
-                threeWeek: 15,
-                twoWeek: 10,
-                oneWeek: 5
+                threeWeek: 21,
+                twoWeek: 14,
+                oneWeek: 7
         };
 
         const LOCATION = 16;
-        const DEFAULT = 10;
+        const DEFAULT = 14;
         const ITEM_DATES = {
                 //000-041-474
                 //2638:

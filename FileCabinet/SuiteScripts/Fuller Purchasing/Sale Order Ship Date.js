@@ -7,9 +7,9 @@
  * @NScriptType ClientScript
  * @NModuleScope SameAccount
  */
-define(['SuiteScripts/Fuller Purchasing/Ship Dates Lib.js', 'SuiteScripts/Help_Scripts/Moment.js'],
+define(['N/format', 'SuiteScripts/Fuller Purchasing/Ship Dates Lib.js', 'SuiteScripts/Help_Scripts/Moment.js'],
 
-function(shipDatesLib, moment) {
+function(format, shipDatesLib, moment) {
     
     /**
      * Function to be executed after page is initialized.
@@ -117,11 +117,15 @@ function(shipDatesLib, moment) {
                     var itemId = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'});
                     if(itemId in shipDatesLib.ITEM_DATES){
                         var date = moment().add(shipDatesLib.ITEM_DATES[itemId], 'days');
+                        date = format.parse({value: date, type: format.Type.DATE});
+                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
                         //Refactor Testing
                         log.audit({title: 'Checking Date', details: date});
                     }
                     else{
                         var date = moment().add(shipDatesLib.DEFAULT, 'days');
+                        date = format.parse({value: date, type: format.Type.DATE});
+                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
                         //Refactor Testing
                         log.audit({title: 'Checking Date', details: date});
                     }
