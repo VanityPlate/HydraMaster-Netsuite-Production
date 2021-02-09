@@ -123,7 +123,7 @@ function(shipDatesLib, moment) {
             return true;
         }
         catch(error){
-
+            log.error({title: 'Critical error in validateLine', details: error});
         }
     }
 
