@@ -139,10 +139,6 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
                                         //Refactor Testing
                                         log.audit({title: 'Testing Line Object', details: lineObj});
                                         recordObj.selectLine({sublistId: 'item', line: lineObj.line});
-                                        let phantom = recordObj.getCurrentSublistValue({
-                                                sublistId: 'item',
-                                                fieldId: 'itemsource'
-                                        });
                                         recordObj.setCurrentSublistValue({
                                                 sublistId: 'item',
                                                 fieldId: 'item',
@@ -152,11 +148,6 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
                                                 sublistId: 'item',
                                                 fieldId: 'quantity',
                                                 value: lineObj.quantity
-                                        });
-                                        recordObj.setCurrentSublistValue({
-                                                sublistId: 'item',
-                                                fieldId: 'itemsource',
-                                                value: phantom
                                         });
                                         recordObj.commitLine({sublistId: 'item'});
                                 }
