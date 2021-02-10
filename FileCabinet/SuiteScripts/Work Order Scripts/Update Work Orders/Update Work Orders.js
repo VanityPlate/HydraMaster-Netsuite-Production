@@ -74,6 +74,9 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
 
         const map = (mapContext) => {
                 try {
+                        //Refactor Testing
+                        log.audit({title: 'File Line Test', details: mapContext.value});
+
                         //Capturing line values
                         var values = mapContext.value.split(',');
 
@@ -128,10 +131,10 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
                         if(recordObj) {
                                 let lines = reduceContext.values.length
                                 for (let x = 0; x < lines; x++) {
-                                        let lineObj = reduceContext.values[x];
+                                        let lineObj = JSON.parse(reduceContext.values[x]);
                                         //Refactor Testing
                                         log.audit({title: 'Testing Line Object', details: lineObj});
-                                        recordObj.selectLine({sublistId: 'item', line: lineObj.getLine()});
+                                        recordObj.selectLine({sublistId: 'item', line: lineObj.line});
                                         let phantom = recordObj.getCurrentSublistValue({
                                                 sublistId: 'item',
                                                 fieldId: 'itemsource'
@@ -139,12 +142,12 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
                                         recordObj.setCurrentSublistValue({
                                                 sublistId: 'item',
                                                 fieldId: 'item',
-                                                value: lineObj.getItemId()
+                                                value: lineObj.itemId
                                         });
                                         recordObj.setCurrentSublistValue({
                                                 sublistId: 'item',
                                                 fieldId: 'quantity',
-                                                value: lineObj.getQuantity()
+                                                value: lineObj.quantity
                                         });
                                         recordObj.setCurrentSublistValue({
                                                 sublistId: 'item',
