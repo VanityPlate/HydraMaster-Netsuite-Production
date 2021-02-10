@@ -6,9 +6,9 @@
  * @NApiVersion 2.1
  * @NScriptType MapReduceScript
  */
-define(['N/file', 'SuiteScripts/Work Order Scripts/Update Work Orders/Update Work Orders Library.js'],
+define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Orders/Update Work Orders Library.js'],
     
-    (file, updateWOLib) => {
+    (record, file, updateWOLib) => {
 
         /**
          *Factory for Line Objects
@@ -108,9 +108,56 @@ define(['N/file', 'SuiteScripts/Work Order Scripts/Update Work Orders/Update Wor
          */
         const reduce = (reduceContext) => {
                 try{
+                        //Loading Record
+                        let recordObj;
+                        try{
+                                recordObj = record.load({
+                                   isDynamic: true,
+                                   id: reduceContext.key,
+                                   type: record.Type.WORK_ORDER
+                                });
+                        }
+                        catch (error){
+                                recordObj = false;
+                        }
+
+                        //Verifying Work Order is Updatable
+                        if(recordObj.getValue({fieldId: 'built'}) > 0){recordObj = false;}
+
+                        //Updating Record Object if Updatable
+                        if(recordObj) {
+                                let lines = reduceContext.values.length
+                                for (let x = 0; x < lines; x++) {
+                                        let lineObj = reduceContext.values[x];
+                                        //Refactor Testing
+                                        log.audit({title: 'Testing Line Object', details: lineObj});
+                                        recordObj.selectLine({sublistId: 'item', line: lineObj.getLine()});
+                                        let phantom = recordObj.getCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'itemsource'
+                                        });
+                                        recordObj.setCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'item',
+                                                value: lineObj.getItemId()
+                                        });
+                                        recordObj.setCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'quantity',
+                                                value: lineObj.getQuantity()
+                                        });
+                                        recordObj.setCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'itemsource',
+                                                value: phantom
+                                        });
+                                        recordObj.commitLine({sublistId: 'item'});
+                                }
+                        }
+
+                        //Saving Work Order
                         //Refactor Testing
-                        log.audit({title: 'Testing Key', details: reduceContext.key});
-                        log.audit({title: 'Testing Values', details: reduceContext.values});
+                        //recordObj.save();
                 }
                 catch (error) {
                         log.error({title: 'Critical error in reduce', details: error});
