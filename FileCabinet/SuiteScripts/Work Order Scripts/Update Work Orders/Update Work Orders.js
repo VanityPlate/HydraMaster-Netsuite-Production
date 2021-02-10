@@ -81,7 +81,7 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
                         var values = mapContext.value.split(',');
 
                         //Creating Object with Data
-                        let lineOutput = CreateLine(values[6], values[10], values[5]);
+                        let lineOutput = CreateLine(values[6], values[9], values[5]);
 
                         //Writing Key Value Pairs
                         mapContext.write({
@@ -125,7 +125,11 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
                         }
 
                         //Verifying Work Order is Updatable
-                        if(recordObj.getValue({fieldId: 'built'}) > 0){recordObj = false;}
+                        if(recordObj) {
+                                if (recordObj.getValue({fieldId: 'built'}) > 0) {
+                                        recordObj = false;
+                                }
+                        }
 
                         //Updating Record Object if Updatable
                         if(recordObj) {
