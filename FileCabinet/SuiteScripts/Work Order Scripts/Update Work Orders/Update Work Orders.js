@@ -74,9 +74,6 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
 
         const map = (mapContext) => {
                 try {
-                        //Refactor Testing
-                        log.audit({title: 'File Line Test', details: mapContext.value});
-
                         //Capturing line values
                         var values = mapContext.value.split(',');
 
@@ -136,8 +133,6 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
                                 let lines = reduceContext.values.length
                                 for (let x = 0; x < lines; x++) {
                                         let lineObj = JSON.parse(reduceContext.values[x]);
-                                        //Refactor Testing
-                                        log.audit({title: 'Testing Line Object', details: lineObj});
                                         recordObj.selectLine({sublistId: 'item', line: lineObj.line});
                                         recordObj.setCurrentSublistValue({
                                                 sublistId: 'item',
@@ -154,8 +149,7 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
                         }
 
                         //Saving Work Order
-                        //Refactor Testing
-                        //recordObj.save();
+                        recordObj.save();
                 }
                 catch (error) {
                         log.error({title: 'Critical error in reduce', details: error});
