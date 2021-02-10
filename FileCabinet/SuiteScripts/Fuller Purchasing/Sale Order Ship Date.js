@@ -111,8 +111,6 @@ function(format, shipDatesLib) {
      */
     function validateLine(scriptContext) {
         try{
-            //Refactor Testing
-            debugger;
             if(scriptContext.sublistId === 'item'){
                 if(scriptContext.currentRecord.getCurrentSublistValue({fieldId: 'location', sublistId: 'item'}) == shipDatesLib.LOCATION){
                     if(!scriptContext.currentRecord.getCurrentSublistValue({fieldId: 'custcol_hm_expected_ship_date', sublistId: 'item'})){
