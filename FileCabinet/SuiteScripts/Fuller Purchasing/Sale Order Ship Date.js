@@ -115,18 +115,20 @@ function(format, shipDatesLib) {
             debugger;
             if(scriptContext.sublistId === 'item'){
                 if(scriptContext.currentRecord.getCurrentSublistValue({fieldId: 'location', sublistId: 'item'}) == shipDatesLib.LOCATION){
-                    var itemId = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'});
-                    if(itemId in shipDatesLib.ITEM_DATES){
-                        var date = new Date();
-                        date = date.setDate(date.getDate() + shipDatesLib.ITEM_DATES[itemId]);
-                        date = format.parse({value: new Date(date), type: format.Type.DATE});
-                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
-                    }
-                    else{
-                        var date = new Date();
-                        date = date.setDate(date.getDate() + shipDatesLib.DEFAULT);
-                        date = format.parse({value: new Date(date), type: format.Type.DATE});
-                        scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
+                    if(!scriptContext.currentRecord.getCurrentSublistValue({fieldId: 'custcol_hm_expected_ship_date', sublistId: 'item'})){
+                        var itemId = scriptContext.currentRecord.getCurrentSublistValue({sublistId: 'item', fieldId: 'item'});
+                        if(itemId in shipDatesLib.ITEM_DATES){
+                            var date = new Date();
+                            date = date.setDate(date.getDate() + shipDatesLib.ITEM_DATES[itemId]);
+                            date = format.parse({value: new Date(date), type: format.Type.DATE});
+                            scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
+                        }
+                        else{
+                            var date = new Date();
+                            date = date.setDate(date.getDate() + shipDatesLib.DEFAULT);
+                            date = format.parse({value: new Date(date), type: format.Type.DATE});
+                            scriptContext.currentRecord.setCurrentSublistValue({sublistId: 'item', fieldId: 'custcol_hm_expected_ship_date', value: date, ignoreFieldChange: true});
+                        }
                     }
                 }
             }
