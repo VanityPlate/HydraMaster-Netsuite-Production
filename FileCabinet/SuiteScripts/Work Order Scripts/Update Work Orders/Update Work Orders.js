@@ -146,10 +146,10 @@ define(['N/record', 'N/file', 'SuiteScripts/Work Order Scripts/Update Work Order
                                         });
                                         recordObj.commitLine({sublistId: 'item'});
                                 }
-                        }
 
-                        //Saving Work Order
-                        recordObj.save();
+                                //Saving Work Order
+                                recordObj.save();
+                        }
                 }
                 catch (error) {
                         log.error({title: 'Critical error in reduce', details: error});
